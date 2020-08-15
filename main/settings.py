@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user',
     'rest_framework',
+    'drf_yasg',
+    'user',
+    'music',
 ]
 
 MIDDLEWARE = [
+    'main.middlewares.DebugpyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
