@@ -2,22 +2,28 @@ from rest_framework import generics
 from .models import Musician, Album
 
 from .model_serializers import MusicianModelSerializer
+from .serializers import MusicianSerializer
 
 class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
+    # serializer_class = MusicianSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class MusicRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
+    # serializer_class = MusicianSerializer
     lookup_field = "id"
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class MusicRetrieveFullNameView(generics.RetrieveAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
     lookup_field = "id"
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         response = self.retrieve(request, *args, **kwargs)
