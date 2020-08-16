@@ -19,12 +19,16 @@ from rest_framework import routers
 
 from swagger.views import schema_view as swagger_view
 
-from user import views
+from user import views as user_views
+from music import model_viewsets as music_viewsets
 
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'users', user_views.UserViewSet)
+router.register(r'groups', user_views.GroupViewSet)
+
+router.register(r'musican-viewset', music_viewsets.MusicianModelViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),
