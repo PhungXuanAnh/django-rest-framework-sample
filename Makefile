@@ -68,34 +68,58 @@ musican-viewset-sample-action:
 		-u admin:123 | jq
 
 # ========================================= Generic view ===============================================
-musican-view-create:
-	curl -X POST "http://127.0.0.1:8000/api/v1/musican-views" \
+musican-generic-views-create:
+	curl -X POST "http://127.0.0.1:8000/api/v1/musican-generic-views" \
 		-H "Content-Type: application/json" \
 		-d "{ \"first_name\": \"first_name 100\", \"last_name\": \"first_name 100\", \"instrument\": \"piano\"}" \
 		| jq
 
-musican-view-list:
-	curl "http://127.0.0.1:8000/api/v1/musican-views" | jq
+musican-generic-views-list:
+	curl "http://127.0.0.1:8000/api/v1/musican-generic-views" | jq
 
-musican-view-get:
-	curl "http://127.0.0.1:8000/api/v1/musican-views/4" | jq
+musican-generic-views-get:
+	curl "http://127.0.0.1:8000/api/v1/musican-generic-views/4" | jq
 
-musican-view-put:
-	curl -X PUT "http://127.0.0.1:8000/api/v1/musican-views/4" \
+musican-generic-views-put:
+	curl -X PUT "http://127.0.0.1:8000/api/v1/musican-generic-views/4" \
 		-H "Content-Type: application/json" \
 		-d "{ \"first_name\": \"first_name 111\", \"last_name\": \"first_name 111\", \"instrument\": \"violon\"}" \
 		| jq
 
-musican-view-patch:
-	curl -X PATCH "http://127.0.0.1:8000/api/v1/musican-views/4" \
+musican-generic-views-patch:
+	curl -X PATCH "http://127.0.0.1:8000/api/v1/musican-generic-views/4" \
 		-H "Content-Type: application/json" \
 		-d "{\"instrument\": \"Organ\"}" \
 		| jq
 
 
-musican-view-delete:
-	curl -X DELETE "http://127.0.0.1:8000/api/v1/musican-views/4" | jq
+musican-generic-views-delete:
+	curl -X DELETE "http://127.0.0.1:8000/api/v1/musican-generic-views/4" | jq
 
 
-musican-view-sample-action:
-	curl "http://127.0.0.1:8000/api/v1/musican-views/5/sample-action" | jq
+musican-generic-views-sample-action:
+	curl "http://127.0.0.1:8000/api/v1/musican-generic-views/5/sample-action" | jq
+
+
+# ========================================= API view ===============================================
+musican-api-views-create:
+	curl -X POST "http://127.0.0.1:8000/api/v1/musican-api-views" \
+		-H "Content-Type: application/json" \
+		-d "{ \"first_name\": \"first_name 000\", \"last_name\": \"last_name 000\", \"instrument\": \"piano 000\"}" \
+		| jq
+
+musican-api-views-list:
+	curl "http://127.0.0.1:8000/api/v1/musican-api-views" | jq
+
+musican-api-views-get:
+	curl "http://127.0.0.1:8000/api/v1/musican-api-views/5" | jq
+
+musican-api-views-put:
+	curl -X PUT "http://127.0.0.1:8000/api/v1/musican-api-views/5" \
+		-H "Content-Type: application/json" \
+		-d "{ \"first_name\": \"first_name 999\", \"last_name\": \"last_name 999\", \"instrument\": \"piano 999\"}" \
+		| jq
+
+musican-api-views-sample-action:
+	curl "http://127.0.0.1:8000/api/v1/musican-api-views/5/sample-action" | jq
+
