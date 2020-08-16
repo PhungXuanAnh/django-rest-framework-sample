@@ -9,8 +9,8 @@ router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)
 
 
 urlpatterns = [
-    # path(r'prohibited-items', ProhibitedItemListView.as_view(), name='get_list_prohibited_items'),
-    # re_path(r'^delivery-order/(?P<code>{})/change-status$'.format(ORDER_CODE_REGEX_BASE),
-    #         DeliveryUpdateShipmentOrderStatus.as_view(), name='update_status_from_deleviry'),
+    path(r'musican-views', music_generic_views.MusicListCreateView.as_view(), name='list_create_musican'),
+    path(r'musican-views/<id>', music_generic_views.MusicRetrieveUpdateDestroyView.as_view(), name='get_musican'),
+    path(r'musican-views/<id>/sample-action', music_generic_views.MusicRetrieveFullNameView.as_view(), name='get_musican_full_name'),
     re_path(r'^', include(router.urls))
 ]
