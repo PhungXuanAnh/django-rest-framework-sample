@@ -7,13 +7,13 @@ migrate:
 makemigrations:
 	python manage.py makemigrations
 	
-get-user:
-	curl -H 'Accept: application/json; indent=4' -u admin:123 http://127.0.0.1:8000/users/
+user-get:
+	curl -H 'Accept: application/json; indent=4' -u admin:123 http://127.0.0.1:8000/api/v1/users | jq
 
 # ========================================= viewset ===============================================
 
 musical-viewset-create:
-	curl -X POST "http://127.0.0.1:8000/musican-viewset" \
+	curl -X POST "http://127.0.0.1:8000/api/v1/musican-viewset" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \
@@ -22,7 +22,7 @@ musical-viewset-create:
 		| jq
 
 musical-viewset-list:
-	curl "http://127.0.0.1:8000/musican-viewset" \
+	curl "http://127.0.0.1:8000/api/v1/musican-viewset" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \
@@ -30,7 +30,7 @@ musical-viewset-list:
 		| jq
 
 musical-viewset-get:
-	curl "http://127.0.0.1:8000/musican-viewset/1" \
+	curl "http://127.0.0.1:8000/api/v1/musican-viewset/1" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \
@@ -38,7 +38,7 @@ musical-viewset-get:
 		| jq
 
 musical-viewset-put:
-	curl -X PUT "http://127.0.0.1:8000/musican-viewset/1" \
+	curl -X PUT "http://127.0.0.1:8000/api/v1/musican-viewset/1" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \
@@ -47,7 +47,7 @@ musical-viewset-put:
 		| jq
 
 musical-viewset-patch:
-	curl -X PATCH "http://127.0.0.1:8000/musican-viewset/2" \
+	curl -X PATCH "http://127.0.0.1:8000/api/v1/musican-viewset/2" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \
@@ -56,7 +56,7 @@ musical-viewset-patch:
 		| jq
 
 musical-viewset-delete:
-	curl -X DELETE "http://127.0.0.1:8000/musican-viewset/1" \
+	curl -X DELETE "http://127.0.0.1:8000/api/v1/musican-viewset/1" \
 		-u admin:123 \
 		-H "accept: application/json" \
 		-H "Content-Type: application/json" \

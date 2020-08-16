@@ -15,24 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-
 from swagger.views import schema_view as swagger_view
 
-from user import views as user_views
-from music import model_viewsets as music_viewsets
 
-
-router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'users', user_views.UserViewSet)
-router.register(r'groups', user_views.GroupViewSet)
-
-router.register(r'musican-viewset', music_viewsets.MusicianModelViewSet)
-
+api_v1_urls = [
+    path("api/v1/", include("music.urls")),
+    path("api/v1/", include("user.urls")),
+]
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("swagger/", swagger_view.with_ui('swagger', cache_timeout=0))
 ]
+
+urlpatterns += api_v1_urls
