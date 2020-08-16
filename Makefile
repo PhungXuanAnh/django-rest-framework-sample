@@ -10,6 +10,19 @@ makemigrations:
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:123 http://127.0.0.1:8000/api/v1/users | jq
 
+# ========================================= debug view ===============================================
+debug-get:
+	curl -H 'Accept: application/json; indent=4' -u admin:123 http://127.0.0.1:8000/api/v1/musican-debug/11 | jq
+
+debug-list:
+	curl -H 'Accept: application/json; indent=4' -u admin:123 http://127.0.0.1:8000/api/v1/musican-debug | jq
+
+debug-create:
+	curl -X POST -u admin:123 http://127.0.0.1:8000/api/v1/musican-debug \
+		-u admin:123 \
+		-H "Content-Type: application/json" \
+		-d "{ \"first_name\": \"first_name 1\", \"last_name\": \"first_name 1\", \"instrument\": \"piano\"}" \
+		| jq
 # ========================================= viewset ===============================================
 
 musican-viewset-create:
