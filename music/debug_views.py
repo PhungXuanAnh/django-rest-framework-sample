@@ -73,6 +73,10 @@ class MusicianModelViewSet(viewsets.ModelViewSet):
         debugpy.breakpoint()
         return super().get_serializer_class()
 
+    def paginate_queryset(self, queryset):
+        debugpy.breakpoint()
+        return super().paginate_queryset(queryset)
+
     # ---------------------------------------------------
     def retrieve(self, request, *args, **kwargs):
         debugpy.breakpoint()

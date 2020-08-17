@@ -15,3 +15,6 @@ class DebugpyMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         debugpy.breakpoint()
         return response
+
+    def process_exception(self):
+        pass
