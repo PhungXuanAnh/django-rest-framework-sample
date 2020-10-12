@@ -1,7 +1,6 @@
 This is initial code for create sample codes in in django rest framework
 ---
 
-
 # 1. setup environment
 
 ```shell
@@ -44,14 +43,14 @@ make run
 
 # 4. Access admin site
 
-http://127.0.0.1:8000/admin
+http://127.0.0.1:8027/admin
 
 Account as above: admin/123
 
 # 5. Access users/groups apis
 
-http://127.0.0.1:8000/users/
-http://127.0.0.1:8000/groups/
+http://127.0.0.1:8027/users/
+http://127.0.0.1:8027/groups/
 
 login by above account: admin/123
 
@@ -61,15 +60,15 @@ or by command:
 make test-get-user
 ```
 
-# New music app
+# 6. New music app
 
-## Create new app
+## 6.1. Create new app
 
 ```shell
-django-admin startapp music
-python manage.py makemigrations
-python manage.py migrate
+# django-admin startapp music
+make makemigrations
+make migrate
 ```
 
-access: http://127.0.0.1:8000/swagger/
+access: http://127.0.0.1:8027/swagger/
 

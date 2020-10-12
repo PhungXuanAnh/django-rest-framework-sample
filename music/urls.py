@@ -8,7 +8,7 @@ from music import debug_views as music_debug_views
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)
-router.register(r'musican-debug', music_debug_views.MusicianModelViewSet)
+router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet)
 
 
 urlpatterns = [

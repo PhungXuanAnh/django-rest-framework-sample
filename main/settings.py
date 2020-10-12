@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'main.middlewares.DebugpyMiddleware',
+    # 'main.middlewares.DebugpyMiddleware',         # NOTE: debug enable will block incoming request
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

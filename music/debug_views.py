@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Musician, Album
-from .debug_model_serializers import MusicianModelSerializer
+from .debug_model_serializers import MusicianModelDebugSerializer
 
 from main.custom_authentications import CustomAuthBackend
 from main.custom_permissions import CustomPermission
@@ -17,10 +17,10 @@ def my_queryset():
     return Musician.objects.all()
 
 
-class MusicianModelViewSet(viewsets.ModelViewSet):
+class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     # http_method_names = ["post"]
     queryset = Musician.objects.all()
-    serializer_class = MusicianModelSerializer
+    serializer_class = MusicianModelDebugSerializer
     authentication_classes = [CustomAuthBackend]
     permission_classes = [CustomPermission]
     pagination_class = StandardResultsSetPagination
