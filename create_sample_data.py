@@ -8,6 +8,8 @@ django.setup()
 
 # pylint: disable=wrong-import-position
 from django.contrib.auth.models import User
+from music.models import Musician
+
 
 for i in range(0, 56):
     User.objects.create(
@@ -15,4 +17,12 @@ for i in range(0, 56):
         last_name="last_name " + str(i),
         email="test{}@gmail.com".format(i),
         username="username " + str(i)
+    )
+
+
+for i in range(0, 56):
+    Musician.objects.create(
+        first_name="first_name " + str(i),
+        last_name="last_name " + str(i),
+        instrument="instrument " + str(i)
     )
