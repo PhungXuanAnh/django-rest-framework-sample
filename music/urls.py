@@ -5,11 +5,12 @@ from music import model_viewsets as music_model_viewsets
 from music import generic_views as music_generic_views
 from music import api_views as music_api_views
 from music import debug_views as music_debug_views
+from music.sample_read_affective import viewsets as read_affective
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)
 router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet)
-
+router.register(r'musican-read-affective', read_affective.MusicianModelReadEffectiveViewSet)
 
 urlpatterns = [
     path(r'musican-api-views', music_api_views.CreateListMusicanView.as_view(), name='api_view_list_musican'),

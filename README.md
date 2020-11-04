@@ -30,15 +30,7 @@ django-admin startproject main .
 django-admin startapp user
 ```
 
-## 2.2. reset db and create supper user
-
-```shell
-rm -rf db.sqlite3
-make migrate
-make create-supperuser
-```
-
-## 2.3. create normal user
+## 2.3. create sample data
 
 ```shell
 make create-sample-data
@@ -66,7 +58,9 @@ or by command:
 make user-get
 ```
 
-# 6. New music app
+[music/serializers.py](music/serializers.py)
+
+# 6. Music app
 
 ## 6.1. Create new app and migrate database
 
@@ -77,32 +71,50 @@ make migrate
 ```
 access: http://127.0.0.1:8027/swagger/
 
-## 6.2. musican-api-views
+## 6.2. Views
+### 6.2.1. musican-api-views
 
 This set of apis describle how to using `APIView` to make api as basic and normal, code will be handle by yourself
+
+**Test:**
 
 ```shell
 make musican-api-views-
 ```
 
-## 6.3. musican-generic-views
+**Conclusion:**
+
+Using api views when you want to custom detail in your api
+
+### 6.2.2. musican-generic-views
 
 This set of apis describle how to using `generics` view to make api code will be made shorter
+
+**Test:**
 
 ```shell
 make musican-generic-views-
 ```
 
-## 6.4. musican-viewset
+**Conclusion:**
+
+Using generic view when you want to combine some methods in one view, but not all, ex: only allow methods: CREATE/GET/LIST
+
+### 6.2.3. musican-viewset
 
 This set of apis describle how to using `ModelViewSet` to make code shortest
+
+**Test:**
 
 ```shell
 make musican-viewset-
 ```
 
+**Conclusion:**
 
-## 6.5. musican-debug
+Using viewset when you want to add all methods(actions) of a object in one view, all methods will be routed automatically
+
+### 6.2.4. musican-debug
 
 This apis help to debug all django rest framework flow, how a request is handled through all layers of this framework
 
@@ -116,3 +128,43 @@ MIDDLEWARE = [
 ```shell
 make debug-
 ```
+
+## 6.3. Serializers
+
+### 6.3.1. Common serializer
+
+This type of serializer you don't need to specify your model, but you must declare all neccessary fields manually
+
+Ex: **MusicianSerializer** [music/serializers.py](music/serializers.py)
+
+Ex: using this serializer here: [music/generic_views.py](music/generic_views.py)
+
+### 6.3.2. Model serializer
+
+You must specify your model in **Meta class**
+
+You don't need to specify model field
+
+Ex: [music/model_serializers.py](music/model_serializers.py)
+
+# 7. Using serializer effectively
+
+## 7.1. In read data
+
+### 7.1.1. Using source keyword
+
+Reference: https://medium.com/better-programming/how-to-use-drf-serializers-effectively-dc58edc73998
+
+code sample in this file: **MusicianModelSerializerReadEffective**
+
+- source=field_name to rename of this returned field, ex: `source='first_name'`
+- source=Model.method() to get modified data, ex: `source='get_full_name'`
+- source worker with relationships, ex: `OneToMany` or`ForeignKey`, `OneToOneField`, and `ManyToMany`
+  - ex: `source='profile.street'` or `source='profile.city`
+- source worker with methods of related objects, same `Model.method()`, ex: `source="profile.get_full_address"`
+- source work with `OneToMany`, ex: `source='album_set'`. **NOTE** with `ManyToMany` don't need `source`, ex: `instruments` field
+
+### 7.1.2. Using SerializerMethod
+### 7.1.3. Using to_presentation
+
+## 7.2. In write data

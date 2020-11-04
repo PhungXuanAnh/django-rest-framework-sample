@@ -4,7 +4,7 @@ from rest_framework import authentication, permissions, status
 from rest_framework.exceptions import APIException
 
 from .models import Musician, Album
-from .model_serializers import MusicianModelSerializer
+from .model_serializers import MusicianModelSerializer, InstrumentModelSerializer
 
 
 class CreateListMusicanView(APIView):
@@ -80,7 +80,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
             "id": musican.id,
             "first_name": musican.first_name,
             "last_name": musican.last_name,
-            "instrument": musican.instrument
+            "instruments": [{"id": inst.id, "name": inst.name} for inst in musican.instruments.all()]
         })
 
     def put(self, request, id, format=None):
@@ -91,7 +91,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
             musican = Musician.objects.get(id=id)
             musican.first_name = data["first_name"]
             musican.last_name = data["last_name"]
-            musican.instrument = data["instrument"]
+            musican.instruments.set(data["instruments"])
             musican.save()
         except Musician.DoesNotExist:
             raise APIException("Musican not found", status.HTTP_404_NOT_FOUND)
@@ -102,7 +102,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
             "id": musican.id,
             "first_name": musican.first_name,
             "last_name": musican.last_name,
-            "instrument": musican.instrument
+            "instruments": [{"id": inst.id, "name": inst.name} for inst in musican.instruments.all()]
         })
 
     def patch(self, request, id, format=None):

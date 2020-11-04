@@ -1,6 +1,9 @@
 run:
 	.venv/bin/python manage.py runserver 127.0.0.1:8027
 
+rm-old-data:
+	rm -rf db.sqlite3
+
 migrate:
 	.venv/bin/python manage.py migrate
 
@@ -12,7 +15,7 @@ create-supperuser:
 							User.objects.filter(username='admin').exists() or \
 							User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-create-sample-data:
+create-sample-data: rm-old-data migrate create-supperuser
 	.venv/bin/python create_sample_data.py
 
 user-get:
@@ -132,3 +135,10 @@ musican-api-views-put:
 musican-api-views-sample-action:
 	curl "http://127.0.0.1:8027/api/v1/musican-api-views/5/sample-action" | jq
 
+
+# ========================================= Read affective ===============================================
+musican-read-affective-list:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective" | jq
+
+musican-read-affective-get:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective/1" | jq
