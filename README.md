@@ -155,7 +155,9 @@ Ex: [music/model_serializers.py](music/model_serializers.py)
 
 Reference: https://medium.com/better-programming/how-to-use-drf-serializers-effectively-dc58edc73998
 
-code sample in this file: **MusicianModelSerializerReadEffective**
+Using `source when you only want to get data, but not modify anything
+
+code sample in this serializer: **MusicianModelSerializerReadEffective_SourceKeyword** in this file: [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
 
 - source=field_name to rename of this returned field, ex: `source='first_name'`
 - source=Model.method() to get modified data, ex: `source='get_full_name'`
@@ -165,6 +167,15 @@ code sample in this file: **MusicianModelSerializerReadEffective**
 - source work with `OneToMany`, ex: `source='album_set'`. **NOTE** with `ManyToMany` don't need `source`, ex: `instruments` field
 
 ### 7.1.2. Using SerializerMethod
+
+Using `SerializerMethod` when you want to custom more output data. For example:
+
+- Convert `first_name` to titlecase during serialization.
+- Convert `full_name` to uppercase.
+- Set `albums` as `None` instead of an empty list if no groups are associated with the user.
+
+All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
+
 ### 7.1.3. Using to_presentation
 
 ## 7.2. In write data

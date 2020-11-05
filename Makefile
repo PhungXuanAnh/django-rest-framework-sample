@@ -137,8 +137,17 @@ musican-api-views-sample-action:
 
 
 # ========================================= Read affective ===============================================
-musican-read-affective-list:
-	curl "http://127.0.0.1:8027/api/v1/musican-read-affective" | jq
+musican-read-affective-source-keyword-list:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective-source-keyword" | jq
 
-musican-read-affective-get:
-	curl "http://127.0.0.1:8027/api/v1/musican-read-affective/1" | jq
+musican-read-affective-source-keyword-get:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective-source-keyword/1" | jq
+
+musican-read-affective-serializer-method-list:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective-serializer-method" | jq
+
+musican-read-affective-serializer-method-get:
+	curl "http://127.0.0.1:8027/api/v1/musican-read-affective-serializer-method/1" | jq
+
+
+	

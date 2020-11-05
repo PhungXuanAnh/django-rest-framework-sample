@@ -10,7 +10,8 @@ from music.sample_read_affective import viewsets as read_affective
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)
 router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet)
-router.register(r'musican-read-affective', read_affective.MusicianModelReadEffectiveViewSet)
+router.register(r'musican-read-affective-source-keyword', read_affective.MusicianModelReadEffective_SourceKeyword_ViewSet)
+router.register(r'musican-read-affective-serializer-method', read_affective.MusicianModelReadEffective_SerializerMethod_ViewSet)
 
 urlpatterns = [
     path(r'musican-api-views', music_api_views.CreateListMusicanView.as_view(), name='api_view_list_musican'),

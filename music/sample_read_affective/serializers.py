@@ -14,7 +14,7 @@ class InstrumentsModelSerializerReadEffective(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-class MusicianModelSerializerReadEffective(serializers.ModelSerializer):
+class MusicianModelSerializerReadEffective_SourceKeyword(serializers.ModelSerializer):
     new_first_name = serializers.CharField(source="first_name")
     full_name = serializers.CharField(source="get_full_name")
     street = serializers.CharField(source="profile.street")
@@ -37,3 +37,28 @@ class MusicianModelSerializerReadEffective(serializers.ModelSerializer):
             'instruments'
         ]
 
+
+class MusicianModelSerializerReadEffective_SerializerMethod(serializers.ModelSerializer):
+    first_name = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
+    instruments = serializers.SerializerMethodField()
+
+    def get_instruments(self, obj):
+        instruments = obj.instruments.all()
+        if not instruments:
+            return None
+        return InstrumentsModelSerializerReadEffective(instruments, many=True).data
+
+    def get_first_name(self, obj):
+        return obj.first_name.title()
+
+    def get_full_name(self, obj):
+        return obj.get_full_name().upper()
+    class Meta:
+        model = Musician
+        fields = [
+            "id",
+            "first_name",
+            'full_name',
+            'instruments'
+        ]
