@@ -176,6 +176,11 @@ Using `SerializerMethod` when you want to custom more output data. For example:
 
 All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
 
-### 7.1.3. Using to_presentation
+### 7.1.3. Using to_representation
+
+Using to_representation when you want to custom mutiple data fields
+
+All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
+
 
 ## 7.2. In write data

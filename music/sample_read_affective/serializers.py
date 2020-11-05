@@ -62,3 +62,10 @@ class MusicianModelSerializerReadEffective_SerializerMethod(serializers.ModelSer
             'full_name',
             'instruments'
         ]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.id == 1:
+            representation['note'] = 'this is the first record'
+        return representation
+
