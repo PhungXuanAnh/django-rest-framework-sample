@@ -157,7 +157,7 @@ Reference: https://medium.com/better-programming/how-to-use-drf-serializers-effe
 
 Using `source when you only want to get data, but not modify anything
 
-code sample in this serializer: **MusicianModelSerializerReadEffective_SourceKeyword** in this file: [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
+code sample in this serializer: **MusicianModelSerializerReadEffective_SourceKeyword** in this file: [music/using_serializer_effective/serializers.py](music/using_serializer_effective/serializers.py)
 
 - source=field_name to rename of this returned field, ex: `source='first_name'`
 - source=Model.method() to get modified data, ex: `source='get_full_name'`
@@ -174,13 +174,18 @@ Using `SerializerMethod` when you want to custom more output data. For example:
 - Convert `full_name` to uppercase.
 - Set `albums` as `None` instead of an empty list if no groups are associated with the user.
 
-All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
+All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/using_serializer_effective/serializers.py](music/using_serializer_effective/serializers.py)
 
 ### 7.1.3. Using to_representation
 
 Using to_representation when you want to custom mutiple data fields
 
-All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/sample_read_affective/serializers.py](music/sample_read_affective/serializers.py)
+All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/using_serializer_effective/serializers.py](music/using_serializer_effective/serializers.py)
 
 
 ## 7.2. In write data
+
+Reference: https://medium.com/@raaj.akshar/how-to-effectively-use-django-rest-framework-serializers-during-write-operations-dd73b62c26b5
+
+### Add custom field validator
+

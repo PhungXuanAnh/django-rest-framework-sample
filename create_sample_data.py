@@ -27,7 +27,9 @@ for i in range(0, 5):
 for i in range(0, 56):
     musican = Musician.objects.create(
         first_name="first_name " + str(i),
-        last_name="last_name " + str(i)
+        last_name="last_name " + str(i),
+        email="example_{}@gmail.com".format(i),
+        password="123456" + str(i)
     )
     musican.instruments.set(instruments)
     Profile.objects.create(

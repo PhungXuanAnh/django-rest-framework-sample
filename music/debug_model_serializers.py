@@ -9,7 +9,7 @@ class MusicianModelDebugSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Musician
-        fields = ['id', 'first_name', 'last_name', 'instrument']
+        fields = ['id', 'first_name', 'last_name', 'instruments']
 
     def to_internal_value(self, data):
         debugpy.breakpoint()

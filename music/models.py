@@ -10,6 +10,8 @@ class Musician(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     instruments = models.ManyToManyField(Instrument)
+    email = models.EmailField()
+    password = models.CharField(max_length=500)
 
     def get_full_name(self):
         return self.first_name + " " + self.last_name
