@@ -150,3 +150,20 @@ musican-using-serializer-affective-serializer-method-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-serializer-method/1" | jq
 
 # ========================================= Write affective ===============================================
+
+musican-using-serializer-affective-create-fail:
+	curl -X POST "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-source-keyword" \
+		-H "accept: application/json" \
+		-H "Content-Type: application/json" \
+		-H "X-CSRFToken: YPaIf55iLUaSz7KcrWT7vRoiLtInav23qIpU8RkDi2uasVyiHkiCtSQXzzWlVgO2" \
+		-d "{ \"new_first_name\": \"string\", \"last_name\": \"string\", \"full_name\": \"string\", \"street\": \"string\", \"city\": \"string\", \"full_address\": \"string\", \"all_albums\": [], \"instruments\": [], \"password\": \"123\"}" \
+		| jq
+
+
+musican-using-serializer-affective-create-done:
+	curl -X POST "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-source-keyword" \
+		-H "accept: application/json" \
+		-H "Content-Type: application/json" \
+		-H "X-CSRFToken: YPaIf55iLUaSz7KcrWT7vRoiLtInav23qIpU8RkDi2uasVyiHkiCtSQXzzWlVgO2" \
+		-d "{ \"new_first_name\": \"string 1\", \"last_name\": \"string 2\", \"street\": \"string\", \"city\": \"string\", \"full_address\": \"string\", \"all_albums\": [], \"instruments\": [], \"password\": \"123abcA@\", \"profile\": 1}" \
+		| jq

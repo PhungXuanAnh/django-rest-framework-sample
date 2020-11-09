@@ -189,3 +189,37 @@ Reference: https://medium.com/@raaj.akshar/how-to-effectively-use-django-rest-fr
 
 ### Add custom field validator
 
+Using it when want to validate a single field
+
+Ex: field `password` in **MusicianModelSerializerReadEffective_SourceKeyword.validate_password()**
+
+### Cross field validation
+
+Using it when we want to add some validation where we need to access multiple field simultaneously
+
+Ex: validate that the `first_name` and `last_name` be different in **MusicianModelSerializerReadEffective_SourceKeyword.validate()**
+
+### When and how to override to_internal_value()
+
+`to_internal_value()`  can be used to do some pre-processing before validation code is executed
+
+Ex 1: Frontend or mobile app sends user information enclosed in another dictionary with key `user`
+
+```json
+{
+	'user': {
+		'first_name': 'john',
+		'last_name': 'doe',
+		'username': 'john',
+		'password': 'abc123#'
+	}
+}
+```
+
+In such case, `user` info needs to be extracted out of the dictionary before the fields are validated. We can achieve this by overriding `to_internal_value()` in **MusicianModelSerializerReadEffective_SourceKeyword.to_internal_value()**
+
+### When and how to override create()
+
+`create()` is called when `serializer.save()` is called
+
+create() should be overridden when we want to do something different from this default behavior.
