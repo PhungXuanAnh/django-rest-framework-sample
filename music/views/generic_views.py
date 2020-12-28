@@ -1,8 +1,8 @@
 from rest_framework import generics
-from .models import Musician, Album
+from music.models import Musician, Album
 
-from .model_serializers import MusicianModelSerializer
-from .serializers import MusicianSerializer
+from music.serializers.model_serializers import MusicianModelSerializer
+from music.serializers.serializers import MusicianSerializer
 
 class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()

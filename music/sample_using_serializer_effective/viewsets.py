@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from music.models import Musician, Album
-from music.using_serializer_effective import serializers
+from music.sample_using_serializer_effective import serializers
 
 
 class MusicianModelReadEffective_SourceKeyword_ViewSet(viewsets.ModelViewSet):

@@ -1,11 +1,11 @@
 from django.urls import include, path, re_path
 from rest_framework import routers
 
-from music import model_viewsets as music_model_viewsets
-from music import generic_views as music_generic_views
-from music import api_views as music_api_views
-from music import debug_views as music_debug_views
-from music.using_serializer_effective import viewsets as read_affective
+from music.views import model_viewsets as music_model_viewsets
+from music.views import generic_views as music_generic_views
+from music.views import api_views as music_api_views
+from music.sample_debug_views_serializers import debug_views as music_debug_views
+from music.sample_using_serializer_effective import viewsets as read_affective
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)

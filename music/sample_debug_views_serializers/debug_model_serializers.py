@@ -1,6 +1,6 @@
 import debugpy
 from rest_framework import serializers
-from .models import Musician
+from music.models import Musician
 
 class MusicianModelDebugSerializer(serializers.ModelSerializer):
     # NOTE: SerializerMethodField is read only field

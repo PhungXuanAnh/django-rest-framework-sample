@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Musician, Album
+from music.models import Musician, Album
 from .debug_model_serializers import MusicianModelDebugSerializer
 
 from main.custom_authentications import CustomAuthBackend

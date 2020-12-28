@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
 from rest_framework.exceptions import APIException
 
-from .models import Musician, Album
-from .model_serializers import MusicianModelSerializer, InstrumentModelSerializer
+from music.models import Musician, Album
+from music.serializers.model_serializers import MusicianModelSerializer, InstrumentModelSerializer
 
 
 class CreateListMusicanView(APIView):
