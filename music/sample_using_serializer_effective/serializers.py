@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from music.models import Musician, Album, Instrument
+from music.models import Musician, Album, Instrument, Profile
 
 
 class AlbumModelSerializerReadEffective(serializers.ModelSerializer):
@@ -66,10 +66,18 @@ class MusicianModelSerializerReadEffective_SourceKeyword(serializers.ModelSerial
         ]
 
 
+
+
+class ProfileModelSerializerReadEffective(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['age', 'street', 'city', 'num_stars']
+
 class MusicianModelSerializerReadEffective_SerializerMethod(serializers.ModelSerializer):
     first_name = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
     instruments = serializers.SerializerMethodField()
+    profile = ProfileModelSerializerReadEffective()
 
     def get_instruments(self, obj):
         instruments = obj.instruments.all()
@@ -82,18 +90,28 @@ class MusicianModelSerializerReadEffective_SerializerMethod(serializers.ModelSer
 
     def get_full_name(self, obj):
         return obj.get_full_name().upper()
-    class Meta:
-        model = Musician
-        fields = [
-            "id",
-            "first_name",
-            'full_name',
-            'instruments'
-        ]
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if instance.id == 1:
             representation['note'] = 'this is the first record'
         return representation
+
+    def create(self, validated_data):
+        profile_data = validated_data.get('profile')
+        musican = Musician.objects.create(**validated_data)
+        
+        profile_data['musician'] = musican
+        Profile.objects.create(**profile_data)
+        return musican
+
+    class Meta:
+        model = Musician
+        fields = [
+            "id",
+            "first_name",
+            'full_name',
+            'instruments', 
+            'profile'
+        ]
 

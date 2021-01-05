@@ -39,6 +39,12 @@ This is initial code for create sample codes in in django rest framework
 - [6. Other tricks](#6-other-tricks)
   - [6.1. django-rest-framework-tricks](#61-django-rest-framework-tricks)
   - [6.2. Customizing the generic views](#62-customizing-the-generic-views)
+- [7. QuerySet](#7-queryset)
+- [8. SearchFilter](#8-searchfilter)
+  - [8.1. Filter base on url and query params](#81-filter-base-on-url-and-query-params)
+  - [8.2. Using 3rd Filter Class](#82-using-3rd-filter-class)
+  - [8.3. SearchFilter](#83-searchfilter)
+  - [8.4. OrderFilter](#84-orderfilter)
 
 # 1. setup environment
 
@@ -410,3 +416,69 @@ Keep in mind that nested objects should consume `initial_data` instead of `valid
 ## 6.1. [django-rest-framework-tricks](https://github.com/barseghyanartur/django-rest-framework-tricks)
 
 ## 6.2. [Customizing the generic views](https://www.django-rest-framework.org/api-guide/generic-views/#customizing-the-generic-views)
+
+
+# 7. QuerySet
+
+https://docs.djangoproject.com/en/3.1/topics/db/queries/
+
+A django queryset is like its name says, basically a collection of (sql) queries, in your example above print(b.query) will show you the sql query generated from your django filter calls.
+
+Since querysets are lazy, the database query isn't done immediately, but only when needed - when the queryset is evaluated. This happens for example if you call its __str__ method when you print it, if you would call list() on it, or, what happens mostly, you iterate over it (for post in b..). This lazyness should save you from doing unnecessary queries and also allows you to chain querysets and filters for example (you can filter a queryset as often as you want to).
+
+
+# 8. SearchFilter
+
+Refer: https://www.django-rest-framework.org/api-guide/filtering/#filtering-against-the-current-user
+
+## 8.1. Filter base on url and query params
+
+```python
+    # re_path('^purchases/(?P<username>.+)/$', PurchaseList.as_view()),
+    
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Purchase.objects.filter(purchaser=user)
+```
+
+```python
+    # http://example.com/api/purchases?username=denvercoder9
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Purchase.objects.all()
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(purchaser__username=username)
+        return queryset
+```
+
+## 8.2. Using 3rd Filter Class
+
+Sample in file: [model_viewsets.py](music/views/model_viewsets.py) or [generic_views.py](music/views/generic_views.py)
+
+```python
+class MusicianModelViewSet(viewsets.ModelViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = MusicanFilter
+```
+
+Filter with these url format: 
+
+```shell
+# get single object
+http://127.0.0.1:8027/api/v1/musican-viewset/100?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200
+# list objects
+http://127.0.0.1:8027/api/v1/musican-viewset?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200
+```
+
+## 8.3. SearchFilter
+
+## 8.4. OrderFilter
+

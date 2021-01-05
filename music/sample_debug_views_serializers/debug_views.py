@@ -1,4 +1,5 @@
 import debugpy
+import django_filters
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -24,6 +25,7 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     authentication_classes = [CustomAuthBackend]
     permission_classes = [CustomPermission]
     pagination_class = StandardResultsSetPagination
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
     # --------------- APIView method ---------------------
     def get_parsers(self):

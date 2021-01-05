@@ -24,8 +24,10 @@ class Album(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(Musician, on_delete=models.CASCADE)
+    age = models.IntegerField(default=0)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
+    num_stars = models.IntegerField()
 
     def get_full_address(self):
         return "%s, %s" % (self.street, self.city)

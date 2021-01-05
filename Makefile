@@ -51,8 +51,20 @@ musican-viewset-list:
 		-H "accept: application/json" \
 		| jq
 
+musican-viewset-list-FILTER:
+	curl "http://127.0.0.1:8027/api/v1/musican-viewset?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200" \
+		-u admin:admin \
+		-H "accept: application/json" \
+		| jq
+
 musican-viewset-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-viewset/10" \
+		-u admin:admin \
+		-H "accept: application/json" \
+		| jq
+
+musican-viewset-get-filter:
+	curl "http://127.0.0.1:8027/api/v1/musican-viewset/111?first_name=Le&last_name=Thoa" \
 		-u admin:admin \
 		-H "accept: application/json" \
 		| jq
@@ -88,6 +100,9 @@ musican-generic-views-create:
 
 musican-generic-views-list:
 	curl "http://127.0.0.1:8027/api/v1/musican-generic-views" | jq
+
+musican-generic-views-list-filter:
+	curl "http://127.0.0.1:8027/api/v1/musican-generic-views?first_name=Phung&last_name=Anh" | jq
 
 musican-generic-views-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-generic-views/4" | jq
@@ -143,10 +158,10 @@ musican-using-serializer-affective-source-keyword-list:
 musican-using-serializer-affective-source-keyword-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-source-keyword/1" | jq
 
-musican-using-serializer-affective-serializer-method-list:
+musican-using-serializer-affective-SerializerMethod-list:
 	curl "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-serializer-method" | jq
 
-musican-using-serializer-affective-serializer-method-get:
+musican-using-serializer-affective-SerializerMethod-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-using-serializer-affective-serializer-method/1" | jq
 
 # ========================================= Write affective ===============================================
