@@ -1,5 +1,5 @@
 run:
-	.venv/bin/python manage.py runserver 127.0.0.1:8027
+	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
 
 rm-old-data:
 	rm -rf db.sqlite3
@@ -57,6 +57,25 @@ musican-viewset-list-FILTER:
 		-H "accept: application/json" \
 		| jq
 
+
+musican-viewset-list-SEARCH-city:
+	curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Hanoi" \
+		-u admin:admin \
+		-H "accept: application/json" \
+		| jq
+
+musican-viewset-list-SEARCH-last_name:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Anh" \
+		-u admin:admin \
+		-H "accept: application/json" \
+		| jq
+
+musican-viewset-list-SEARCH-last_name_only:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Anh&last_name_only=True" \
+		-u admin:admin \
+		-H "accept: application/json" \
+		| jq
+	
 musican-viewset-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-viewset/10" \
 		-u admin:admin \
@@ -100,9 +119,6 @@ musican-generic-views-create:
 
 musican-generic-views-list:
 	curl "http://127.0.0.1:8027/api/v1/musican-generic-views" | jq
-
-musican-generic-views-list-filter:
-	curl "http://127.0.0.1:8027/api/v1/musican-generic-views?first_name=Phung&last_name=Anh" | jq
 
 musican-generic-views-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-generic-views/4" | jq

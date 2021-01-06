@@ -480,5 +480,28 @@ http://127.0.0.1:8027/api/v1/musican-viewset?first_name=Phung&last_name=Anh&min_
 
 ## 8.3. SearchFilter
 
+Sample add search feature in file [model_viewsets.py](music/views/model_viewsets.py)
+
+```python
+# filter_backends = [filters.SearchFilter]
+filter_backends = [CustomSearchFilter]
+search_fields = ['=first_name', '=last_name', '=email', '=profile__city']
+```
+
+Test with command:
+
+```shell
+make musican-viewset-list-SEARCH-city
+make musican-viewset-list-SEARCH-last_name
+make musican-viewset-list-SEARCH-last_name_only
+```
+
+The search behavior may be restricted by prepending various characters to the *search_fields* :
+
+    '^' Starts-with search.
+    '=' Exact matches.
+    '@' Full-text search. (Currently only supported Django's PostgreSQL backend.)
+    '$' Regex search.
+
 ## 8.4. OrderFilter
 

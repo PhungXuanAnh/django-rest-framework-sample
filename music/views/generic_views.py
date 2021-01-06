@@ -1,5 +1,5 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
+import logging
+from rest_framework import generics, filters
 from music.models import Musician, Album
 
 from music.serializers.model_serializers import MusicianModelSerializer
@@ -8,8 +8,6 @@ from music.serializers.serializers import MusicianSerializer
 class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['first_name', 'last_name']
     # serializer_class = MusicianSerializer
     # permission_classes = [permissions.IsAuthenticated]
 

@@ -27,7 +27,7 @@ for i in range(0, 5):
 
 cities = ["Hanoi", "HCM", "HaiPhong", "Hue", "Danang"]
 ages = [20, 30, 40, 50]
-first_names = ["Phung", "Pham", "Phan", "Nguyen", "Le"]
+first_names = ["Phung", "Pham", "Phan", "Nguyen", "Le", "Anh"]
 last_names = ["Anh", "Hoang", "Tho", "Hoa", "Nghia", "Sao", "Hai", "Thao"]
 for i in range(0, 500):
     musican = Musician.objects.create(
