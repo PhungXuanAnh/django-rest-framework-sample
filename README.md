@@ -536,3 +536,30 @@ make musican-sample-filter-list-FILTER-ORDERING
 ```
 
 # 9. Pagination
+
+Declare default pagination class in file: [settings.py](main/settings.py)
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'PAGE_SIZE': 10
+}
+```
+
+Example of using custom pagination class in file: [generic_views.py](music/views/generic_views.py) and file [custom_paginations.py](music/paginations/custom_paginations.py)
+
+```python
+class MusicListCreateView(generics.ListCreateAPIView):
+    # pagination_class = StandardResultsSetPagination
+    pagination_class = CustomPagination
+```
+
+Reference: https://www.django-rest-framework.org/api-guide/pagination/#pagination-schemas
+
+Test command:
+
+```shell
+make musican-generic-views-list
+```

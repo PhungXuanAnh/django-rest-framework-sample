@@ -1,4 +1,5 @@
 import logging
+from music.paginations.custom_paginations import StandardResultsSetPagination, CustomPagination
 from rest_framework import generics, filters
 from music.models import Musician, Album
 
@@ -10,6 +11,9 @@ class MusicListCreateView(generics.ListCreateAPIView):
     serializer_class = MusicianModelSerializer
     # serializer_class = MusicianSerializer
     # permission_classes = [permissions.IsAuthenticated]
+    
+    # pagination_class = StandardResultsSetPagination
+    pagination_class = CustomPagination
 
 
 class MusicRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

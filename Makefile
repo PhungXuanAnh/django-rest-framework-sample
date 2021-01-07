@@ -87,7 +87,8 @@ musican-generic-views-create:
 		| jq
 
 musican-generic-views-list:
-	curl "http://127.0.0.1:8027/api/v1/musican-generic-views" | jq
+	# reset && curl "http://127.0.0.1:8027/api/v1/musican-generic-views" | jq
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-generic-views?page_size=250" | jq
 
 musican-generic-views-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-generic-views/4" | jq
