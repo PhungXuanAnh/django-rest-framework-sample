@@ -18,4 +18,4 @@ class MusicianModelSerializer(serializers.ModelSerializer):
     profile = ProfileModelSerializer()
     class Meta:
         model = Musician
-        fields = ['id', 'first_name', 'last_name', 'instruments', 'profile']
+        fields = ['id', 'first_name', 'last_name', 'email', 'instruments', 'profile']

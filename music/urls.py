@@ -6,12 +6,18 @@ from music.views import generic_views as music_generic_views
 from music.views import api_views as music_api_views
 from music.sample_debug_views_serializers import debug_views as music_debug_views
 from music.sample_using_serializer_effective import viewsets as read_affective
+from music.sample_search_filter_ordering import viewsets as sample_search_filter_ordering_views
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet)
 router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet)
 router.register(r'musican-using-serializer-affective-source-keyword', read_affective.MusicianModelReadEffective_SourceKeyword_ViewSet)
 router.register(r'musican-using-serializer-affective-serializer-method', read_affective.MusicianModelReadEffective_SerializerMethod_ViewSet)
+
+router.register(r'musican-sample-ordering', sample_search_filter_ordering_views.MusicanListRetriveViews_Ordering)
+router.register(r'musican-sample-search', sample_search_filter_ordering_views.MusicanListRetriveViews_Search)
+router.register(r'musican-sample-filter', sample_search_filter_ordering_views.MusicanListRetriveViews_Fitler)
+router.register(r'musican-sample-filter-search-ordering', sample_search_filter_ordering_views.MusicianListRetriveViews_Filter_Search_Order)
 
 urlpatterns = [
     path(r'musican-api-views', music_api_views.CreateListMusicanView.as_view(), name='api_view_list_musican'),

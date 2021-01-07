@@ -51,39 +51,8 @@ musican-viewset-list:
 		-H "accept: application/json" \
 		| jq
 
-musican-viewset-list-FILTER:
-	curl "http://127.0.0.1:8027/api/v1/musican-viewset?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200" \
-		-u admin:admin \
-		-H "accept: application/json" \
-		| jq
-
-
-musican-viewset-list-SEARCH-city:
-	curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Hanoi" \
-		-u admin:admin \
-		-H "accept: application/json" \
-		| jq
-
-musican-viewset-list-SEARCH-last_name:
-	reset && curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Anh" \
-		-u admin:admin \
-		-H "accept: application/json" \
-		| jq
-
-musican-viewset-list-SEARCH-last_name_only:
-	reset && curl "http://127.0.0.1:8027/api/v1/musican-viewset?search=Anh&last_name_only=True" \
-		-u admin:admin \
-		-H "accept: application/json" \
-		| jq
-	
 musican-viewset-get:
 	curl "http://127.0.0.1:8027/api/v1/musican-viewset/10" \
-		-u admin:admin \
-		-H "accept: application/json" \
-		| jq
-
-musican-viewset-get-filter:
-	curl "http://127.0.0.1:8027/api/v1/musican-viewset/111?first_name=Le&last_name=Thoa" \
 		-u admin:admin \
 		-H "accept: application/json" \
 		| jq
@@ -198,3 +167,36 @@ musican-using-serializer-affective-create-done:
 		-H "X-CSRFToken: YPaIf55iLUaSz7KcrWT7vRoiLtInav23qIpU8RkDi2uasVyiHkiCtSQXzzWlVgO2" \
 		-d "{ \"new_first_name\": \"string 1\", \"last_name\": \"string 2\", \"street\": \"string\", \"city\": \"string\", \"full_address\": \"string\", \"all_albums\": [], \"instruments\": [], \"password\": \"123abcA@\", \"profile\": 1}" \
 		| jq
+
+## ================================================== ordering filter search ==================================
+## ----------------------- ordering ---------------------------------
+musican-sample-ordering-list-ORDERING-email:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-ordering?ordering=email" | jq
+
+musican-sample-ordering-list-ORDERING-email-last_name:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-ordering?ordering=email,last_name" | jq
+
+## ----------------------- search ---------------------------------
+musican-sample-search-list-SEARCH-city:
+	curl "http://127.0.0.1:8027/api/v1/musican-sample-search?search=Hanoi" | jq
+
+musican-sample-search-list-SEARCH-last_name:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-search?search=Anh" | jq
+
+musican-sample-search-list-SEARCH-last_name_only:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-search?search=Anh&last_name_only=True" | jq
+
+## ----------------------- filter ---------------------------------
+
+musican-sample-filter-list-FILTER:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200" | jq
+		
+musican-sample-filter-get-FILTER:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter/111?first_name=Le&last_name=Thoa" | jq
+
+## ----------------------- filter search ordering ---------------------------------
+musican-sample-search-list-SEARCH-ORDERING-city:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-search?search=Hanoi&ordering=email" | jq
+
+musican-sample-filter-list-FILTER-ORDERING:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq

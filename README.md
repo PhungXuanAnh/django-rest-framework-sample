@@ -40,11 +40,13 @@ This is initial code for create sample codes in in django rest framework
   - [6.1. django-rest-framework-tricks](#61-django-rest-framework-tricks)
   - [6.2. Customizing the generic views](#62-customizing-the-generic-views)
 - [7. QuerySet](#7-queryset)
-- [8. SearchFilter](#8-searchfilter)
+- [8. Search-Filter-Ordering](#8-search-filter-ordering)
   - [8.1. Filter base on url and query params](#81-filter-base-on-url-and-query-params)
   - [8.2. Using 3rd Filter Class](#82-using-3rd-filter-class)
-  - [8.3. SearchFilter](#83-searchfilter)
-  - [8.4. OrderFilter](#84-orderfilter)
+  - [8.3. Search](#83-search)
+  - [8.4. Ordering](#84-ordering)
+  - [8.5. Compose search filter ordering in one viewsets](#85-compose-search-filter-ordering-in-one-viewsets)
+- [9. Pagination](#9-pagination)
 
 # 1. setup environment
 
@@ -427,7 +429,7 @@ A django queryset is like its name says, basically a collection of (sql) queries
 Since querysets are lazy, the database query isn't done immediately, but only when needed - when the queryset is evaluated. This happens for example if you call its __str__ method when you print it, if you would call list() on it, or, what happens mostly, you iterate over it (for post in b..). This lazyness should save you from doing unnecessary queries and also allows you to chain querysets and filters for example (you can filter a queryset as often as you want to).
 
 
-# 8. SearchFilter
+# 8. Search-Filter-Ordering
 
 Refer: https://www.django-rest-framework.org/api-guide/filtering/#filtering-against-the-current-user
 
@@ -461,26 +463,24 @@ Refer: https://www.django-rest-framework.org/api-guide/filtering/#filtering-agai
 
 ## 8.2. Using 3rd Filter Class
 
-Sample in file: [model_viewsets.py](music/views/model_viewsets.py) or [generic_views.py](music/views/generic_views.py)
+Sample in file: [viewsets.py](music/sample_search_filter_ordering/viewsets.py)
 
 ```python
-class MusicianModelViewSet(viewsets.ModelViewSet):
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = MusicanFilter
+filter_backends = [DjangoFilterBackend]
+filterset_class = MusicanFilter
 ```
 
-Filter with these url format: 
+Test command:
 
 ```shell
-# get single object
-http://127.0.0.1:8027/api/v1/musican-viewset/100?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200
-# list objects
-http://127.0.0.1:8027/api/v1/musican-viewset?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=200
+make musican-sample-filter-list-FILTER
+# NOTE: test also affect get single object, test with below command
+make musican-sample-filter-get-FILTER
 ```
 
-## 8.3. SearchFilter
+## 8.3. Search
 
-Sample add search feature in file [model_viewsets.py](music/views/model_viewsets.py)
+Sample add search feature in file [viewsets.py](music/sample_search_filter_ordering/viewsets.py)
 
 ```python
 # filter_backends = [filters.SearchFilter]
@@ -491,9 +491,9 @@ search_fields = ['=first_name', '=last_name', '=email', '=profile__city']
 Test with command:
 
 ```shell
-make musican-viewset-list-SEARCH-city
-make musican-viewset-list-SEARCH-last_name
-make musican-viewset-list-SEARCH-last_name_only
+make musican-sample-search-list-SEARCH-city
+make musican-sample-search-list-SEARCH-last_name
+make musican-sample-search-list-SEARCH-last_name_only
 ```
 
 The search behavior may be restricted by prepending various characters to the *search_fields* :
@@ -503,5 +503,36 @@ The search behavior may be restricted by prepending various characters to the *s
     '@' Full-text search. (Currently only supported Django's PostgreSQL backend.)
     '$' Regex search.
 
-## 8.4. OrderFilter
+## 8.4. Ordering
 
+Sample code in file: [viewsets.py](music/sample_search_filter_ordering/viewsets.py)
+
+```python
+filter_backends = [rest_filters.OrderingFilter]
+ordering_fields = ['last_name', 'first_name', 'email']
+ordering = ['email']    # default field for ordering
+```
+
+Test with command: 
+
+```shell
+make musican-sample-ordering-list-ORDERING-email
+make musican-sample-ordering-list-ORDERING-email-last_name
+```
+
+## 8.5. Compose search filter ordering in one viewsets
+
+Sample code in file: [viewsets.py](music/sample_search_filter_ordering/viewsets.py)
+
+```python
+class MusicianListRetriveViews_Filter_Search_Order(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+```
+
+Test commands: 
+
+```shell
+make musican-sample-search-list-SEARCH-ORDERING-city
+make musican-sample-filter-list-FILTER-ORDERING
+```
+
+# 9. Pagination
