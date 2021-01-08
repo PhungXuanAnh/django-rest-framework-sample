@@ -26,7 +26,7 @@ debug-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug/11 | jq
 
 debug-list:
-	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug | jq
+	reset && curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug?page_size=3 | jq
 
 debug-create:
 	curl -X POST -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug \

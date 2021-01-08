@@ -1,3 +1,4 @@
+import debugpy
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination, CursorPagination
 
@@ -13,12 +14,15 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 1000
 
     def get_paginated_response(self, data):
+        debugpy.breakpoint()
+
         return Response({
+            'results': data,
             'links': {
                 'next': self.get_next_link(),
                 'previous': self.get_previous_link()
             },
-            'count': self.page.paginator.count,
-            'results': data,
-            'num_pages': self.page.paginator.num_pages
+            'total_items': self.page.paginator.count,
+            'total_pages': self.page.paginator.num_pages,
+            'current_page': self.page.number,
         })

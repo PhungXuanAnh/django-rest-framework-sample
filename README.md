@@ -47,6 +47,8 @@ This is initial code for create sample codes in in django rest framework
   - [8.4. Ordering](#84-ordering)
   - [8.5. Compose search filter ordering in one viewsets](#85-compose-search-filter-ordering-in-one-viewsets)
 - [9. Pagination](#9-pagination)
+- [10. Sequence diagram](#10-sequence-diagram)
+  - [10.1. List api](#101-list-api)
 
 # 1. setup environment
 
@@ -563,3 +565,9 @@ Test command:
 ```shell
 make musican-generic-views-list
 ```
+
+# 10. Sequence diagram
+
+## 10.1. List api
+
+![](readme_images/sequence-diagram-list-api.png)
