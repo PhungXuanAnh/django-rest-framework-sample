@@ -29,6 +29,8 @@ class MusicanFilter(filterset.FilterSet):
 class MusicanListRetriveViews_Ordering(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer_search_filter_ordering
+    
+    # =============================== add below configs ===============================
     filter_backends = [rest_filters.OrderingFilter]
     ordering_fields = ['last_name', 'first_name', 'email']
     ordering = ['email']    # default field for ordering
@@ -37,6 +39,8 @@ class MusicanListRetriveViews_Ordering(mixins.ListModelMixin, viewsets.GenericVi
 class MusicanListRetriveViews_Search(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer_search_filter_ordering
+    
+    # =============================== add below configs ===============================
     # filter_backends = [rest_filters.SearchFilter]
     filter_backends = [CustomSearchFilter]
     search_fields = ['=first_name', '=last_name', '=email', '=profile__city']
@@ -45,6 +49,8 @@ class MusicanListRetriveViews_Search(mixins.ListModelMixin, viewsets.GenericView
 class MusicanListRetriveViews_Fitler(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer_search_filter_ordering
+    
+    # =============================== add below configs ===============================
     filter_backends = [DjangoFilterBackend]
     filterset_class = MusicanFilter     # NOTE: using filterset_class cannot show filter field in swagger, only filterset_fields work
     # filterset_fields = ['first_name', 'last_name']  # --> this is shortcut of filterset_class, use it if not add more fields: min_num_stars, max_num_stars
@@ -53,6 +59,8 @@ class MusicanListRetriveViews_Fitler(mixins.ListModelMixin, mixins.RetrieveModel
 class MusicianListRetriveViews_Filter_Search_Order(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer_search_filter_ordering
+    
+    # =============================== add below configs ===============================
     filter_backends = [DjangoFilterBackend, CustomSearchFilter]
     filterset_class = MusicanFilter
     search_fields = ['=first_name', '=last_name', '=email', '=profile__city']

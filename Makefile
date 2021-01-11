@@ -173,7 +173,10 @@ musican-using-serializer-affective-create-done:
 
 ## ================================================== ordering filter search ==================================
 ## ----------------------- ordering ---------------------------------
-musican-sample-ordering-list-ORDERING-email:
+musican-sample-ordering-list-ORDERING-email-ascending:
+	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-ordering?ordering=email" | jq
+
+musican-sample-ordering-list-ORDERING-email-descending:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-ordering?ordering=email" | jq
 
 musican-sample-ordering-list-ORDERING-email-last_name:
