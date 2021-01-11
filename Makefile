@@ -225,5 +225,5 @@ musican-sample-filter-list-FILTER-ORDERING:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq
 
 ## ======================================== coordinate ================================
-coordinate-list:
-	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at" | jq
+coordinate-list-descending:
+	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
