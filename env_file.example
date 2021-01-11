@@ -1,3 +1,5 @@
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
 
 POSTGRES_USER=database_user
 POSTGRES_PASSWORD=database_password

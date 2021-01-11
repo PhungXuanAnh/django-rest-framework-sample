@@ -4,6 +4,7 @@ services:
   my-backend:
     image: my-backend:1.1.1
     build: .
+    env_file: env_file
     volumes:
       - .:/app
     networks:
