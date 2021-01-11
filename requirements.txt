@@ -1,4 +1,7 @@
 djangorestframework
 drf-yasg
-debugpy
 django-filter
+
+psycopg2-binary==2.8.6
+
+debugpy

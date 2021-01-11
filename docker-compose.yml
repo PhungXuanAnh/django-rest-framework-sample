@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  my-backend:
+    image: my-backend:1.1.1
+    build: .
+    volumes:
+      - .:/app
+    networks:
+      - internal-network
+    ports:
+      - 8027:8027
+    depends_on:
+      - postgres
+
+  postgres:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=b(E^9v/)xS*4C&4F
+      - POSTGRES_DB=my-backend
+    image: postgres:10
+    ports:
+      - 5432:5432
+    networks:
+      - internal-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  internal-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

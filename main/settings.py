@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'main.middlewares.DebugpyMiddleware',         # NOTE: debug enable will block incoming request
+    # 'main.middlewares.DebugpyMiddleware',         # NOTE: debug enable will block incoming request
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,8 +87,12 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'my-backend',
+        'USER': 'postgres',
+        'PASSWORD': 'b(E^9v/)xS*4C&4F',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
