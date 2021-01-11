@@ -1,15 +1,15 @@
 import debugpy
 from rest_framework import serializers
-from .models import Musician
+from music.models import Musician
 
-class MusicianModelSerializer(serializers.ModelSerializer):
+class MusicianModelDebugSerializer(serializers.ModelSerializer):
     # NOTE: SerializerMethodField is read only field
     # so just using with get/list Serializer
     first_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Musician
-        fields = ['id', 'first_name', 'last_name', 'instrument']
+        fields = ['id', 'first_name', 'last_name', 'instruments']
 
     def to_internal_value(self, data):
         debugpy.breakpoint()

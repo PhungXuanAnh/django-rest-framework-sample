@@ -1,6 +1,4 @@
-django
 djangorestframework
-
 drf-yasg
-
 debugpy
+django-filter

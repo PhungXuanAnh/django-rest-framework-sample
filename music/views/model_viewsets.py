@@ -4,9 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Musician, Album
-from .model_serializers import MusicianModelSerializer
-
+from music.models import Musician, Album
+from music.serializers.model_serializers import MusicianModelSerializer
 
 class MusicianModelViewSet(viewsets.ModelViewSet):
     queryset = Musician.objects.all()
@@ -24,4 +23,3 @@ class MusicianModelViewSet(viewsets.ModelViewSet):
         return Response(
             data={"full_name": instance.first_name + " " + instance.last_name}, status=status.HTTP_200_OK
         )
-

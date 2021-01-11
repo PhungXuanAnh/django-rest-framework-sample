@@ -1,29 +1,31 @@
+from music.paginations.custom_paginations import CustomPagination
 import debugpy
+import django_filters
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Musician, Album
-from .debug_model_serializers import MusicianModelSerializer
+from music.models import Musician, Album
+from .debug_model_serializers import MusicianModelDebugSerializer
 
 from main.custom_authentications import CustomAuthBackend
 from main.custom_permissions import CustomPermission
-from main.pagination import StandardResultsSetPagination
 
 def my_queryset():
     debugpy.breakpoint()
     return Musician.objects.all()
 
 
-class MusicianModelViewSet(viewsets.ModelViewSet):
+class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     # http_method_names = ["post"]
     queryset = Musician.objects.all()
-    serializer_class = MusicianModelSerializer
+    serializer_class = MusicianModelDebugSerializer
     authentication_classes = [CustomAuthBackend]
     permission_classes = [CustomPermission]
-    pagination_class = StandardResultsSetPagination
+    pagination_class = CustomPagination
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
     # --------------- APIView method ---------------------
     def get_parsers(self):
@@ -89,6 +91,10 @@ class MusicianModelViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         debugpy.breakpoint()
         return super().perform_create(serializer)
+
+    def list(self, request, *args, **kwargs):
+        debugpy.breakpoint()
+        return super().list(request, *args, **kwargs)
 
 
 

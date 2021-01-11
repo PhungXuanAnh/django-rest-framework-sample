@@ -1,14 +1,19 @@
-from rest_framework import generics
-from .models import Musician, Album
+import logging
+from music.paginations.custom_paginations import StandardResultsSetPagination, CustomPagination
+from rest_framework import generics, filters
+from music.models import Musician, Album
 
-from .model_serializers import MusicianModelSerializer
-from .serializers import MusicianSerializer
+from music.serializers.model_serializers import MusicianModelSerializer
+from music.serializers.serializers import MusicianSerializer
 
 class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
     # serializer_class = MusicianSerializer
     # permission_classes = [permissions.IsAuthenticated]
+    
+    # pagination_class = StandardResultsSetPagination
+    pagination_class = CustomPagination
 
 
 class MusicRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
