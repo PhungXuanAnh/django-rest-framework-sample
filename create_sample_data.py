@@ -3,6 +3,8 @@
 import os
 import django
 import random
+import datetime
+import time
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
 django.setup()
@@ -10,7 +12,7 @@ django.setup()
 # pylint: disable=wrong-import-position
 from django.contrib.auth.models import User
 from music.models import Album, Musician, Profile, Instrument
-import datetime
+from coordinate.models import Coordinate
 
 
 for i in range(0, 56):
@@ -54,4 +56,17 @@ for i in range(0, 500):
             num_stars=100
         )
 
-
+coordinates = [
+    "20.973962519591822, 105.77874754205386",
+    "20.97973842975352, 105.785519125676",
+    "20.9929949412513, 105.80121475550659",
+    "20.99646554261962, 105.80926909186702",
+    "21.005189892461825, 105.81882070870473"
+]
+for coordinate in coordinates:
+    lat, lng = coordinate.split(', ')
+    Coordinate.objects.create(
+        latitude=lat,
+        longitude=lng
+    )
+    time.sleep(1)

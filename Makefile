@@ -25,18 +25,18 @@ docker-rm-old-data:
 	docker volume rm django-rest-framework-sample_postgres_data
 	docker-compose up -d
 
-docker-migrate:
-	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py migrate
-
 docker-makemigrations:
 	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py makemigrations
+
+docker-migrate:
+	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py migrate
 
 docker-create-supperuser:
 	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py shell -c "from django.contrib.auth.models import User; \
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-docker-create-sample-data: docker-rm-old-data docker-migrate docker-makemigrations docker-create-supperuser
+docker-create-sample-data: docker-rm-old-data docker-makemigrations docker-migrate docker-create-supperuser
 	docker exec django-rest-framework-sample_my-backend_1 python3 create_sample_data.py
 
 # ================================ test get user =========================================
@@ -223,3 +223,7 @@ musican-sample-search-list-SEARCH-ORDERING-city:
 
 musican-sample-filter-list-FILTER-ORDERING:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq
+
+## ======================================== coordinate ================================
+coordinate-list:
+	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at" | jq

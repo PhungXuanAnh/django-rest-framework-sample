@@ -8,6 +8,8 @@ from music.sample_debug_views_serializers import debug_views as music_debug_view
 from music.sample_using_serializer_effective import viewsets as read_affective
 from music.sample_search_filter_ordering import viewsets as sample_search_filter_ordering_views
 
+from coordinate.views import CoordinateModelViewSet
+
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'musican-viewset', music_model_viewsets.MusicianModelViewSet, basename='musican-viewset')
 router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet, basename='musican-debug')
@@ -18,6 +20,7 @@ router.register(r'musican-sample-ordering', sample_search_filter_ordering_views.
 router.register(r'musican-sample-search', sample_search_filter_ordering_views.MusicanListRetriveViews_Search, basename='musican-sample-search')
 router.register(r'musican-sample-filter', sample_search_filter_ordering_views.MusicanListRetriveViews_Fitler, basename='musican-sample-filter')
 router.register(r'musican-sample-filter-search-ordering', sample_search_filter_ordering_views.MusicianListRetriveViews_Filter_Search_Order, basename='musican-sample-filter-search-ordering')
+router.register(r'coordinate', CoordinateModelViewSet, basename='coordinate')
 
 urlpatterns = [
     path(r'musican-api-views', music_api_views.CreateListMusicanView.as_view(), name='api_view_list_musican'),
