@@ -24,6 +24,7 @@ docker-rm-old-data:
 	docker-compose down
 	docker volume rm django-rest-framework-sample_postgres_data
 	docker-compose up -d
+	sleep 3
 
 docker-makemigrations:
 	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py makemigrations
