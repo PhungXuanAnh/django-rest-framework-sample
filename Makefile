@@ -1,6 +1,7 @@
 run:
 	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
 
+# ============================== sqlite =================================
 rm-old-data:
 	rm -rf db.sqlite3
 
@@ -15,9 +16,10 @@ create-supperuser:
 							User.objects.filter(username='admin').exists() or \
 							User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-create-sample-data: rm-old-data migrate create-supperuser
+create-sample-data: rm-old-data migrate makemigrations create-supperuser
 	.venv/bin/python create_sample_data.py
 
+# ================================ test get user =========================================
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq
 
