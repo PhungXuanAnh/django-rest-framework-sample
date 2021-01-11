@@ -2,3 +2,4 @@ djangorestframework
 drf-yasg
 debugpy
 django-filter
+django-cors-headers
