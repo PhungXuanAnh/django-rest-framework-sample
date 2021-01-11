@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             name='Profile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('age', models.IntegerField()),
+                ('age', models.IntegerField(default=0)),
                 ('street', models.CharField(max_length=100)),
                 ('city', models.CharField(max_length=100)),
                 ('num_stars', models.IntegerField()),
