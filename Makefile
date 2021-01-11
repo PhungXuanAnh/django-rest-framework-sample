@@ -19,6 +19,26 @@ create-supperuser:
 create-sample-data: rm-old-data migrate makemigrations create-supperuser
 	.venv/bin/python create_sample_data.py
 
+# ============================== postgres - docker =================================
+docker-rm-old-data:
+	docker-compose down
+	docker volume rm django-rest-framework-sample_postgres_data
+	docker-compose up -d
+
+docker-migrate:
+	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py migrate
+
+docker-makemigrations:
+	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py makemigrations
+
+docker-create-supperuser:
+	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py shell -c "from django.contrib.auth.models import User; \
+								User.objects.filter(username='admin').exists() or \
+								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+
+docker-create-sample-data: docker-rm-old-data docker-migrate docker-makemigrations docker-create-supperuser
+	docker exec django-rest-framework-sample_my-backend_1 python3 create_sample_data.py
+
 # ================================ test get user =========================================
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq

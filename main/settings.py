@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -88,9 +88,9 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'my-backend',
-        'USER': 'postgres',
-        'PASSWORD': 'b(E^9v/)xS*4C&4F',
+        'NAME': os.environ.get("POSTGRES_DB", "xuananh_db"),
+        'USER': os.environ.get("POSTGRES_USER", 'postgres'),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", '123456'),
         'HOST': 'postgres',
         'PORT': '5432',
     }

@@ -14,10 +14,7 @@ services:
       - postgres
 
   postgres:
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=b(E^9v/)xS*4C&4F
-      - POSTGRES_DB=my-backend
+    env_file: env_file
     image: postgres:10
     ports:
       - 5432:5432
