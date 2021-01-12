@@ -49,6 +49,9 @@ This is initial code for create sample codes in in django rest framework
 - [9. Pagination](#9-pagination)
 - [10. Sequence diagram](#10-sequence-diagram)
   - [10.1. List api](#101-list-api)
+- [11. Add nginx configs](#11-add-nginx-configs)
+  - [11.1. Config for http only](#111-config-for-http-only)
+  - [11.2. Config for https](#112-config-for-https)
 
 # 1. setup environment
 
@@ -571,3 +574,50 @@ make musican-generic-views-list
 ## 10.1. List api
 
 ![](readme_images/sequence-diagram-list-api.png)
+
+# 11. Add nginx configs
+
+## 11.1. Config for http only
+
+See this commit:
+
+```shell
+commit 4acb9a853040282dc03b002d277ca196f9e344e9 (HEAD -> run-django-with-docker-postgres)
+Author: xuananh <xuan.anh.phung@advesa.com>
+Date:   Tue Jan 12 11:03:20 2021 +0700
+
+    Add nginx and config nginx
+```
+
+Test command:
+
+```shell
+# call directly backend api service
+make user-get
+# call via nginx service
+make user-get-via-nginx-http
+```
+
+## 11.2. Config for https
+
+See this commit:
+
+```shell
+commit af634410e37149b4bd862462edc734323462c3b3 (HEAD -> run-django-with-docker-postgres)
+Author: xuananh <xuan.anh.phung@advesa.com>
+Date:   Tue Jan 12 13:50:24 2021 +0700
+
+    Add config for using https on nginx
+```
+
+Create certificate (if it's not exists):
+
+```shell
+make create-ssl-certificate
+```
+
+Test command:
+
+```shell
+make user-get-via-nginx-https
+```
