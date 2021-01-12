@@ -4,3 +4,6 @@ tmp.py
 db.sqlite3
 .DS_Store
 env_file
+
+nginx/certs/cert.pem
+nginx/certs/key.pem
