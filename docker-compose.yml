@@ -41,6 +41,7 @@ services:
         - internal-network
     ports:
         - 81:80
+        - 444:443
     volumes:
         - ./nginx:/etc/nginx/conf.d:ro
     command: /bin/bash -c "nginx -g 'daemon off;'"
