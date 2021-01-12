@@ -44,6 +44,9 @@ docker-create-sample-data: docker-rm-old-data docker-makemigrations docker-migra
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq
 
+user-get-via-nginx:
+	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:81/api/v1/users | jq
+
 # ========================================= debug view ===============================================
 debug-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug/11 | jq
