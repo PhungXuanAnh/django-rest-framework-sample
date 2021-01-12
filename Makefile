@@ -1,3 +1,6 @@
+create-ssl-certificate: 
+	openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem -days 365
+
 run:
 	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
 
@@ -44,8 +47,11 @@ docker-create-sample-data: docker-rm-old-data docker-makemigrations docker-migra
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq
 
-user-get-via-nginx:
+user-get-via-nginx-http:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:81/api/v1/users | jq
+
+user-get-via-nginx-https:
+	curl -k -H 'Accept: application/json; indent=4' -u admin:admin https://127.0.0.1:444/api/v1/users | jq
 
 # ========================================= debug view ===============================================
 debug-get:
