@@ -3,3 +3,8 @@ __pycache__
 tmp.py
 db.sqlite3
 .DS_Store
+
+# these files for others branch
+env_file
+cert.pem
+key.pem

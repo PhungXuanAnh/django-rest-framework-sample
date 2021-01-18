@@ -13,7 +13,7 @@ class MusicianModelViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @action(
-        detail=True,
+        detail=False, # True for single object, False for apply all objects
         methods=["get"],
         url_path="sample-action",  # if not specify, it will using name of method
         permission_classes=[permissions.IsAuthenticated],

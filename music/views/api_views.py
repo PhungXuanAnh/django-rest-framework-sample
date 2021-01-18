@@ -31,6 +31,7 @@ class CreateListMusicanView(APIView):
         
 
     def get(self, request, format=None):
+        # NOTE: convert data mode here from data model to json if not using serializer
         # results = []
         # for musican in Musician.objects.all():
         #     results.append({
@@ -49,7 +50,6 @@ class CreateListMusicanView(APIView):
             "previous": None,           # NOTE: don't paging yet
             "results": results
         })
-
 
 
     def validate(self, data):

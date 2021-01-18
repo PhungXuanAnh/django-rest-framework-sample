@@ -20,7 +20,7 @@ class MusicRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
     # serializer_class = MusicianSerializer
-    lookup_field = "id"
+    lookup_field = "id" # default is ID, with others, it must be unique
     # permission_classes = [permissions.IsAuthenticated]
 
 
