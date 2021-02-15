@@ -1,6 +1,11 @@
 create-ssl-certificate: 
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
 
+create-nginx-account:
+	# reference here: https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
+	sudo apt-get install apache2-utils -y
+	htpasswd nginx/htpasswd admin
+
 run:
 	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
 
