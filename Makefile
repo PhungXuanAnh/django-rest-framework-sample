@@ -237,3 +237,12 @@ musican-sample-filter-list-FILTER-ORDERING:
 ## ======================================== coordinate ================================
 coordinate-list-descending:
 	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
+
+prod-up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+prod-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+prod-down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down

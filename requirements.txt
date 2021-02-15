@@ -1,6 +1,7 @@
 djangorestframework
 drf-yasg
 django-filter
+django-environ
 
 psycopg2-binary==2.8.6
 
