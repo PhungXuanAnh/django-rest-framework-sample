@@ -233,3 +233,13 @@ musican-sample-search-list-SEARCH-ORDERING-city:
 
 musican-sample-filter-list-FILTER-ORDERING:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq
+
+## ======================================== production ================================
+prod-up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+prod-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+prod-down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
