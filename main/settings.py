@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # 'main.middlewares.DebugpyMiddleware',         # NOTE: debug enable will block incoming request
+    "main.middlewares.LoggingMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -158,6 +159,14 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
+        "requests.FILE": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/requests.log",
+            "formatter": "verbose",
+            "mode": "a",
+            "maxBytes": 50 * 1024 * 1024,   # 50M
+            "backupCount": 3,
+        }
     },
     "loggers": {
         "django": {
@@ -167,6 +176,11 @@ LOGGING = {
         },
         "apps": {
             "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "requests": {
+            "handlers": ["console", "requests.FILE"],
             "level": "INFO",
             "propagate": True,
         },
