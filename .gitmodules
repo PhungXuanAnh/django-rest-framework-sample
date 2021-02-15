@@ -1,0 +1,3 @@
+[submodule "react-googlemaps"]
+	path = react-googlemaps
+	url = git@github.com:PhungXuanAnh/react-googlemaps.git
