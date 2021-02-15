@@ -5,6 +5,7 @@ services:
     image: my-backend:1.1.1
     build: .
     env_file: env_file
+    restart: always
     volumes:
       - .:/app
     networks:
@@ -22,6 +23,7 @@ services:
   postgres:
     env_file: env_file
     image: postgres:10
+    restart: always
     ports:
       - 5432:5432
     networks:
@@ -36,6 +38,7 @@ services:
 
   nginx:
     image: nginx:1.11.6
+    restart: always
     depends_on:
         - my-backend
     networks:
