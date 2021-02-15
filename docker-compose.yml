@@ -3,7 +3,9 @@ version: '3'
 services:
   my-backend:
     image: my-backend:1.1.1
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file: env_file
     restart: always
     volumes:
@@ -49,6 +51,24 @@ services:
     volumes:
         - ./nginx:/etc/nginx/conf.d:ro
     command: /bin/bash -c "nginx -g 'daemon off;'"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "100M"
+            max-file: "3"
+
+  web:
+    image: web:1.1.1
+    build:
+      context: ./react-googlemaps
+      dockerfile: Dockerfile
+    restart: always
+    # networks:
+    #     - internal-network
+    ports:
+        - 3000:3000
+    volumes:
+        - ./react-googlemaps:/app
     logging:
         driver: "json-file"
         options:
