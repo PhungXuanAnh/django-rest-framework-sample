@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 from pathlib import Path
+import environ
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -23,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '8khss#nb@$*(blml2q@jwvaz!ehxq8qtq29=49!vhf3ck1r)9r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG", default=True)
 
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = True
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # 'main.middlewares.DebugpyMiddleware',         # NOTE: debug enable will block incoming request
+    "main.middlewares.LoggingMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,11 +94,11 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("POSTGRES_DB", "xuananh_db"),
-        'USER': os.environ.get("POSTGRES_USER", 'postgres'),
-        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", '123456'),
-        'HOST': 'postgres',
-        'PORT': '5432',
+        'NAME': env("POSTGRES_DB", default="xuananh_db"),
+        'USER': env("POSTGRES_USER", default='postgres'),
+        'PASSWORD': env("POSTGRES_PASSWORD", default='123456'),
+        'HOST': env("POSTGRES_HOST", default='localhost'),
+        'PORT': env("POSTGRES_PORT", default=5432),
     }
 }
 
@@ -155,6 +158,14 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
+        "requests.FILE": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/requests.log",
+            "formatter": "verbose",
+            "mode": "a",
+            "maxBytes": 50 * 1024 * 1024,   # 50M
+            "backupCount": 3,
+        }
     },
     "loggers": {
         "django": {
@@ -164,6 +175,11 @@ LOGGING = {
         },
         "apps": {
             "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "requests": {
+            "handlers": ["console", "requests.FILE"],
             "level": "INFO",
             "propagate": True,
         },

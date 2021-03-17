@@ -1,5 +1,10 @@
 create-ssl-certificate: 
-	openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem -days 365
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
+
+create-nginx-account:
+	# reference here: https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
+	sudo apt-get install apache2-utils -y
+	htpasswd nginx/htpasswd admin
 
 run:
 	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
@@ -233,3 +238,13 @@ musican-sample-search-list-SEARCH-ORDERING-city:
 
 musican-sample-filter-list-FILTER-ORDERING:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq
+
+## ======================================== production ================================
+prod-up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+prod-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+prod-down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
