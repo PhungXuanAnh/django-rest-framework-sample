@@ -1,5 +1,13 @@
+pull-code-and-submodule:
+	git pull --recurse-submodules
+
 create-ssl-certificate: 
-	openssl req -x509 -nodes -subj '/CN=localhost'  -newkey rsa:4096 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem -days 365
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
+
+create-nginx-account:
+	# reference here: https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
+	sudo apt-get install apache2-utils -y
+	htpasswd nginx/htpasswd admin
 
 run:
 	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
@@ -237,3 +245,12 @@ musican-sample-filter-list-FILTER-ORDERING:
 ## ======================================== coordinate ================================
 coordinate-list-descending:
 	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
+
+prod-up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+prod-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+prod-down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
