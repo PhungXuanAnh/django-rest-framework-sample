@@ -1,5 +1,8 @@
 FROM python:3.8.0
 
+# Reference: https://stackoverflow.com/a/59812588/7639845
+ENV PYTHONUNBUFFERED 1
+
 RUN pip install --upgrade pip
 
 RUN mkdir -p /app
