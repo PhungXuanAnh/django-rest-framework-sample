@@ -1,58 +1,52 @@
-version: '3'
+version: '3.8'
+
+x-default: &default
+  restart: always
+  env_file:
+    - env_file
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "100M"
+      max-file: "3"
+  networks:
+    - internal-network
 
 services:
   my-backend:
+    <<: *default
     image: my-backend:1.1.1
     build: .
-    env_file: env_file
     volumes:
       - .:/app
-    networks:
-      - internal-network
     ports:
       - 8027:8027
     depends_on:
       - postgres
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
+
 
   postgres:
-    env_file: env_file
+    <<: *default
     image: postgres:10
     ports:
       - 5432:5432
-    networks:
-      - internal-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
+
 
   nginx:
+    <<: *default
     image: nginx:1.11.6
     depends_on:
         - my-backend
-    networks:
-        - internal-network
     ports:
         - 81:80
         - 444:443
     volumes:
         - ./nginx:/etc/nginx/conf.d:ro
     command: /bin/bash -c "nginx -g 'daemon off;'"
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
-    
 
+  
 networks:
   internal-network:
     driver: bridge
