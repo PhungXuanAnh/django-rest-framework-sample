@@ -248,3 +248,19 @@ prod-ps:
 
 prod-down:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+
+## ======================================== Deploy development environment with sonarqube ================================
+dev-sonarqube-up:
+	docker-compose --env-file sonarqube/env_file.sonarqube -f docker-compose.yml -f sonarqube/docker-compose.sonarqube.yml up -d
+
+# --- another way to pass environment variable from env_file to docker-compose.something.yml
+# dev-sonarqube-up:
+# 	set -a && \
+# 	source sonarqube/env_file.sonarqube && \
+# 	docker-compose --env-file sonarqube/env_file.sonarqube -f docker-compose.yml -f sonarqube/docker-compose.sonarqube.yml
+	
+dev-sonarqube-ps:
+	docker-compose -f docker-compose.yml -f sonarqube/docker-compose.sonarqube.yml ps
+
+dev-sonarqube-down:
+	docker-compose -f docker-compose.yml -f sonarqube/docker-compose.sonarqube.yml down

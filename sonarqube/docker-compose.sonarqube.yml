@@ -1,0 +1,44 @@
+version: "3.8"
+
+x-default: &default
+  restart: always
+  env_file:
+    - ./sonarqube/env_file.sonarqube
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10M"
+      max-file: "3"
+  networks:
+    - sonarqube-network
+
+services:
+  sonarqube:
+    <<: *default
+    image: sonarqube:latest
+    ports:
+      - 9000:9000
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - ./sonarqube/plugins:/opt/sonarqube/extensions/plugins
+    depends_on:
+      - postgres-sonarqube
+
+  postgres-sonarqube:
+    <<: *default
+    hostname: ${SONARQUBE_POSTGRES_HOSTNAME}
+    image: postgres:latest
+    ports:
+      - 5433:5432
+    volumes:
+      - sonarqube_postgres:/var/lib/postgresql/data
+
+networks:
+  sonarqube-network:
+    driver: bridge
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_postgres:
