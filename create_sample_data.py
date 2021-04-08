@@ -22,8 +22,8 @@ for i in range(0, 56):
     )
 
 instruments = []
-for i in range(0, 5):
-    instruments.append(Instrument.objects.create(name="instrument " + str(1)))
+for inst_name in ["piano", "ghita", "organ", "violon"]:
+    instruments.append(Instrument.objects.create(name=inst_name))
 
 cities = ["Hanoi", "HCM", "HaiPhong", "Hue", "Danang"]
 ages = [20, 30, 40, 50]
