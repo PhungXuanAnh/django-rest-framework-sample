@@ -1,3 +1,4 @@
+- [Run project with sonarqube](#run-project-with-sonarqube)
 - [1. Create project](#1-create-project)
 - [2. Run sonarqube](#2-run-sonarqube)
   - [2.1. Install sonarqube client](#21-install-sonarqube-client)
@@ -6,6 +7,11 @@
   - [2.4. See test result](#24-see-test-result)
 - [3. Config quality gates](#3-config-quality-gates)
 - [4. Config slack alert](#4-config-slack-alert)
+
+
+# Run project with sonarqube
+
+See this file [../README.md](../README.md)
 
 # 1. Create project 
 
@@ -45,7 +51,7 @@ tar -xvf sonar-scanner-cli-4.6.0.2311-macosx.zip
 
 ## 2.2. Run with config
 
-add config as file [sonar.properties](../sonar.properties) to your project folder, then run :
+add config as file [sonar-project.properties](../sonar-project.properties) to your project folder, then run :
 
 ```shell
 sonar-scanner
