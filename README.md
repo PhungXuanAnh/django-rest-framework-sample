@@ -102,9 +102,11 @@ http://127.0.0.1:8027/swagger/
 
 ## 3.2. Access admin site
 
-http://127.0.0.1:8027/admin
-
 Account as above: admin/admin
+  
+**Admin normal**
+
+http://127.0.0.1:8027/admin
 
 ## 3.3. Access users/groups apis
 
@@ -648,3 +650,4 @@ make dev-sonarqube-down
 ```
 
 Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
+
