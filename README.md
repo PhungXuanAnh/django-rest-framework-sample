@@ -52,8 +52,8 @@ This is initial code for create sample codes in in django rest framework
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
   - [11.2. Config for https](#112-config-for-https)
-- [Add sonarqube](#add-sonarqube)
-  - [Run project with sonarqube on local](#run-project-with-sonarqube-on-local)
+- [12. Add sonarqube](#12-add-sonarqube)
+  - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
 
 # 1. setup environment
 
@@ -635,9 +635,9 @@ Test command:
 make user-get-via-nginx-https
 ```
 
-# Add sonarqube
+# 12. Add sonarqube
 
-## Run project with sonarqube on local
+## 12.1. Run project with sonarqube on local
 
 ```shell
 cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
