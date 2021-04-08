@@ -9,7 +9,8 @@ RUN mkdir -p /app
 WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+# RUN pip install -r /app/requirements.txt
+RUN pip install -r requirements.txt --use-deprecated=legacy-resolver
 
 COPY . /app
 
