@@ -5,6 +5,10 @@ django-environ
 
 psycopg2-binary==2.8.6
 
+
+# admin
+django-admin-rangefilter
+
 # dev
 debugpy
 django-cors-headers

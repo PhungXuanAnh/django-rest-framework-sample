@@ -41,6 +41,7 @@ REST_FRAMEWORK = {
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'rangefilter',  # for admin filter data/datetime range
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
