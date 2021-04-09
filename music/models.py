@@ -16,6 +16,7 @@ class Musician(models.Model):
     instruments = models.ManyToManyField(Instrument)
     email = models.EmailField()
     password = models.CharField(max_length=500)
+    created_at = models.DateTimeField()
 
     def __str__(self):
         # This method for show name of this a row instead of Xxx object(500), ex: Musician object (500)
