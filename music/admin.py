@@ -2,6 +2,13 @@ import datetime
 from django.contrib import admin
 from music.models import Musician, Profile, Album, Instrument
 from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
+from admin_numeric_filter.admin import NumericFilterModelAdmin, SingleNumericFilter, RangeNumericFilter, SliderNumericFilter
+
+
+class CustomSliderNumericFilter(SliderNumericFilter):
+    MAX_DECIMALS = 2
+    STEP = 10
+
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -38,7 +45,11 @@ class AlbumAdmin(admin.ModelAdmin):
     list_filter = (
         "release_date",
         ("release_date", DateRangeFilter),
-        "num_stars",
+        ('num_stars', SingleNumericFilter), # Single field search, __gte lookup
+        ('num_stars', RangeNumericFilter), # Range search, __gte and __lte lookup
+        # ('num_stars', SliderNumericFilter), # Same as range above but with slider
+        # ('num_stars', CustomSliderNumericFilter), # Filter with custom attributes
+        # "num_stars",
         "name"
     )
     search_fields = ('name', 'release_date', "num_stars")
