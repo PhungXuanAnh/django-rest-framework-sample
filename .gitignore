@@ -6,3 +6,8 @@ db.sqlite3
 env_file
 nginx/*
 logs/*
+
+
+# sonar-scanner gen file
+.sonar_lock
+report-task.txt

@@ -55,6 +55,8 @@ This is initial code for create sample codes in in django rest framework
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
   - [11.2. Config for https](#112-config-for-https)
+- [12. Add sonarqube](#12-add-sonarqube)
+  - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
 
 # 1. setup environment
 
@@ -117,9 +119,11 @@ http://127.0.0.1:8027/swagger/
 
 ### 3.3.2. Access admin site
 
-http://127.0.0.1:8027/admin
-
 Account as above: admin/admin
+  
+**Admin normal**
+
+http://127.0.0.1:8027/admin
 
 ### 3.3.3. Access users/groups apis
 
@@ -649,3 +653,18 @@ Test command:
 ```shell
 make user-get-via-nginx-https
 ```
+
+# 12. Add sonarqube
+
+## 12.1. Run project with sonarqube on local
+
+```shell
+cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
+# change above fife if need
+make dev-sonarqube-up
+make dev-sonarqube-ps
+make dev-sonarqube-down
+```
+
+Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
+

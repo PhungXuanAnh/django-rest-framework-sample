@@ -40,7 +40,9 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_numeric_filter',
     'django.contrib.admin',
+    'rangefilter',  # for admin filter data/datetime range
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -185,3 +187,5 @@ LOGGING = {
         },
     },
 }
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' 

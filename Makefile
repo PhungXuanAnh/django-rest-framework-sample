@@ -250,7 +250,7 @@ prod-down:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
 
 prod-build:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --parallel
 
 ## ======================================== dev ================================
 dev-up:
@@ -263,5 +263,33 @@ dev-down:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 dev-build:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --parallel
 # docker-compose build --build-arg  BUILD_ENV=dev my-backend
+
+## ======================================== Deploy development environment with sonarqube ================================
+# NOTE: source env_file.sonarqube to pass variable SONARQUBE_POSTGRES_HOSTNAME
+# to docker-compose.sonarqube.yml file
+dev-sonarqube-up:
+	set -a && \
+	. sonarqube/env_file.sonarqube && \
+	docker-compose --env-file sonarqube/env_file.sonarqube \
+		-f docker-compose.yml \
+		-f sonarqube/docker-compose.sonarqube.yml up -d
+	
+dev-sonarqube-ps:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		ps
+
+dev-sonarqube-down:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		down
+
+dev-sonarqube-build:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		build

@@ -1,0 +1,51 @@
+version: "3.8"
+
+x-default: &default_sonaqube
+  # restart: always
+  env_file:
+    - ./sonarqube/env_file.sonarqube
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10M"
+      max-file: "3"
+  networks:
+    - sonarqube-network
+
+services:
+  sonarqube:
+    <<: *default_sonaqube
+    image: sonarqube:latest
+    container_name: my-sample-sonarqube
+    ports:
+      - 9000:9000
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      # - sonarqube_logs:/opt/sonarqube/logs
+      - ./sonarqube/logs:/opt/sonarqube/logs
+      - ./sonarqube/plugins:/opt/sonarqube/extensions/plugins
+    depends_on:
+      - postgres-sonarqube
+    # entrypoint: bash -c # sh -c
+    # command:
+    #   - while true; do echo "this is test command"; sleep 1; done
+
+
+  postgres-sonarqube:
+    <<: *default_sonaqube
+    container_name: my-sample-postgres-sonarqube
+    hostname: ${SONARQUBE_POSTGRES_HOSTNAME}
+    image: postgres:latest
+    ports:
+      - 5433:5432
+    volumes:
+      - sonarqube_postgres:/var/lib/postgresql/data
+
+networks:
+  sonarqube-network:
+    driver: bridge
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_postgres:
