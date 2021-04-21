@@ -4,3 +4,8 @@ django-filter
 django-environ
 
 psycopg2-binary==2.8.6
+
+
+# for admin
+django-admin-rangefilter
+django-admin-numeric-filter

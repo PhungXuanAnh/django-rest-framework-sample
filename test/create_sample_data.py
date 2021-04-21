@@ -1,8 +1,11 @@
 # pylint: disable=protected-access
 # pylint: disable=broad-except
 import os
+import sys
 import django
 import random
+
+sys.path.append(os.path.dirname(__file__) + '/../')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
 django.setup()

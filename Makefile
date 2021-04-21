@@ -25,7 +25,7 @@ create-supperuser:
 							User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
 create-sample-data: rm-old-data migrate makemigrations create-supperuser
-	.venv/bin/python create_sample_data.py
+	.venv/bin/python test/create_sample_data.py
 
 # ============================== postgres - docker =================================
 docker-rm-old-data:
