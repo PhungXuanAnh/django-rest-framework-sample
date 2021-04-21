@@ -293,3 +293,16 @@ dev-sonarqube-build:
 		-f docker-compose.dev.yml \
 		-f sonarqube/docker-compose.sonarqube.yml \
 		build
+
+## ======================================== local ================================
+local-up:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
+
+local-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml ps
+
+local-down:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml down
+
+local-build:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml build --parallel

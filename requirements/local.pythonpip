@@ -1,0 +1,3 @@
+-r base.pythonpip
+debugpy
+django-cors-headers

@@ -6,4 +6,4 @@ services:
       args:
         BUILD_ENV: dev
     environment:
-        - DJANGO_SETTINGS_MODULE:main.settings.dev
+        - DJANGO_SETTINGS_MODULE:main.settings.local
