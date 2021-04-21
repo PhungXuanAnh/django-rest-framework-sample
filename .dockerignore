@@ -1,0 +1,15 @@
+**/logs
+**/nginx
+**/react-googlemaps
+**/readme_images
+**/sonarqube
+
+**/env_file**
+**/.env**
+
+**/.git
+**/.gitignore
+
+**/.DS_Store
+**/node_modules
+**/Readme.md
