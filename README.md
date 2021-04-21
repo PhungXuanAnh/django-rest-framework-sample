@@ -5,10 +5,13 @@ This is initial code for create sample codes in in django rest framework
 - [2. create project and User app](#2-create-project-and-user-app)
   - [2.1. create project and app](#21-create-project-and-app)
   - [2.2. create sample data](#22-create-sample-data)
-- [3. Run server](#3-run-server)
-  - [3.1. Access swagger](#31-access-swagger)
-  - [3.2. Access admin site](#32-access-admin-site)
-  - [3.3. Access users/groups apis](#33-access-usersgroups-apis)
+- [3. Deploy](#3-deploy)
+  - [3.1. Live](#31-live)
+  - [3.2. Using docker](#32-using-docker)
+  - [3.3. Test](#33-test)
+    - [3.3.1. Access swagger](#331-access-swagger)
+    - [3.3.2. Access admin site](#332-access-admin-site)
+    - [3.3.3. Access users/groups apis](#333-access-usersgroups-apis)
 - [4. Music app](#4-music-app)
   - [4.1. Create new app and migrate database](#41-create-new-app-and-migrate-database)
   - [4.2. Views](#42-views)
@@ -90,21 +93,35 @@ django-admin startapp user
 make create-sample-data
 ```
 
-# 3. Run server
+# 3. Deploy
+
+## 3.1. Live
 
 make run
 
-## 3.1. Access swagger
+## 3.2. Using docker
+
+For development environment (for other env just change prefix, ex: dev -> prod)
+
+
+```shell
+make dev-build
+make dev-up
+make dev-ps
+```
+
+## 3.3. Test
+### 3.3.1. Access swagger
 
 http://127.0.0.1:8027/swagger/
 
-## 3.2. Access admin site
+### 3.3.2. Access admin site
 
 http://127.0.0.1:8027/admin
 
 Account as above: admin/admin
 
-## 3.3. Access users/groups apis
+### 3.3.3. Access users/groups apis
 
 http://127.0.0.1:8027/api/v1
 

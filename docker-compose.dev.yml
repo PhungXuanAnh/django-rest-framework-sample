@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  my-backend:
+    build: 
+      args:
+        BUILD_ENV: dev
