@@ -7,7 +7,7 @@ services:
         BUILD_ENV: prod
     environment:
       - DEBUG=False
-      - DJANGO_SETTINGS_MODULE:main.settings.prod
+      - DJANGO_SETTINGS_MODULE=main.settings.prod
     restart: always
 
   postgres:
