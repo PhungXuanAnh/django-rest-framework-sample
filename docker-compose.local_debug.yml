@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  my-backend:
+    build: 
+      args:
+        BUILD_ENV: dev
+    environment:
+        - DJANGO_SETTINGS_MODULE=main.settings.local_debug
+    ports:
+      - 5678:5678

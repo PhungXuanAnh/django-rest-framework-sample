@@ -57,6 +57,10 @@ This is initial code for create sample codes in in django rest framework
   - [11.2. Config for https](#112-config-for-https)
 - [12. Add sonarqube](#12-add-sonarqube)
   - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
+- [13. Debug django app](#13-debug-django-app)
+  - [13.1. Live](#131-live)
+  - [13.2. Docker](#132-docker)
+  - [13.3. Remote](#133-remote)
 
 # 1. setup environment
 
@@ -668,3 +672,32 @@ make dev-sonarqube-down
 
 Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
 
+# 13. Debug django app
+
+## 13.1. Live
+
+Click to button **Run and Debug** in vscode, choose **Python:Django**
+
+Run click Run button
+
+Set break point in your api/view
+
+Change domain name in postman to http://localhost:8028
+
+Call api and see it stop at breakpoint
+
+## 13.2. Docker
+
+Run server with debug setting
+
+```shell
+make local_debug-up
+```
+
+Then call api from postman.
+
+On vscode, set your breakpoint at file you want to debug, then run vscode debug name: **Python: Remote Attach**
+
+## 13.3. Remote
+
+Debug over ssh, more detail here: https://code.visualstudio.com/docs/python/debugging#_debugging-by-attaching-over-a-network-connection

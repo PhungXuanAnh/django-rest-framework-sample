@@ -306,3 +306,16 @@ local-down:
 
 local-build:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml build --parallel
+
+## ======================================== local debug mode ================================
+local_debug-up:
+	docker-compose -f docker-compose.yml -f docker-compose.local_debug.yml up -d
+
+local_debug-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.local_debug.yml ps
+
+local_debug-down:
+	docker-compose -f docker-compose.yml -f docker-compose.local_debug.yml down
+
+local_debug-build:
+	docker-compose -f docker-compose.yml -f docker-compose.local_debug.yml build --parallel
