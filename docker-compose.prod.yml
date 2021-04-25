@@ -6,9 +6,13 @@ services:
       args:
         BUILD_ENV: prod
     environment:
-      - DEBUG=False
+      - DEBUG=True
       - DJANGO_SETTINGS_MODULE=main.settings.prod
     restart: always
+    entrypoint: bash -c # sh -c
+    command:
+      - gunicorn main.wsgi:application -w 5 -b :8027
+
 
   postgres:
     restart: always

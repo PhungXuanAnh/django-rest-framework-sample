@@ -5,6 +5,7 @@ django-environ
 
 psycopg2-binary==2.8.6
 
+gunicorn
 
 # for admin
 django-admin-rangefilter

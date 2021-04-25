@@ -6,6 +6,7 @@ db.sqlite3
 env_file
 nginx/*
 **/logs/*
+static_files
 
 
 # sonar-scanner gen file

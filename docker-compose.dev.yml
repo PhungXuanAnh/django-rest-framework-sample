@@ -7,3 +7,6 @@ services:
         BUILD_ENV: dev
     environment:
         - DJANGO_SETTINGS_MODULE=main.settings.dev
+    entrypoint: bash -c # sh -c
+    command:
+      - python3 manage.py runserver 0.0.0.0:8027
