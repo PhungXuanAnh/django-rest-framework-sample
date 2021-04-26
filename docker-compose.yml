@@ -1,7 +1,6 @@
 version: '3.8'
 
 x-default: &default
-  restart: always
   env_file:
     - env_file
   logging:
@@ -19,18 +18,13 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: my-sample-backend
     volumes:
-      - .:/app
+      - ./logs:/app/logs
+    container_name: my-sample-backend
     ports:
       - 8027:8027
     depends_on:
       - postgres
-    ## NOTE: below code for test container running
-    # entrypoint: bash -c # sh -c
-    # command:
-    #   - while true; do echo "this is test command"; sleep 1; done
-
 
   postgres:
     <<: *default
@@ -44,7 +38,7 @@ services:
 
   nginx:
     <<: *default
-    image: nginx:1.11.6
+    image: nginx:1.13
     container_name: my-sample-nginx
     depends_on:
         - my-backend

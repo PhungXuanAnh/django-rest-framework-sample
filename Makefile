@@ -252,6 +252,19 @@ prod-down:
 prod-build:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --parallel
 
+## ======================================== int ================================
+int-up:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml up -d
+
+int-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml ps
+
+int-down:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml down
+
+int-build:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml build --parallel
+
 ## ======================================== dev ================================
 dev-up:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d

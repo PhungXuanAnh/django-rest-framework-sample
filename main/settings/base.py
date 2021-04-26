@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
 import environ
+import os
 
 env = environ.Env()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
@@ -140,8 +140,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
+STATIC_URL = '/static/'     # url for static file, ex: for admin app, it will be http://localhost:8027/static/admin
+                            # then static files wil be file in ../static_files/admin folder as config at STATIC_ROOT below
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_files') # all static file will be copied here when run python manage.py collectstatic
 
 
 LOGGING = {

@@ -7,9 +7,16 @@ services:
         BUILD_ENV: dev
     environment:
         - DJANGO_SETTINGS_MODULE=main.settings.local
-    entrypoint: bash -c # sh -c
+        - WORKING_ENV=local
+    volumes:
+      - .:/app
+    # entrypoint: bash -c # sh -c
     command:
-      - python3 manage.py runserver 0.0.0.0:8027
+      - /bin/bash
+      - -c
+      - |
+        python3 manage.py collectstatic --noinput
+        python3 manage.py runserver 0.0.0.0:8027
     # NOTE: don't user gunicorn for serve static file, but using another proxy server like nginx
     # Refer: https://stackoverflow.com/a/12801140/7639845
     #        https://gunicorn.org/index.html#deployment
@@ -19,3 +26,8 @@ services:
     # entrypoint: bash -c # sh -c
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done
+
+  nginx:
+    volumes:
+      - ./static_files:/home/www-data/static_files
+  

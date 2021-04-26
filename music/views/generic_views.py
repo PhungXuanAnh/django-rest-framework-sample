@@ -1,5 +1,5 @@
 import logging
-from music.paginations.custom_paginations import StandardResultsSetPagination, CustomPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework import generics, filters
 from music.models import Musician, Album
 
@@ -10,10 +10,8 @@ class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
     # serializer_class = MusicianSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-    
-    # pagination_class = StandardResultsSetPagination
-    pagination_class = CustomPagination
+    # permission_classes = [permissions.IsAuthenticated]    
+    pagination_class = PageNumberPagination
 
 
 class MusicRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
