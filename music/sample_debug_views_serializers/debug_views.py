@@ -80,7 +80,6 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
         debugpy.breakpoint()
         return super().paginate_queryset(queryset)
 
-    # ---------------------------------------------------
     def retrieve(self, request, *args, **kwargs):
         debugpy.breakpoint()
         return super().retrieve(request, *args, **kwargs)
@@ -96,7 +95,3 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         debugpy.breakpoint()
         return super().list(request, *args, **kwargs)
-
-
-
-

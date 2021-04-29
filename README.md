@@ -64,6 +64,7 @@ This is initial code for create sample codes in in django rest framework
     - [13.2.2. Run debug on vscode](#1322-run-debug-on-vscode)
     - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
   - [13.3. Remote](#133-remote)
+- [14. Linting code](#14-linting-code)
 
 # 1. setup environment
 
@@ -726,3 +727,12 @@ Click to button Disconnect, then click to button Restart multiple time for exit 
 ## 13.3. Remote
 
 Debug over ssh, more detail here: https://code.visualstudio.com/docs/python/debugging#_debugging-by-attaching-over-a-network-connection
+
+# 14. Linting code
+
+Linting code is importance part of any IDE for check systax and error form IDE
+
+- See setting of pylint if settings.json of Vscode
+- To test gen config file for pylint run `make pylint-gen-rcfile`
+- To check pylint and config file is work properly, run `make pylint-test-config-file-pylintrc`
+- Reload windown for apply new pylint config file settings
