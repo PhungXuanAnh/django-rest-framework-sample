@@ -10,6 +10,8 @@ services:
         - WORKING_ENV=local
     volumes:
       - .:/app
+    ports:
+      - 5678:5678
     # entrypoint: bash -c # sh -c
     command:
       - /bin/bash

@@ -18,7 +18,7 @@ router.register(r'musican-sample-search', sample_search_filter_ordering_views.Mu
 router.register(r'musican-sample-filter', sample_search_filter_ordering_views.MusicanListRetriveViews_Fitler, basename='musican-sample-filter')
 router.register(r'musican-sample-filter-search-ordering', sample_search_filter_ordering_views.MusicianListRetriveViews_Filter_Search_Order, basename='musican-sample-filter-search-ordering')
 
-if os.environ.get('WORKING_ENV') == 'dev':
+if os.environ.get('WORKING_ENV') == 'dev' or os.environ.get('WORKING_ENV') == 'local':
     from music.sample_debug_views_serializers import debug_views as music_debug_views
     router.register(r'musican-debug', music_debug_views.MusicianModelDebugViewSet, basename='musican-debug')
 

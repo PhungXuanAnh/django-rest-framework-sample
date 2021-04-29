@@ -60,6 +60,9 @@ This is initial code for create sample codes in in django rest framework
 - [13. Debug django app](#13-debug-django-app)
   - [13.1. Live](#131-live)
   - [13.2. Docker](#132-docker)
+    - [13.2.1. Add debug code](#1321-add-debug-code)
+    - [13.2.2. Run debug on vscode](#1322-run-debug-on-vscode)
+    - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
   - [13.3. Remote](#133-remote)
 
 # 1. setup environment
@@ -201,16 +204,7 @@ Using viewset when you want to add all methods(actions) of a object in one view,
 
 This apis help to debug all django rest framework flow, how a request is handled through all layers of this framework
 
-Uncomment below line in settings.py
-
-```python
-MIDDLEWARE = [
-    # 'main.middlewares.DebugpyMiddleware', 
-```
-
-```shell
-make debug-
-```
+To run this debug code see debug part in this file
 
 ## 4.3. Serializers
 
@@ -578,7 +572,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-Example of using custom pagination class in file: [generic_views.py](music/views/generic_views.py) and file [custom_paginations.py](music/paginations/custom_paginations.py)
+Example of using custom pagination class in file: [generic_views.py](music/views/generic_views.py) and file [custom_paginations.py](main/paginations/custom_paginations.py)
 
 ```python
 class MusicListCreateView(generics.ListCreateAPIView):
@@ -688,15 +682,46 @@ Call api and see it stop at breakpoint
 
 ## 13.2. Docker
 
-Run server with debug setting
+### 13.2.1. Add debug code
 
-```shell
-make local_debug-up
+1. Add `debugpy` package to requirement file of `local` and `dev` environment
+
+2. Add to [manage.py](manage.py) method to initial debug server:
+
+```python
+def initialize_debugger(sys_args):
 ```
 
-Then call api from postman.
+Then add `initialize_debugger(sys.argv)` to `main()` method of this file
 
-On vscode, set your breakpoint at file you want to debug, then run vscode debug name: **Python: Remote Attach**
+3. Expose port 5678 in docker-compose in `dev` and `local` environment
+
+```yaml
+ports:
+  - 5678:5678
+```
+
+4. Start django server as normal, it will start debug server in parallel. Then go to bellow part to run debug on vscode
+
+### 13.2.2. Run debug on vscode
+
+1. Add [.vscode/launch.json](.vscode/launch.json) with step name `Python: Remote Attach`
+
+2. Go to debug screen of Vscode, choose `Python: Remote Attach`, then click Run button
+
+3. Add breakpoint to file you want to debug
+    
+4. Call api you want to debug from postman or curl. There is already created file for debug music app in this project. Let's run below command for debug it 
+
+```shell
+make debug-get
+make debug-list
+make debug-create
+```
+
+### 13.2.3. Exit debug mode on vscode
+
+Click to button Disconnect, then click to button Restart multiple time for exit debug mode in vscode
 
 ## 13.3. Remote
 

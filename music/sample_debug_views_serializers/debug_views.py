@@ -1,4 +1,3 @@
-from music.paginations.custom_paginations import CustomPagination
 import debugpy
 import django_filters
 from rest_framework import viewsets
@@ -12,6 +11,8 @@ from .debug_model_serializers import MusicianModelDebugSerializer
 
 from main.custom_authentications import CustomAuthBackend
 from main.custom_permissions import CustomPermission
+from main.paginations.custom_paginations import CustomPagination
+
 
 def my_queryset():
     debugpy.breakpoint()
