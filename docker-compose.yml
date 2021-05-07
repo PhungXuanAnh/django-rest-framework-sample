@@ -11,6 +11,7 @@ x-default: &default
   networks:
     - internal-network
 
+
 services:
   my-backend:
     <<: *default
@@ -45,41 +46,18 @@ services:
             max-size: "100M"
             max-file: "3"
 
-  nginx:
-    image: nginx:1.11.6
-    depends_on:
-        - my-backend
-    networks:
-        - internal-network
-    ports:
-        - 81:80
-        - 444:443
-    volumes:
-        - ./nginx:/etc/nginx/conf.d:ro
-    command: /bin/bash -c "nginx -g 'daemon off;'"
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
 
-  web:
+  frontend:
+    <<: *default
     image: web:1.1.1
     build:
       context: ./react-googlemaps
       dockerfile: Dockerfile
-    # networks:
-    #     - internal-network
+    container_name: my-sample-frontend
     ports:
         - 3000:3000
     volumes:
         - ./react-googlemaps:/app
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
-    
 
 
   nginx:

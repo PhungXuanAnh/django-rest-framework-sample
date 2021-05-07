@@ -38,9 +38,7 @@ create-sample-data: rm-old-data migrate makemigrations create-supperuser
 
 # ============================== postgres - docker =================================
 docker-rm-old-data:
-	docker-compose down
 	docker volume rm django-rest-framework-sample_postgres_data
-	docker-compose up -d
 	sleep 3
 
 docker-migrate:
@@ -54,7 +52,7 @@ docker-create-supperuser:
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-docker-create-sample-data: docker-rm-old-data docker-migrate docker-makemigrations docker-create-supperuser
+docker-create-sample-data: local-down docker-rm-old-data local-up docker-migrate docker-makemigrations docker-create-supperuser
 	docker exec my-sample-backend python3 scripts/create_sample_data.py
 
 # ================================ test get user =========================================
@@ -249,6 +247,12 @@ musican-sample-filter-list-FILTER-ORDERING:
 	reset && curl "http://127.0.0.1:8027/api/v1/musican-sample-filter?first_name=Phung&last_name=Anh&min_num_stars=0&max_num_stars=500&ordering=email" | jq
 
 ## ======================================== coordinate ================================
+coordinate-add:
+	curl -X POST "http://127.0.0.1:8027/api/v1/coordinate" \
+		-H "Content-Type: application/json" \
+		-d "{ \"latitude\": \"21.00000000000\", \"longitude\": \"105.111111111\"}" \
+		| jq
+
 coordinate-list-descending:
 	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
 
