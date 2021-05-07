@@ -1,10 +1,12 @@
 # pylint: disable=protected-access
 # pylint: disable=broad-except
 import os
+import sys
 import django
 import datetime
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
+sys.path.append(os.path.dirname(__file__) + '/../')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings.local")
 django.setup()
 
 # pylint: disable=wrong-import-position

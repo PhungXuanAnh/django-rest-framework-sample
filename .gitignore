@@ -5,4 +5,10 @@ db.sqlite3
 .DS_Store
 env_file
 nginx/*
-logs/*
+**/logs/*
+static_files
+
+
+# sonar-scanner gen file
+.sonar_lock
+report-task.txt

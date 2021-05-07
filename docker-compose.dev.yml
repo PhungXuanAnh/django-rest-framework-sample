@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  my-backend:
+    build: 
+      args:
+        BUILD_ENV: dev
+    environment:
+        - DJANGO_SETTINGS_MODULE=main.settings.dev
+        - WORKING_ENV=dev
+    volumes:
+      - .:/app
+    ports:
+      - 5678:5678
+    entrypoint: bash -c # sh -c
+    command:
+      - python3 manage.py runserver 0.0.0.0:8027

@@ -5,10 +5,13 @@ This is initial code for create sample codes in in django rest framework
 - [2. create project and User app](#2-create-project-and-user-app)
   - [2.1. create project and app](#21-create-project-and-app)
   - [2.2. create sample data](#22-create-sample-data)
-- [3. Run server](#3-run-server)
-  - [3.1. Access swagger](#31-access-swagger)
-  - [3.2. Access admin site](#32-access-admin-site)
-  - [3.3. Access users/groups apis](#33-access-usersgroups-apis)
+- [3. Deploy](#3-deploy)
+  - [3.1. Live](#31-live)
+  - [3.2. Using docker](#32-using-docker)
+  - [3.3. Test](#33-test)
+    - [3.3.1. Access swagger](#331-access-swagger)
+    - [3.3.2. Access admin site](#332-access-admin-site)
+    - [3.3.3. Access users/groups apis](#333-access-usersgroups-apis)
 - [4. Music app](#4-music-app)
   - [4.1. Create new app and migrate database](#41-create-new-app-and-migrate-database)
   - [4.2. Views](#42-views)
@@ -49,6 +52,19 @@ This is initial code for create sample codes in in django rest framework
 - [9. Pagination](#9-pagination)
 - [10. Sequence diagram](#10-sequence-diagram)
   - [10.1. List api](#101-list-api)
+- [11. Add nginx configs](#11-add-nginx-configs)
+  - [11.1. Config for http only](#111-config-for-http-only)
+  - [11.2. Config for https](#112-config-for-https)
+- [12. Add sonarqube](#12-add-sonarqube)
+  - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
+- [13. Debug django app](#13-debug-django-app)
+  - [13.1. Live](#131-live)
+  - [13.2. Docker](#132-docker)
+    - [13.2.1. Add debug code](#1321-add-debug-code)
+    - [13.2.2. Run debug on vscode](#1322-run-debug-on-vscode)
+    - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
+  - [13.3. Remote](#133-remote)
+- [14. Linting code](#14-linting-code)
 
 # 1. setup environment
 
@@ -87,21 +103,37 @@ django-admin startapp user
 make create-sample-data
 ```
 
-# 3. Run server
+# 3. Deploy
+
+## 3.1. Live
 
 make run
 
-## 3.1. Access swagger
+## 3.2. Using docker
+
+For development environment (for other env just change prefix, ex: dev -> prod)
+
+
+```shell
+make dev-build
+make dev-up
+make dev-ps
+```
+
+## 3.3. Test
+### 3.3.1. Access swagger
 
 http://127.0.0.1:8027/swagger/
 
-## 3.2. Access admin site
+### 3.3.2. Access admin site
+
+Account as above: admin/admin
+  
+**Admin normal**
 
 http://127.0.0.1:8027/admin
 
-Account as above: admin/admin
-
-## 3.3. Access users/groups apis
+### 3.3.3. Access users/groups apis
 
 http://127.0.0.1:8027/api/v1
 
@@ -173,16 +205,7 @@ Using viewset when you want to add all methods(actions) of a object in one view,
 
 This apis help to debug all django rest framework flow, how a request is handled through all layers of this framework
 
-Uncomment below line in settings.py
-
-```python
-MIDDLEWARE = [
-    # 'main.middlewares.DebugpyMiddleware', 
-```
-
-```shell
-make debug-
-```
+To run this debug code see debug part in this file
 
 ## 4.3. Serializers
 
@@ -550,7 +573,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-Example of using custom pagination class in file: [generic_views.py](music/views/generic_views.py) and file [custom_paginations.py](music/paginations/custom_paginations.py)
+Example of using custom pagination class in file: [generic_views.py](music/views/generic_views.py) and file [custom_paginations.py](main/paginations/custom_paginations.py)
 
 ```python
 class MusicListCreateView(generics.ListCreateAPIView):
@@ -571,3 +594,145 @@ make musican-generic-views-list
 ## 10.1. List api
 
 ![](readme_images/sequence-diagram-list-api.png)
+
+# 11. Add nginx configs
+
+## 11.1. Config for http only
+
+See this commit:
+
+```shell
+commit 4acb9a853040282dc03b002d277ca196f9e344e9 (HEAD -> run-django-with-docker-postgres)
+Author: xuananh <xuan.anh.phung@advesa.com>
+Date:   Tue Jan 12 11:03:20 2021 +0700
+
+    Add nginx and config nginx
+```
+
+Test command:
+
+```shell
+# call directly backend api service
+make user-get
+# call via nginx service
+make user-get-via-nginx-http
+```
+
+## 11.2. Config for https
+
+See this commit:
+
+```shell
+commit af634410e37149b4bd862462edc734323462c3b3 (HEAD -> run-django-with-docker-postgres)
+Author: xuananh <xuan.anh.phung@advesa.com>
+Date:   Tue Jan 12 13:50:24 2021 +0700
+
+    Add config for using https on nginx
+```
+
+Create certificate (if it's not exists):
+
+```shell
+make create-ssl-certificate
+```
+
+Output:
+
+```shell
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:New York
+Locality Name (eg, city) []:New York City
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bouncy Castles, Inc.
+Organizational Unit Name (eg, section) []:Ministry of Water Slides
+Common Name (e.g. server FQDN or YOUR name) []:server_IP_address
+Email Address []:admin@your_domain.com
+```
+Test command:
+
+```shell
+make user-get-via-nginx-https
+```
+
+# 12. Add sonarqube
+
+## 12.1. Run project with sonarqube on local
+
+```shell
+cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
+# change above fife if need
+make dev-sonarqube-up
+make dev-sonarqube-ps
+make dev-sonarqube-down
+```
+
+Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
+
+# 13. Debug django app
+
+## 13.1. Live
+
+Click to button **Run and Debug** in vscode, choose **Python:Django**
+
+Run click Run button
+
+Set break point in your api/view
+
+Change domain name in postman to http://localhost:8028
+
+Call api and see it stop at breakpoint
+
+## 13.2. Docker
+
+### 13.2.1. Add debug code
+
+1. Add `debugpy` package to requirement file of `local` and `dev` environment
+
+2. Add to [manage.py](manage.py) method to initial debug server:
+
+```python
+def initialize_debugger(sys_args):
+```
+
+Then add `initialize_debugger(sys.argv)` to `main()` method of this file
+
+3. Expose port 5678 in docker-compose in `dev` and `local` environment
+
+```yaml
+ports:
+  - 5678:5678
+```
+
+4. Start django server as normal, it will start debug server in parallel. Then go to bellow part to run debug on vscode
+
+### 13.2.2. Run debug on vscode
+
+1. Add [.vscode/launch.json](.vscode/launch.json) with step name `Python: Remote Attach`
+
+2. Go to debug screen of Vscode, choose `Python: Remote Attach`, then click Run button
+
+3. Add breakpoint to file you want to debug
+    
+4. Call api you want to debug from postman or curl. There is already created file for debug music app in this project. Let's run below command for debug it 
+
+```shell
+make debug-get
+make debug-list
+make debug-create
+```
+
+### 13.2.3. Exit debug mode on vscode
+
+Click to button Disconnect, then click to button Restart multiple time for exit debug mode in vscode
+
+## 13.3. Remote
+
+Debug over ssh, more detail here: https://code.visualstudio.com/docs/python/debugging#_debugging-by-attaching-over-a-network-connection
+
+# 14. Linting code
+
+Linting code is importance part of any IDE for check systax and error form IDE
+
+- See setting of pylint if settings.json of Vscode
+- To test gen config file for pylint run `make pylint-gen-rcfile`
+- To check pylint and config file is work properly, run `make pylint-test-config-file-pylintrc`
+- Reload windown for apply new pylint config file settings

@@ -1,5 +1,11 @@
 pull-code-and-submodule:
 	git pull --recurse-submodules
+	
+pylint-gen-rcfile:
+	.venv/bin/pylint --generate-rcfile > pylintrc
+
+pylint-test-config-file-pylintrc:
+	.venv/bin/pylint --rcfile=.pylintrc manage.py
 
 create-ssl-certificate: 
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
@@ -28,7 +34,7 @@ create-supperuser:
 							User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
 create-sample-data: rm-old-data migrate makemigrations create-supperuser
-	.venv/bin/python create_sample_data.py
+	.venv/bin/python scripts/create_sample_data.py
 
 # ============================== postgres - docker =================================
 docker-rm-old-data:
@@ -37,19 +43,19 @@ docker-rm-old-data:
 	docker-compose up -d
 	sleep 3
 
-docker-makemigrations:
-	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py makemigrations
-
 docker-migrate:
-	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py migrate
+	docker exec my-sample-backend python3 manage.py migrate
+
+docker-makemigrations:
+	docker exec my-sample-backend python3 manage.py makemigrations
 
 docker-create-supperuser:
-	docker exec django-rest-framework-sample_my-backend_1 python3 manage.py shell -c "from django.contrib.auth.models import User; \
+	docker exec my-sample-backend python3 manage.py shell -c "from django.contrib.auth.models import User; \
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-docker-create-sample-data: docker-rm-old-data docker-makemigrations docker-migrate docker-create-supperuser
-	docker exec django-rest-framework-sample_my-backend_1 python3 create_sample_data.py
+docker-create-sample-data: docker-rm-old-data docker-migrate docker-makemigrations docker-create-supperuser
+	docker exec my-sample-backend python3 scripts/create_sample_data.py
 
 # ================================ test get user =========================================
 user-get:
@@ -246,6 +252,7 @@ musican-sample-filter-list-FILTER-ORDERING:
 coordinate-list-descending:
 	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
 
+## ======================================== prod ================================
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
@@ -254,3 +261,74 @@ prod-ps:
 
 prod-down:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+
+prod-build:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --parallel
+
+## ======================================== int ================================
+int-up:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml up -d
+
+int-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml ps
+
+int-down:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml down
+
+int-build:
+	docker-compose -f docker-compose.yml -f docker-compose.int.yml build --parallel
+
+## ======================================== dev ================================
+dev-up:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+dev-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml ps
+
+dev-down:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+dev-build:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --parallel
+# docker-compose build --build-arg  BUILD_ENV=dev my-backend
+
+## ======================================== Deploy development environment with sonarqube ================================
+# NOTE: source env_file.sonarqube to pass variable SONARQUBE_POSTGRES_HOSTNAME
+# to docker-compose.sonarqube.yml file
+dev-sonarqube-up:
+	set -a && \
+	. sonarqube/env_file.sonarqube && \
+	docker-compose --env-file sonarqube/env_file.sonarqube \
+		-f docker-compose.yml \
+		-f sonarqube/docker-compose.sonarqube.yml up -d
+	
+dev-sonarqube-ps:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		ps
+
+dev-sonarqube-down:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		down
+
+dev-sonarqube-build:
+	docker-compose -f docker-compose.yml \
+		-f docker-compose.dev.yml \
+		-f sonarqube/docker-compose.sonarqube.yml \
+		build
+
+## ======================================== local ================================
+local-up:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
+
+local-ps:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml ps
+
+local-down:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml down
+
+local-build:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml build --parallel

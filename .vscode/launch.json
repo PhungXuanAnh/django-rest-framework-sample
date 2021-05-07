@@ -16,9 +16,20 @@
             "pathMappings": [
                 {
                     "localRoot": "${workspaceFolder}",
-                    "remoteRoot": "${workspaceFolder}",
+                    "remoteRoot": "/app",
                 }
             ]
-        }
+        },
+        {
+            "name": "Python: Django",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+                "localhost:8028"
+            ],
+            "django": true
+        },
     ]
 }
