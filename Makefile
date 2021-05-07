@@ -256,6 +256,19 @@ coordinate-add:
 coordinate-list-descending:
 	curl -X GET "http://127.0.0.1:8027/api/v1/coordinate?ordering=-created_at&page_size=1" | jq
 
+## ======================================== screen unlock ================================
+screen-unlock-update:
+	curl -X PUT "http://127.0.0.1:8027/api/v1/unlock-screen-url/1" \
+		-H "Content-Type: application/json" \
+		-d "{ \"url\": \"xyz.com\"}" \
+		| jq
+
+screen-unlock-get:
+	curl -X GET "http://127.0.0.1:8027/api/v1/unlock-screen-url/1" | jq
+
+screen-unlock-unlock:
+	curl -X GET "http://127.0.0.1:8027/api/v1/unlock-screen-url/1/unlock" | jq
+
 ## ======================================== prod ================================
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d

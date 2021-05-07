@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "user",
     "music",
     "coordinate",
+    "screen"
 ]
 
 MIDDLEWARE = [

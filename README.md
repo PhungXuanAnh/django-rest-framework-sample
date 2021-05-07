@@ -2,9 +2,11 @@ This is initial code for create sample codes in in django rest framework
 ---
 
 - [1. setup environment](#1-setup-environment)
-- [2. create project and User app](#2-create-project-and-user-app)
-  - [2.1. create project and app](#21-create-project-and-app)
-  - [2.2. create sample data](#22-create-sample-data)
+- [2. create project and new app](#2-create-project-and-new-app)
+  - [2.1. create project](#21-create-project)
+  - [2.2. app coordinate](#22-app-coordinate)
+  - [2.3. app screen](#23-app-screen)
+  - [2.4. create sample data](#24-create-sample-data)
 - [3. Deploy](#3-deploy)
   - [3.1. Live](#31-live)
   - [3.2. Using docker](#32-using-docker)
@@ -84,11 +86,11 @@ brew install jq
 sudo apt-get install jq -y
 ```
 
-# 2. create project and User app
+# 2. create project and new app
 
 create this app as link: https://www.django-rest-framework.org/tutorial/quickstart/
 
-## 2.1. create project and app
+## 2.1. create project
 
 **NOTE**: Ignore this step if User app is created
 
@@ -97,7 +99,25 @@ django-admin startproject main .
 django-admin startapp user
 ```
 
-## 2.2. create sample data
+## 2.2. app coordinate
+
+```shell
+django-admin startapp coordinate
+make coordinate-add
+make coordinate-list-descending
+```
+
+## 2.3. app screen
+
+```shell
+django-admin startapp screen
+
+make screen-unlock-update
+make screen-unlock-get
+make screen-unlock-unlock
+```
+
+## 2.4. create sample data
 
 ```shell
 make create-sample-data
