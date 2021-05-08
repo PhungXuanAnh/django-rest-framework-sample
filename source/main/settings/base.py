@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-from pathlib import Path
 import os
-import environ
+from pathlib import Path
 
+import environ
 
 env = environ.Env()
 
@@ -111,9 +111,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
@@ -136,33 +134,32 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
 # url for static file, ex: for admin app, it will be http://localhost:8027/static/admin
-STATIC_URL = "/static/"
 # then static files wil be file in ../static_files/admin folder as config at STATIC_ROOT below
-STATIC_ROOT = os.path.join(
-    BASE_DIR, "static_files"
-)  # all static file will be copied here when run python manage.py collectstatic
+STATIC_URL = "/static/"
+# all static file will be copied here when run python manage.py collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
 
 
+LOGGING_DIR = os.path.join(BASE_DIR, "logs")
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            #pylint: disable=line-too-long
+            # pylint: disable=line-too-long
             "format": "[%(asctime)s] [%(name)s] %(levelname)s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
         },
         "simple": {"format": "[%(asctime)s] %(levelname)s %(message)s"},
     },
     "handlers": {
-        "console": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
         "requests.FILE": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/requests.log",
+            "filename": LOGGING_DIR + "/requests.log",
             "formatter": "verbose",
             "mode": "a",
             "maxBytes": 50 * 1024 * 1024,  # 50M
@@ -172,11 +169,7 @@ LOGGING = {
     "loggers": {
         "django": {"handlers": ["console"], "level": "INFO", "propagate": True,},
         "apps": {"handlers": ["console"], "level": "INFO", "propagate": True,},
-        "requests": {
-            "handlers": ["console", "requests.FILE"],
-            "level": "INFO",
-            "propagate": True,
-        },
+        "requests": {"handlers": ["console", "requests.FILE"], "level": "INFO", "propagate": True,},
     },
 }
 
