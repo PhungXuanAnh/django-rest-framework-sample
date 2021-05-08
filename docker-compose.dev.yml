@@ -9,9 +9,17 @@ services:
         - DJANGO_SETTINGS_MODULE=main.settings.dev
         - WORKING_ENV=dev
     volumes:
-      - .:/app
+      - ./source:/app
+      - ./source/static_files:/app/static_files
     ports:
       - 5678:5678
-    entrypoint: bash -c # sh -c
     command:
-      - python3 manage.py runserver 0.0.0.0:8027
+      - /bin/bash
+      - -c
+      - |
+        python3 manage.py collectstatic --noinput
+        python3 manage.py runserver 0.0.0.0:8027
+ 
+  nginx:
+    volumes:
+      - ./source/static_files:/home/www-data/static_files

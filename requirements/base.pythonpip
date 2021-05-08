@@ -1,3 +1,4 @@
+# TODO: set version for all  packages here
 djangorestframework
 drf-yasg
 django-filter
