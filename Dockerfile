@@ -13,7 +13,7 @@ ARG BUILD_ENV=BUILD_ENV_this_value_must_be_pass_during_build_time
 RUN pip install -r requirements/${BUILD_ENV}.pythonpip
 # RUN echo ${BUILD_ENV}
 
-COPY . /app
+COPY ./source /app
 
 EXPOSE 8027
 

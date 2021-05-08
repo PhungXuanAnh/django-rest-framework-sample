@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./logs:/app/logs
+      - ./source/logs:/app/logs
     container_name: my-sample-backend
     ports:
       - 8027:8027

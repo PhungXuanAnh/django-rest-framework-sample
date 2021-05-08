@@ -4,15 +4,15 @@ services:
   my-backend:
     build: 
       args:
-        BUILD_ENV: dev
+        BUILD_ENV: local
     environment:
         - DJANGO_SETTINGS_MODULE=main.settings.local
         - WORKING_ENV=local
     volumes:
-      - .:/app
+      - ./source:/app
+      - ./source/static_files:/app/static_files
     ports:
       - 5678:5678
-    # entrypoint: bash -c # sh -c
     command:
       - /bin/bash
       - -c
@@ -31,5 +31,5 @@ services:
 
   nginx:
     volumes:
-      - ./static_files:/home/www-data/static_files
+      - ./source/static_files:/home/www-data/static_files
   
