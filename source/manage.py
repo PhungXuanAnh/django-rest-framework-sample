@@ -6,9 +6,6 @@ import sys
 
 def initialize_debugger(sys_args):
     # Reference: https://stackoverflow.com/a/62944426/7639845
-
-    import debugpy
-
     # optionally check to see what env you're running in, you probably only want this for 
     # local development, for example: if os.getenv("MY_ENV") == "dev":
 
@@ -17,6 +14,7 @@ def initialize_debugger(sys_args):
     # initializes the debugger
     if not os.getenv("RUN_MAIN") and sys_args[1] == 'runserver':
         try:
+            import debugpy
             debugpy.listen(("0.0.0.0", 5678))
         except:
             pass
@@ -36,7 +34,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    if os.getenv("BUILD_ENV") != 'prod' or os.getenv("WORKING_ENV") != 'prod':
+    if os.getenv("BUILD_ENV") != 'prod' and os.getenv("WORKING_ENV") != 'prod':
         initialize_debugger(sys.argv)
     execute_from_command_line(sys.argv)
 
