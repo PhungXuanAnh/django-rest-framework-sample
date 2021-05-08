@@ -5,7 +5,7 @@ pylint-gen-rcfile:
 	.venv/bin/pylint --generate-rcfile > pylintrc
 
 pylint-test-config-file-pylintrc:
-	.venv/bin/pylint --rcfile=.pylintrc manage.py
+	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc source/main/wsgi.py
 
 create-ssl-certificate: 
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
