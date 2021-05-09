@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   my-backend:
+    image: my-backend:local-latest
     build: 
       args:
         BUILD_ENV: local
@@ -28,6 +29,22 @@ services:
     # entrypoint: bash -c # sh -c
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done
+
+  celery-worker:
+    build: 
+      args:
+        BUILD_ENV: local
+
+  celery-beat:
+    build: 
+      args:
+        BUILD_ENV: local
+        
+  celery-flower:
+    build: 
+      args:
+        BUILD_ENV: local
+
 
   nginx:
     volumes:

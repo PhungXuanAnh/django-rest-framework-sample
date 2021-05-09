@@ -17,6 +17,7 @@ COPY ./source /app
 
 EXPOSE 8027
 
-RUN mkdir -p /app/logs && DJANGO_SETTINGS_MODULE=main.settings.${BUILD_ENV} python3 manage.py collectstatic --noinput && rm -rf /app/logs
+ARG IS_BUILDING_APP
+RUN if [ -z "$IS_BUILDING_APP" ] ; then DJANGO_SETTINGS_MODULE=main.settings.${BUILD_ENV} python3 manage.py collectstatic --noinput && rm -rf /app/logs/* ; fi
 
 # CMD ["python3", "manage.py", "runserver", "0.0.0.0:8027"]

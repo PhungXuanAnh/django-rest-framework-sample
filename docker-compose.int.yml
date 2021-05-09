@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   my-backend:
+    image: my-backend:int-latest
     build: 
       args:
         BUILD_ENV: int
@@ -23,6 +24,21 @@ services:
     restart: always
     volumes:
       - static_files:/home/www-data/static_files:ro
+
+  celery-worker:
+    build: 
+      args:
+        BUILD_ENV: int
+
+  celery-beat:
+    build: 
+      args:
+        BUILD_ENV: int
+        
+  celery-flower:
+    build: 
+      args:
+        BUILD_ENV: int
 
 
 volumes:

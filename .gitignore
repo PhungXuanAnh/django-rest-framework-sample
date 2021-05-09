@@ -8,6 +8,8 @@ nginx/*
 **/logs/*
 static_files
 
+celerybeat*
+
 
 # sonar-scanner gen file
 .sonar_lock
