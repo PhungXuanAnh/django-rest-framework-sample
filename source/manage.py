@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=import-outside-toplevel
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -15,8 +16,8 @@ def initialize_debugger(sys_args):
     if not os.getenv("RUN_MAIN") and sys_args[1] == "runserver":
         try:
             import debugpy
-
             debugpy.listen(("0.0.0.0", 5678))
+        # pylint: disable=bare-except
         except:
             pass
         sys.stdout.write("=======> Start the VS Code debugger now, waiting...\n")

@@ -1,3 +1,4 @@
 -r base.pythonpip
 debugpy
 pylint_django
+pylint_celery

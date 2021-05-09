@@ -32,10 +32,30 @@ ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
+    # default see here: https://www.django-rest-framework.org/api-guide/settings/
+    
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     "PAGE_SIZE": 10,
+
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "cantec_delivery.cd_base.utility.CustomJWTAuthentication",
+    # ]
+    # "DEFAULT_PERMISSION_CLASSES": [],
+    "UNAUTHENTICATED_USER": None,
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+
+    # "EXCEPTION_HANDLER": "cantec_delivery.cd_base.utility.drf_exception_handler.custom_exception_handler",
+    # "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
+
+    # "DEFAULT_THROTTLE_CLASSES": [
+    #     "cantec_delivery.cd_base.utility.throttling_request.CustomUserRateThrottle",
+    #     "cantec_delivery.cd_base.utility.throttling_request.AnonymousRateThrottle",
+    # ],
+    # "DEFAULT_THROTTLE_RATES": {"anonymous": "20/second", "custom_user": "20/second"},
+
+    # "ORDERING_PARAM": "sort",
 }
 
 # Application definition
