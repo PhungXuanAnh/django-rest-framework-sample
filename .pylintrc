@@ -31,7 +31,7 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=pylint_django
+load-plugins=pylint_django,pylint_celery
 django-settings-module=main.settings.local # this option need to be specific if using plugin pylint_django
 
 # Pickle collected data for later comparisons.
