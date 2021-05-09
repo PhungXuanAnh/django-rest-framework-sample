@@ -17,6 +17,8 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+      args:
+        IS_BUILDING_APP: "yes"
     volumes:
       - ./source/logs:/app/logs
     container_name: my-sample-backend
@@ -24,6 +26,71 @@ services:
       - 8027:8027
     depends_on:
       - postgres
+
+  celery-worker:
+    <<: *default
+    image: celery-worker:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - celery 
+      - --app=main.celery_app 
+      - worker 
+      - -Q=queue-high,queue-medium,queue-low 
+      - -Ofair 
+      - --pool=eventlet 
+      - --concurrency=10 
+      - --loglevel=info 
+      - -f /app/logs/celery-worker.log 
+      - -n worker1@%h
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: my-sample-celery-worker
+
+  celery-beat:
+    <<: *default
+    image: celery-beat:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: my-sample-celery-beat
+    command:
+      celery --app=main.celery_app beat --loglevel=info -f /app/logs/celery-beat.log 
+
+  celery-flower:
+    <<: *default
+    image: celery-flower:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: my-sample-celery-flower
+    ports:
+      - 5555:5555
+    depends_on:
+      - postgres
+    command:
+      celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
+
+  redis:
+    <<: *default
+    image: bitnami/redis:5.0
+    container_name: my-sample-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    # - REDIS_PASSWORD=5Zu7fA8r5eaO
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data/:/data/
+    hostname: redis
 
   postgres:
     <<: *default
@@ -55,3 +122,4 @@ networks:
 
 volumes:
   postgres_data:
+  redis_data:

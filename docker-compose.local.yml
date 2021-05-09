@@ -30,6 +30,22 @@ services:
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done
 
+  celery-worker:
+    build: 
+      args:
+        BUILD_ENV: local
+
+  celery-beat:
+    build: 
+      args:
+        BUILD_ENV: local
+        
+  celery-flower:
+    build: 
+      args:
+        BUILD_ENV: local
+
+
   nginx:
     volumes:
       - ./source/static_files:/home/www-data/static_files

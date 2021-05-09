@@ -24,3 +24,18 @@ services:
   nginx:
     volumes:
       - ./source/static_files:/home/www-data/static_files
+
+  celery-worker:
+    build: 
+      args:
+        BUILD_ENV: dev
+
+  celery-beat:
+    build: 
+      args:
+        BUILD_ENV: dev
+        
+  celery-flower:
+    build: 
+      args:
+        BUILD_ENV: dev

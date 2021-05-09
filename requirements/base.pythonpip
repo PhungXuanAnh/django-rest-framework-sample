@@ -6,8 +6,12 @@ django-environ
 django-cors-headers
 
 psycopg2-binary==2.8.6
-
+redis
 gunicorn
+
+celery==4.4.7
+flower==0.9.7
+eventlet
 
 # for admin
 django-admin-rangefilter

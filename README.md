@@ -65,6 +65,7 @@ This is initial code for create sample codes in in django rest framework
     - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
   - [13.3. Remote](#133-remote)
 - [14. Linting code](#14-linting-code)
+- [Add celery](#add-celery)
 
 # 1. setup environment
 
@@ -744,3 +745,19 @@ Linting code is importance part of any IDE for check systax and error form IDE
 - To test gen config file for pylint run `make pylint-gen-rcfile`
 - To check pylint and config file is work properly, run `make pylint-test-config-file-pylintrc`
 - Reload windown for apply new pylint config file settings
+
+# Add celery
+
+For testing
+
+```shell
+docker log -f my-sample-celery-worker
+docker log -f my-sample-celery-beat
+# or
+tailf source/logs/celery.worker.log
+tailf source/logs/celery.beat.log
+tailf source/logs/celery.task.log
+
+# uncomment test method: test_celery_sample_task, then run test file, then see log
+python source/scripts/live-test.py
+```
