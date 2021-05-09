@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   my-backend:
+    image: my-backend:dev-latest
     build: 
       args:
         BUILD_ENV: dev

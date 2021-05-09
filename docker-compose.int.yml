@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   my-backend:
+    image: my-backend:int-latest
     build: 
       args:
         BUILD_ENV: int

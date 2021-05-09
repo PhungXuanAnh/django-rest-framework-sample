@@ -14,7 +14,6 @@ x-default: &default
 services:
   my-backend:
     <<: *default
-    image: my-backend:1.1.1
     build: 
       context: .
       dockerfile: Dockerfile
