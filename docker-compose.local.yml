@@ -14,8 +14,8 @@ services:
       - ./source/static_files:/app/static_files
     ports:
       - 5678:5678
+    entrypoint: bash # sh # NOTE: always specify entrypoint for ensure it is sh or bash
     command:
-      - /bin/bash
       - -c
       - |
         python3 manage.py collectstatic --noinput
