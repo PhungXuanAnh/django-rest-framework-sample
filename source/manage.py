@@ -17,10 +17,10 @@ def initialize_debugger(sys_args):
         try:
             import debugpy
             debugpy.listen(("0.0.0.0", 5678))
+            sys.stdout.write("=======> Start the VS Code debugger now, waiting...\n")
         # pylint: disable=bare-except
-        except:
-            pass
-        sys.stdout.write("=======> Start the VS Code debugger now, waiting...\n")
+        except Exception as e:
+            sys.stdout.write("=======> Start the VS Code debugger FAILED %s \n" % e)        
         # debugpy.wait_for_client()
         # sys.stdout.write("Debugger attached, starting server...\n")
 
