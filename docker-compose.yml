@@ -44,8 +44,8 @@ services:
       - --app=main.celery_app 
       - worker 
       - -Q=queue-high,queue-medium,queue-low 
-      - -Ofair 
-      - --pool=eventlet 
+      - -Ofair
+      - --pool=solo # TODO: nghien cuu xem tai sao pool la solo lai chay duoc con eventlet lai khong chay duoc task ben trong app coordinate
       - --concurrency=10 
       - --loglevel=info 
       - -f /app/logs/celery-worker.log 

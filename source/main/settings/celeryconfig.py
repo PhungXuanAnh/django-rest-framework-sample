@@ -45,6 +45,7 @@ task_interval = 10  # seconds
 task_routes = {
     "main.celery_app.sample_task": {"queue": LOW_QUEUE, "routing_key": LOW_ROUTE_KEY,},
     "music.tasks.sample_music_task": {"queue": HIGH_QUEUE, "routing_key": HIGH_ROUTE_KEY,},
+    "coordinate.tasks.check_battery_level": {"queue": HIGH_QUEUE, "routing_key": HIGH_ROUTE_KEY,},
 }
 
 beat_schedule = {
@@ -52,10 +53,18 @@ beat_schedule = {
         "task": "main.celery_app.sample_task",
         "schedule": task_interval,
     },
-    "task-run-every-6-hour": {
+    "task-run-every-10-seconds": {
         "task": "music.tasks.sample_music_task",
-        "schedule": crontab(minute=0, hour="*/6"),
+        "schedule": task_interval,
     },
+    "check-battery-every-5-minute": {
+        "task": "coordinate.tasks.check_battery_level",
+        "schedule": 300,
+    },
+    # "task-run-every-6-hour": {
+    #     "task": "music.tasks.sample_music_task",
+    #     "schedule": crontab(minute=0, hour="*/6"),
+    # },
     # "apply-pending-update-preferred-area": {
     #     "task": "cantec.apply_pending_update_preferred_area",
     #     "schedule": crontab(minute=0, hour="*"),
