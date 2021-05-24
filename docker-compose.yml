@@ -33,40 +33,40 @@ services:
             max-size: "100M"
             max-file: "3"
 
-  # celery-worker:
-  #   <<: *default
-  #   image: celery-worker:latest
-  #   build: 
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command:
-  #     - celery 
-  #     - --app=main.celery_app 
-  #     - worker 
-  #     - -Q=queue-high,queue-medium,queue-low 
-  #     - -Ofair 
-  #     - --pool=eventlet 
-  #     - --concurrency=10 
-  #     - --loglevel=info 
-  #     - -f /app/logs/celery-worker.log 
-  #     - -n worker1@%h
-  #   volumes:
-  #     - ./source:/app
-  #     - ./source/logs:/app/logs
-  #   container_name: my-sample-celery-worker
+  celery-worker:
+    <<: *default
+    image: celery-worker:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - celery 
+      - --app=main.celery_app 
+      - worker 
+      - -Q=queue-high,queue-medium,queue-low 
+      - -Ofair 
+      - --pool=eventlet 
+      - --concurrency=10 
+      - --loglevel=info 
+      - -f /app/logs/celery-worker.log 
+      - -n worker1@%h
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: my-sample-celery-worker
 
-  # celery-beat:
-  #   <<: *default
-  #   image: celery-beat:latest
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./source:/app
-  #     - ./source/logs:/app/logs
-  #   container_name: my-sample-celery-beat
-  #   command:
-  #     celery --app=main.celery_app beat --loglevel=info -f /app/logs/celery-beat.log 
+  celery-beat:
+    <<: *default
+    image: celery-beat:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: my-sample-celery-beat
+    command:
+      celery --app=main.celery_app beat --loglevel=info -f /app/logs/celery-beat.log 
 
   # celery-flower:
   #   <<: *default
@@ -85,18 +85,18 @@ services:
   #   command:
   #     celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
 
-  # redis:
-  #   <<: *default
-  #   image: bitnami/redis:5.0
-  #   container_name: my-sample-redis
-  #   environment:
-  #     - ALLOW_EMPTY_PASSWORD=yes
-  #   # - REDIS_PASSWORD=5Zu7fA8r5eaO
-  #   ports:
-  #     - 6379:6379
-  #   volumes:
-  #     - redis_data/:/data/
-  #   hostname: redis
+  redis:
+    <<: *default
+    image: bitnami/redis:5.0
+    container_name: my-sample-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    # - REDIS_PASSWORD=5Zu7fA8r5eaO
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data/:/data/
+    hostname: redis
 
   postgres:
     <<: *default

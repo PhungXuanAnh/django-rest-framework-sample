@@ -16,20 +16,20 @@ create-nginx-account:
 	htpasswd nginx/htpasswd admin
 
 run:
-	reset && .venv/bin/python manage.py runserver 127.0.0.1:8027
+	reset && .venv/bin/python source/manage.py runserver 127.0.0.1:8027
 
 # ============================== sqlite =================================
 rm-old-data:
 	rm -rf db.sqlite3
 
 migrate:
-	.venv/bin/python manage.py migrate
+	.venv/bin/python source/manage.py migrate
 
 makemigrations:
-	.venv/bin/python manage.py makemigrations
+	.venv/bin/python source/manage.py makemigrations
 
 create-supperuser:
-	.venv/bin/python manage.py shell -c "from django.contrib.auth.models import User; \
+	.venv/bin/python source/manage.py shell -c "from django.contrib.auth.models import User; \
 							User.objects.filter(username='admin').exists() or \
 							User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
