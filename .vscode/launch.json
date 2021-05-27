@@ -24,12 +24,16 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/source/manage.py",
             "args": [
                 "runserver",
-                "localhost:8028"
+                "0.0.0.0:8027"
             ],
-            "django": true
-        },
+            "django": true,
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "main.settings.local"
+            }
+        }
     ]
 }
