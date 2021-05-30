@@ -12,9 +12,14 @@ logger = logging.getLogger("celery.task")
 def check_battery_level():
     latest_coordinate = Coordinate.objects.all().order_by("-created_at").first()
     logger.debug("current battery level: %s", latest_coordinate.battery_level)
-    if latest_coordinate.battery_level <= 10:
-        sent_subject = "Battery low"
-        sent_text = "battery level: {}".format(latest_coordinate.battery_level)
+    if (
+        latest_coordinate.battery_level <= 10
+        or latest_coordinate.created_at < datetime.datetime.now()
+    ):
+        sent_subject = "Battery low or missing battery data"
+        sent_text = "battery level: {} at {}".format(
+            latest_coordinate.battery_level, latest_coordinate.created_at
+        )
         send_gmail(sent_subject, sent_text)
         logger.error("Send email at %s", datetime.datetime.now())
     return None
