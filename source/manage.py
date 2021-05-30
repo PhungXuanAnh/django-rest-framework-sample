@@ -16,11 +16,12 @@ def initialize_debugger(sys_args):
     if not os.getenv("RUN_MAIN") and sys_args[1] == "runserver":
         try:
             import debugpy
+
             debugpy.listen(("0.0.0.0", 5678))
             sys.stdout.write("=======> Start the VS Code debugger now, waiting...\n")
         # pylint: disable=bare-except
         except Exception as e:
-            sys.stdout.write("=======> Start the VS Code debugger FAILED %s \n" % e)        
+            sys.stdout.write("=======> Start the VS Code debugger FAILED %s \n" % e)
         # debugpy.wait_for_client()
         # sys.stdout.write("Debugger attached, starting server...\n")
 
@@ -37,7 +38,11 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    if os.getenv("BUILD_ENV") != "prod" and os.getenv("WORKING_ENV") != "prod":
+    allow_run_debug_env = ["dev", "int", "local"]
+    if (
+        os.getenv("BUILD_ENV") in allow_run_debug_env
+        and os.getenv("WORKING_ENV") in allow_run_debug_env
+    ):
         initialize_debugger(sys.argv)
     execute_from_command_line(sys.argv)
 

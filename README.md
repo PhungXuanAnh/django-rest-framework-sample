@@ -700,13 +700,20 @@ Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
 
 ## 13.1. Live
 
+Start all other services and stop my-backend service:
+
+```shell
+make local-up
+docker stop my-sample-backend
+```
+
 Click to button **Run and Debug** in vscode, choose **Python:Django**
 
 Run click Run button
 
 Set break point in your api/view
 
-Change domain name in postman to http://localhost:8028
+Change domain name in postman to http://localhost:8027
 
 Call api and see it stop at breakpoint
 
