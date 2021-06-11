@@ -22,6 +22,7 @@ This is initial code for create sample codes in in django rest framework
   - [4.3. Serializers](#43-serializers)
     - [4.3.1. Common serializer](#431-common-serializer)
     - [4.3.2. Model serializer](#432-model-serializer)
+    - [Custom django command](#custom-django-command)
 - [5. Using serializer effectively](#5-using-serializer-effectively)
   - [5.1. In read data](#51-in-read-data)
     - [5.1.1. Using source keyword](#511-using-source-keyword)
@@ -233,6 +234,16 @@ You must specify your model in **Meta class**
 You don't need to specify model field
 
 Ex: [music/model_serializers.py](music/model_serializers.py)
+
+### Custom django command
+
+See custom command in this file [source/music/management/commands/get_musican_by_email.py](source/music/management/commands/get_musican_by_email.py)
+
+And run test:
+
+```shell
+make docker-test-command-get-musican-by-email
+```
 
 # 5. Using serializer effectively
 

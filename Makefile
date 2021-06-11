@@ -54,6 +54,14 @@ docker-create-supperuser:
 docker-create-sample-data: docker-rm-old-data docker-migrate docker-makemigrations docker-create-supperuser
 	docker exec my-sample-backend python3 scripts/create_sample_data.py
 
+docker-create-periodic-task:
+	docker exec my-sample-backend python3 scripts/create_interval_periodic_task.py
+
+docker-test-command-get-musican-by-email:
+	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com example_498@gmail.com
+	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com --delete
+	docker exec my-sample-backend python3 manage.py get_musican_by_email unknow_email@gmail.com 
+
 # ================================ test get user =========================================
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq
