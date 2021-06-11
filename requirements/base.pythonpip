@@ -12,6 +12,7 @@ gunicorn
 celery==4.4.7
 flower==0.9.7
 eventlet
+django-celery-beat==2.2.0
 
 # for admin
 django-admin-rangefilter

@@ -18,6 +18,7 @@ services:
       - /bin/bash
       - -c
       - |
+        python3 manage.py migrate
         python3 manage.py collectstatic --noinput
         python3 manage.py runserver 0.0.0.0:8027
  
@@ -35,7 +36,7 @@ services:
       args:
         BUILD_ENV: dev
         
-  celery-flower:
-    build: 
-      args:
-        BUILD_ENV: dev
+  # celery-flower:
+  #   build: 
+  #     args:
+  #       BUILD_ENV: dev

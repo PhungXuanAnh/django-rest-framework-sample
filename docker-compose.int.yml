@@ -11,9 +11,13 @@ services:
       - DJANGO_SETTINGS_MODULE=main.settings.int
       - WORKING_ENV=int
     restart: always
-    entrypoint: bash -c # sh -c
+    # entrypoint: bash -c # sh -c
     command:
-      - gunicorn main.wsgi:application -w 5 -b :8027
+      - /bin/bash
+      - -c
+      - |
+        python3 manage.py migrate
+        gunicorn main.wsgi:application -w 5 -b :8027
     volumes:
       - static_files:/app/static_files
 
@@ -35,10 +39,10 @@ services:
       args:
         BUILD_ENV: int
         
-  celery-flower:
-    build: 
-      args:
-        BUILD_ENV: int
+  # celery-flower:
+  #   build: 
+  #     args:
+  #       BUILD_ENV: int
 
 
 volumes:

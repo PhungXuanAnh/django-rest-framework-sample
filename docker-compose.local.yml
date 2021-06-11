@@ -18,6 +18,7 @@ services:
     command:
       - -c
       - |
+        python3 manage.py migrate
         python3 manage.py collectstatic --noinput
         python3 manage.py runserver 0.0.0.0:8027
     # NOTE: don't user gunicorn for serve static file, but using another proxy server like nginx
