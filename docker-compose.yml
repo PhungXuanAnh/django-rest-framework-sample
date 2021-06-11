@@ -48,6 +48,8 @@ services:
       - ./source:/app
       - ./source/logs:/app/logs
     container_name: my-sample-celery-worker
+    depends_on:
+      - postgres
 
   celery-beat:
     <<: *default
@@ -61,6 +63,8 @@ services:
     container_name: my-sample-celery-beat
     command:
       celery --app=main.celery_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info -f /app/logs/celery-beat.log 
+    depends_on:
+      - postgres
 
   celery-flower:
     <<: *default
