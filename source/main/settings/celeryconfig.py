@@ -70,7 +70,7 @@ beat_schedule = {
     },
     "check-battery-every-5-minute": {
         "task": "coordinate.tasks.check_battery_level",
-        "schedule": 300,
+        "schedule": 900,
     },
     # "task-run-every-6-hour": {
     #     "task": "music.tasks.sample_music_task",
