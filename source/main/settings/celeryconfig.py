@@ -49,11 +49,22 @@ task_routes = {
 }
 
 beat_schedule = {
-    "sample-task-run-10-seconds": {
+    "INTERVAL-10s": {
         "task": "main.celery_app.sample_task",
         "schedule": task_interval,
+        'args': ('INTERVAL-10s',)
     },
-    "task-run-every-10-seconds": {
+    # NOTE: min value of cron task is minute, if you want to specify second, do in your code
+    # see example of cron configuration here:
+    # https://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
+    # to test your setup using method crontab_parse, see below link:
+    # https://docs.celeryproject.org/en/stable/reference/celery.schedules.html#celery.schedules.crontab_parser
+    "CRON-1minute": {
+        "task": "main.celery_app.sample_task",
+        "schedule": crontab(minute='*'),
+        'args': ('CRON-1minute',)
+    },
+    "cron-task-run-every-6-hour": {
         "task": "music.tasks.sample_music_task",
         "schedule": task_interval,
     },

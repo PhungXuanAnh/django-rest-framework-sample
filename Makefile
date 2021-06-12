@@ -37,9 +37,10 @@ create-sample-data: rm-old-data migrate makemigrations create-supperuser
 	.venv/bin/python scripts/create_sample_data.py
 
 # ============================== postgres - docker =================================
-docker-rm-old-data:
+docker-remove-volume:
 	docker volume rm django-rest-framework-sample_postgres_data
-	sleep 3
+
+docker-rm-old-data: local-down docker-remove-volume local-up
 
 docker-migrate:
 	docker exec my-sample-backend python3 manage.py migrate
@@ -52,8 +53,16 @@ docker-create-supperuser:
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-docker-create-sample-data: local-down docker-rm-old-data local-up docker-migrate docker-makemigrations docker-create-supperuser
+docker-create-sample-data: docker-rm-old-data docker-create-supperuser
 	docker exec my-sample-backend python3 scripts/create_sample_data.py
+
+docker-create-periodic-task:
+	docker exec my-sample-backend python3 manage.py sample_create_celery_periodic_task
+
+docker-test-command-get-musican-by-email:
+	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com example_498@gmail.com
+	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com --delete
+	docker exec my-sample-backend python3 manage.py get_musican_by_email unknow_email@gmail.com 
 
 # ================================ test get user =========================================
 user-get:

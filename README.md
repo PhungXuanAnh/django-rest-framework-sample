@@ -24,6 +24,7 @@ This is initial code for create sample codes in in django rest framework
   - [4.3. Serializers](#43-serializers)
     - [4.3.1. Common serializer](#431-common-serializer)
     - [4.3.2. Model serializer](#432-model-serializer)
+    - [4.3.3. Custom django command to add celery task using django_celery_beat](#433-custom-django-command-to-add-celery-task-using-django_celery_beat)
 - [5. Using serializer effectively](#5-using-serializer-effectively)
   - [5.1. In read data](#51-in-read-data)
     - [5.1.1. Using source keyword](#511-using-source-keyword)
@@ -67,7 +68,7 @@ This is initial code for create sample codes in in django rest framework
     - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
   - [13.3. Remote](#133-remote)
 - [14. Linting code](#14-linting-code)
-- [Add celery](#add-celery)
+- [15. Add celery](#15-add-celery)
 
 # 1. setup environment
 
@@ -253,6 +254,22 @@ You must specify your model in **Meta class**
 You don't need to specify model field
 
 Ex: [music/model_serializers.py](music/model_serializers.py)
+
+### 4.3.3. Custom django command to add celery task using django_celery_beat
+
+See custom command in this file [source/music/management/commands/get_musican_by_email.py](source/music/management/commands/get_musican_by_email.py)
+
+And run test:
+
+```shell
+make docker-test-command-get-musican-by-email
+# to see result
+tailf source/logs/celery.task.log
+tailf source/logs/celery.beat.log
+# or
+docker logs -f my-sample-celery-beat
+docker logs -f my-sample-celery-worker
+```
 
 # 5. Using serializer effectively
 
@@ -773,7 +790,7 @@ Linting code is importance part of any IDE for check systax and error form IDE
 - To check pylint and config file is work properly, run `make pylint-test-config-file-pylintrc`
 - Reload windown for apply new pylint config file settings
 
-# Add celery
+# 15. Add celery
 
 For testing
 
