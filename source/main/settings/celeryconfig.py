@@ -68,7 +68,7 @@ beat_schedule = {
         "task": "music.tasks.sample_music_task",
         "schedule": task_interval,
     },
-    "check-battery-every-5-minute": {
+    "check-battery-and-missing-data": {
         "task": "coordinate.tasks.check_battery_level",
         "schedule": 900,
     },
