@@ -22,7 +22,8 @@ This is initial code for create sample codes in in django rest framework
   - [4.3. Serializers](#43-serializers)
     - [4.3.1. Common serializer](#431-common-serializer)
     - [4.3.2. Model serializer](#432-model-serializer)
-    - [4.3.3. Custom django command to add celery task using django_celery_beat](#433-custom-django-command-to-add-celery-task-using-django_celery_beat)
+    - [4.3.3. Custom django command to add](#433-custom-django-command-to-add)
+    - [4.3.4. celery task using django_celery_beat](#434-celery-task-using-django_celery_beat)
 - [5. Using serializer effectively](#5-using-serializer-effectively)
   - [5.1. In read data](#51-in-read-data)
     - [5.1.1. Using source keyword](#511-using-source-keyword)
@@ -235,7 +236,7 @@ You don't need to specify model field
 
 Ex: [music/model_serializers.py](music/model_serializers.py)
 
-### 4.3.3. Custom django command to add celery task using django_celery_beat
+### 4.3.3. Custom django command to add 
 
 See custom command in this file [source/music/management/commands/get_musican_by_email.py](source/music/management/commands/get_musican_by_email.py)
 
@@ -243,6 +244,15 @@ And run test:
 
 ```shell
 make docker-test-command-get-musican-by-email
+```
+
+### 4.3.4. celery task using django_celery_beat
+
+```shell
+# NOTE: create celery task by this lib will dont need to restart worker and beat 
+# like create task in celeryconfig.py
+make docker-create-periodic-task
+
 # to see result
 tailf source/logs/celery.task.log
 tailf source/logs/celery.beat.log

@@ -332,3 +332,8 @@ local-down:
 
 local-build:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml build --parallel
+
+local-rm-redis-volume:
+	docker volume rm django-rest-framework-sample_redis_data
+
+local-celery-reset: local-down local-rm-redis-volume local-up local-ps

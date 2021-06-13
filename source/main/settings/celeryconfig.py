@@ -21,7 +21,9 @@ broker_url = "redis://{}:{}/2".format(
 )
 result_backend = broker_url
 
-timezone = "utc"
+# enable_utc = False              # default: True
+# timezone = "Asia/Ho_Chi_Minh"   # default: 'utc'
+
 accept_content = ["json"]
 
 task_serializer = "json"
@@ -47,25 +49,27 @@ task_routes = {
     "music.tasks.sample_music_task": {"queue": HIGH_QUEUE, "routing_key": HIGH_ROUTE_KEY,},
 }
 
+interval_task_name = "INTERVAL-10s_______celeryconfig.py"
+cron_task_name = "CRON-1minute_______celeryconfig.py"
 beat_schedule = {
-    "INTERVAL-10s": {
+    interval_task_name: {
         "task": "main.celery_app.sample_task",
         "schedule": task_interval,
-        'args': ('INTERVAL-10s',)
+        'args': (interval_task_name,)
     },
     # NOTE: min value of cron task is minute, if you want to specify second, do in your code
     # see example of cron configuration here:
     # https://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
     # to test your setup using method crontab_parse, see below link:
     # https://docs.celeryproject.org/en/stable/reference/celery.schedules.html#celery.schedules.crontab_parser
-    "CRON-1minute": {
-        "task": "main.celery_app.sample_task",
-        "schedule": crontab(minute='*'),
-        'args': ('CRON-1minute',)
-    },
-    "cron-task-run-every-6-hour": {
+    # cron_task_name: {
+    #     "task": "main.celery_app.sample_task",
+    #     "schedule": crontab(minute='*'),
+    #     'args': (cron_task_name,)
+    # },
+    cron_task_name: {
         "task": "music.tasks.sample_music_task",
-        "schedule": crontab(minute=0, hour="*/6"),
+        "schedule": crontab(minute='*'),
     },
     # "apply-pending-update-preferred-area": {
     #     "task": "cantec.apply_pending_update_preferred_area",
