@@ -7,6 +7,8 @@ import datetime
 import django
 import datetime
 
+import pytz
+
 sys.path.append(os.path.dirname(__file__) + "/../")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings.local")
 django.setup()
@@ -46,8 +48,10 @@ def test_celery_sample_task():
 
 
 if __name__ == "__main__":
-    test_celery_sample_task()
+    # test_celery_sample_task()
     # test_coordinate_app()
 
     latest_coordinate = Coordinate.objects.all().order_by("-created_at").first()
-    print((datetime.datetime.now().astimezone() - latest_coordinate.created_at).seconds)
+    # print((datetime.datetime.now().astimezone() - latest_coordinate.created_at).seconds)
+    # print(latest_coordinate.created_at.strftime("[%Y-%m-%d]-[%H:%M:%S]"))
+    # print(latest_coordinate.created_at.astimezone(pytz.timezone("Asia/Ho_Chi_Minh")).strftime("[%Y-%m-%d]-[%H:%M:%S]"))
