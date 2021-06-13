@@ -64,6 +64,14 @@ docker-test-command-get-musican-by-email:
 	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com --delete
 	docker exec my-sample-backend python3 manage.py get_musican_by_email unknow_email@gmail.com 
 
+docker-restart-service-by-service:
+	docker restart my-sample-backend
+	sleep 3
+	docker restart my-sample-celery-beat
+	sleep 3
+	docker restart my-sample-celery-worker
+
+
 # ================================ test get user =========================================
 user-get:
 	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/users | jq
