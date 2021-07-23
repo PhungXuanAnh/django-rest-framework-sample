@@ -701,9 +701,9 @@ https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configu
 ```shell
 cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
 # change above fife if need
-make dev-sonarqube-up
-make dev-sonarqube-ps
-make dev-sonarqube-down
+make sona-up
+make sona-ps
+make sona-down
 ```
 
 Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)

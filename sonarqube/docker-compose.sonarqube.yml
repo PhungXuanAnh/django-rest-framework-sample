@@ -1,9 +1,9 @@
 version: "3.8"
 
-x-default: &default_sonaqube
+x-default: &default_sonarqube
   # restart: always
   env_file:
-    - ./sonarqube/env_file.sonarqube
+    - ./env_file.sonarqube
   logging:
     driver: "json-file"
     options:
@@ -14,16 +14,16 @@ x-default: &default_sonaqube
 
 services:
   sonarqube:
-    <<: *default_sonaqube
+    <<: *default_sonarqube
     image: sonarqube:latest
-    container_name: my-sample-sonarqube
+    container_name: sonarqube
     ports:
       - 9000:9000
+      - 9001:9001
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      # - sonarqube_logs:/opt/sonarqube/logs
-      - ./sonarqube/logs:/opt/sonarqube/logs
-      - ./sonarqube/plugins:/opt/sonarqube/extensions/plugins
+      - .//tmp/data:/opt/sonarqube/data
+      - .//tmp/logs:/opt/sonarqube/logs
+      - .//plugins:/opt/sonarqube/extensions/plugins
     depends_on:
       - postgres-sonarqube
     # entrypoint: bash -c # sh -c
@@ -32,14 +32,15 @@ services:
 
 
   postgres-sonarqube:
-    <<: *default_sonaqube
-    container_name: my-sample-postgres-sonarqube
-    hostname: ${SONARQUBE_POSTGRES_HOSTNAME}
+    <<: *default_sonarqube
+    container_name: sonarqube-postgres
+    hostname: ${SONARQUBE_POSTGRES_HOSTNAME:? this variable must be set}  # variable-substitution: https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution
     image: postgres:latest
     ports:
       - 5433:5432
     volumes:
-      - sonarqube_postgres:/var/lib/postgresql/data
+      # - sonarqube_postgres:/var/lib/postgresql/data
+      - .//tmp/postgres:/var/lib/postgresql/data
 
 networks:
   sonarqube-network:
@@ -47,5 +48,4 @@ networks:
 
 volumes:
   sonarqube_data:
-  sonarqube_logs:
   sonarqube_postgres:
