@@ -19,13 +19,14 @@ services:
     container_name: sonarqube
     ports:
       - 9000:9000
-      - 9001:9001
     volumes:
       - ./tmp/data:/opt/sonarqube/data
       - ./tmp/logs:/opt/sonarqube/logs
       - ./plugins:/opt/sonarqube/extensions/plugins
     depends_on:
       - postgres-sonarqube
+    # --------------- for debug container ------------------------
+    # user: root
     # entrypoint: bash -c # sh -c
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done

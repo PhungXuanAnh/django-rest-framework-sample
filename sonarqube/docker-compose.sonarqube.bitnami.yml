@@ -33,6 +33,9 @@ services:
       - ./tmp/data-bitnami:/opt/sonarqube/data
     depends_on:
       - postgresql
+    # entrypoint: bash -c # sh -c
+    # command:
+    #   - while true; do echo "this is test command"; sleep 1; done
 
 
 networks:
