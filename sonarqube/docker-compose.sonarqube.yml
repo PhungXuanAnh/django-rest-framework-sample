@@ -15,15 +15,15 @@ x-default: &default_sonarqube
 services:
   sonarqube:
     <<: *default_sonarqube
-    image: sonarqube:latest
+    image: sonarqube:9.0.0-community
     container_name: sonarqube
     ports:
       - 9000:9000
       - 9001:9001
     volumes:
-      - .//tmp/data:/opt/sonarqube/data
-      - .//tmp/logs:/opt/sonarqube/logs
-      - .//plugins:/opt/sonarqube/extensions/plugins
+      - ./tmp/data:/opt/sonarqube/data
+      - ./tmp/logs:/opt/sonarqube/logs
+      - ./plugins:/opt/sonarqube/extensions/plugins
     depends_on:
       - postgres-sonarqube
     # entrypoint: bash -c # sh -c
@@ -40,7 +40,7 @@ services:
       - 5433:5432
     volumes:
       # - sonarqube_postgres:/var/lib/postgresql/data
-      - .//tmp/postgres:/var/lib/postgresql/data
+      - ./tmp/postgres:/var/lib/postgresql/data
 
 networks:
   sonarqube-network:
