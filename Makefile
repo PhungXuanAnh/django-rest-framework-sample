@@ -313,28 +313,56 @@ dev-build:
 # docker-compose build --build-arg  BUILD_ENV=dev backend
 
 ## ======================================== Deploy development environment with sonarqube ================================
-sona-test-variable-substitution-from-file:
+sn-test-variable-substitution-from-file:
 	cd sonarqube && docker-compose -f docker-compose.sonarqube.yml --env-file env_file.sonarqube  config | less
 
-sona-up:
+sn-up:
 	cd sonarqube && docker-compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml up -d
 	
-sona-ps:
+sn-ps:
 	cd sonarqube && docker-compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml ps
 
-sona-down:
+sn-down:
 	cd sonarqube && docker-compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml down
 
-sona-build:
+sn-build:
 	cd sonarqube && docker-compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml build
 
-sona-prune:
+sn-prune:
 	sudo chmod -R 777 sonarqube/tmp/* 
-	rm -rf sonarqube/tmp/*
+	rm -rf sonarqube/tmp/logs
+	rm -rf sonarqube/tmp/postgres
+	rm -rf sonarqube/tmp/data
+
+# -------------------------------------------------------- sonarqube bitnami images
+snb-test-variable-substitution-from-file:
+	cd sonarqube && docker-compose -f docker-compose.sonarqube.bitnami.yml --env-file env_file.sonarqube-bitnami  config | less
+
+snb-up:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
+		-f docker-compose.sonarqube.bitnami.yml up -d
+	
+snb-ps:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
+		-f docker-compose.sonarqube.bitnami.yml ps
+
+snb-down:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
+		-f docker-compose.sonarqube.bitnami.yml down
+
+snb-build:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
+		-f docker-compose.sonarqube.bitnami.yml build
+
+snb-prune:
+	sudo chmod -R 777 sonarqube/tmp/* 
+	# rm -rf sonarqube/tmp/logs
+	rm -rf sonarqube/tmp/postgres-bitnami 
+	rm -rf sonarqube/tmp/data-bitnami
 
 ## ======================================== local ================================
 local-up:

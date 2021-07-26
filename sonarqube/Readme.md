@@ -121,7 +121,7 @@ Get webhook:
 
         1. How to get webhook, go to: https://api.slack.com/apps
         2. Choose your app in below of website
-        3. Choose `Incomming Webhooks` , at left side
+        3. Choose `In-comming Webhooks` , at left side
         4. Choose `Activate Incoming Webhooks` button if it not enabled yet
         5. Move to below, Choose `Add New Webhook to Workspace`
 

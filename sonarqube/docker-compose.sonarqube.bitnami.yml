@@ -1,0 +1,44 @@
+version: "3.8"
+
+x-default: &default_sonarqube
+  # restart: always
+  env_file:
+    - ./env_file.sonarqube-bitnami
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10M"
+      max-file: "3"
+  networks:
+    - sonarqube-network
+
+services:
+  postgresql:
+    <<: *default_sonarqube
+    image: docker.io/bitnami/postgresql:13
+    container_name: sonarqube-postgres
+    hostname: ${SONARQUBE_POSTGRES_HOSTNAME:? this variable must be set}  # variable-substitution: https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution
+    volumes:
+      # - 'sonarqube_postgres:/bitnami/postgresql'
+      - ./tmp/postgres-bitnami:/var/lib/postgresql/data
+
+  sonarqube:
+    <<: *default_sonarqube
+    image: docker.io/bitnami/sonarqube:9
+    container_name: sonarqube
+    ports:
+      - '9000:9000'
+    volumes:
+      # - 'sonarqube_data:/bitnami/sonarqube'
+      - ./tmp/data-bitnami:/opt/sonarqube/data
+    depends_on:
+      - postgresql
+
+
+networks:
+  sonarqube-network:
+    driver: bridge
+
+volumes:
+  sonarqube_data:
+  sonarqube_postgres:
