@@ -338,31 +338,11 @@ sn-prune:
 	rm -rf sonarqube/tmp/postgres
 	rm -rf sonarqube/tmp/data
 
-# -------------------------------------------------------- sonarqube bitnami images
-snb-test-variable-substitution-from-file:
-	cd sonarqube && docker-compose -f docker-compose.sonarqube.bitnami.yml --env-file env_file.sonarqube-bitnami  config | less
+sn-fix:
+	sudo sysctl -w vm.max_map_count=262144
 
-snb-up:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
-		-f docker-compose.sonarqube.bitnami.yml up -d
-	
-snb-ps:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
-		-f docker-compose.sonarqube.bitnami.yml ps
-
-snb-down:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
-		-f docker-compose.sonarqube.bitnami.yml down
-
-snb-build:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube-bitnami \
-		-f docker-compose.sonarqube.bitnami.yml build
-
-snb-prune:
-	sudo chmod -R 777 sonarqube/tmp/* 
-	# rm -rf sonarqube/tmp/logs
-	rm -rf sonarqube/tmp/postgres-bitnami 
-	rm -rf sonarqube/tmp/data-bitnami
+sn-run:
+	~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner
 
 ## ======================================== local ================================
 local-up:

@@ -59,9 +59,7 @@ This is initial code for create sample codes in in django rest framework
   - [11.2. Config for https](#112-config-for-https)
   - [11.3. nginx basic auth](#113-nginx-basic-auth)
 - [12. Add sonarqube](#12-add-sonarqube)
-  - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
-    - [12.1.1. using bitnami images (recommended - more stable)](#1211-using-bitnami-images-recommended---more-stable)
-    - [12.1.2. using official images](#1212-using-official-images)
+  - [12.1. deploy](#121-deploy)
   - [12.2. how to using sonarqube](#122-how-to-using-sonarqube)
 - [13. Debug django app](#13-debug-django-app)
   - [13.1. Live](#131-live)
@@ -699,19 +697,7 @@ https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configu
 
 # 12. Add sonarqube
 
-## 12.1. Run project with sonarqube on local
-
-### 12.1.1. using bitnami images (recommended - more stable)
-
-```shell
-cp sonarqube/env_file.sonarqube-bitnami.example sonarqube/env_file.sonarqube-bitnami
-# change above fife if need
-make snb-up
-make snb-ps
-make snb-down
-```
-
-### 12.1.2. using official images
+## 12.1. deploy
 
 ```shell
 cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
