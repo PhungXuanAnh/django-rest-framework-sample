@@ -17,10 +17,15 @@ pylint-staged-files:	# refer: https://nerderati.com/speed-up-pylint-by-reducing-
 pylint-check-all:
 	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc source
 
-pylint-add-git-hook: # https://towardsdatascience.com/keep-your-code-clean-using-black-pylint-git-hooks-pre-commit-baf6991f7376
+git-hook-pre-commit__check-pylint: # https://towardsdatascience.com/keep-your-code-clean-using-black-pylint-git-hooks-pre-commit-baf6991f7376
 	cp utilities/pre_commit.sh .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-commit
 	cat .git/hooks/pre-commit
+
+git-hook-commit-msg__add-branch-name-to-commit: # https://stackoverflow.com/a/11524807/7639845
+	cp utilities/commit-msg.sh .git/hooks/commit-msg
+	chmod +x .git/hooks/commit-msg
+	cat .git/hooks/commit-msg
 
 # ============================== nginx =================================
 
