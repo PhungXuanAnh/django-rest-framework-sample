@@ -33,7 +33,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     # default see here: https://www.django-rest-framework.org/api-guide/settings/
-    
+
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
@@ -46,6 +46,7 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 
+    # pylint: disable=line-too-long
     # "EXCEPTION_HANDLER": "cantec_delivery.cd_base.utility.drf_exception_handler.custom_exception_handler",
     # "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
 
@@ -61,6 +62,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'system_app',   # this app for test overwrite runserver command
     "admin_numeric_filter",
     "django.contrib.admin",
     "rangefilter",  # for admin filter data/datetime range

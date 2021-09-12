@@ -1,6 +1,6 @@
 - [1. Run project with sonarqube](#1-run-project-with-sonarqube)
   - [1.1. issues and how to fix](#11-issues-and-how-to-fix)
-- [2. Create sonaqube project](#2-create-sonaqube-project)
+- [2. Create sonarqube project](#2-create-sonarqube-project)
 - [3. Run sonarqube client](#3-run-sonarqube-client)
   - [3.1. Install sonarqube client](#31-install-sonarqube-client)
   - [3.2. Run with config](#32-run-with-config)
@@ -27,14 +27,15 @@ fix: `sudo sysctl -w vm.max_map_count=262144`
 refer: https://stackoverflow.com/questions/57998092/docker-compose-error-bootstrap-checks-failed-max-virtual-memory-areas-vm-ma
 
 
-
-# 2. Create sonaqube project 
+# 2. Create sonarqube project 
 
 http://localhost:9000/projects/create?mode=manual
 
+enter project key, display name and token name, for ex: django_project, then click Set Up / Generate 
+
 ![](images/create-project.png)
 
-enter token name, then click generate:
+save this token for replace in file [sonar-project.properties](sonar-project.properties) then click Continue:
 
 ![](images/gen-token.png)
 
@@ -42,7 +43,7 @@ Then, at step 2, choose Other and OS is Linux
 
 ![](images/gen-token-2.png)
 
-If you want, access this link for guide how to run install and run sona scanner:
+For more information, access this link for guide how to run install and run sonarqube scanner:
 
 http://localhost:9000/documentation/analysis/scan/sonarscanner/
 
@@ -53,30 +54,36 @@ http://localhost:9000/documentation/analysis/scan/sonarscanner/
 On client where you want to run sonarqube client :
 
 ```shell
-# -- choose file base on your OS ---
-
-# -- for linux
+# --------- for linux
+cd ~/Downloads
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
-tar -xvf sonar-scanner-cli-4.6.0.2311-linux.zip
+unzip sonar-scanner-cli-4.6.0.2311-linux.zip
 
-# for mac os
+# ----------- for mac os
+cd ~/Downloads
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-macosx.zip
-tar -xvf sonar-scanner-cli-4.6.0.2311-macosx.zip
+unzip sonar-scanner-cli-4.6.0.2311-macosx.zip
 ```
 
 ## 3.2. Run with config
 
-add config as file [sonar-project.properties](../sonar-project.properties) to your project folder, then run :
+Add config as file [sonar-project.properties](../sonar-project.properties) to your project folder, change `sonar.login` value by `token` that you generated in step 2
+
+then run :
 
 ```shell
-sonar-scanner
+~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner
+# or for debug
+~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -X
 ```
 
 ## 3.3. Run directly 
 
+NOTE: This command temporary error, fix it
+
 ```shell
 cd django-rest-framework-sample
-/Users/xuananh/Downloads/sonar-scanner-4.6.0.2311-macosx/bin/sonar-scanner \
+~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner \
   -Dsonar.projectKey=django_project \
   -Dsonar.sources=. \   
   -Dsonar.host.url=http://localhost:9000 \
@@ -114,7 +121,7 @@ Get webhook:
 
         1. How to get webhook, go to: https://api.slack.com/apps
         2. Choose your app in below of website
-        3. Choose `Incomming Webhooks` , at left side
+        3. Choose `In-comming Webhooks` , at left side
         4. Choose `Activate Incoming Webhooks` button if it not enabled yet
         5. Move to below, Choose `Add New Webhook to Workspace`
 

@@ -1,11 +1,36 @@
 pull-code-and-submodule:
 	git pull --recurse-submodules
-	
+
+# ============================== pylint =================================
+
 pylint-gen-rcfile:
 	.venv/bin/pylint --generate-rcfile > pylintrc
 
 pylint-test-config-file-pylintrc:
 	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc source/main/wsgi.py
+
+pylint-only-changed-file:	# refer: https://nerderati.com/speed-up-pylint-by-reducing-the-files-it-examines/
+	# PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc `git diff --name-only --diff-filter=d | grep -E '\.py$' | tr '\n' ' '`
+	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc `git diff --name-only --diff-filter=d | grep -E '\.py$$' | tr '\n' ' '`
+
+pylint-staged-files:	# refer: https://nerderati.com/speed-up-pylint-by-reducing-the-files-it-examines/
+	# PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc `git diff --name-only --diff-filter=d --staged | grep -E '\.py$' | tr '\n' ' '`
+	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc `git diff --name-only --diff-filter=d --staged | grep -E '\.py$$' | tr '\n' ' '`
+
+pylint-check-all:
+	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc source
+
+git-hook-pre-commit__check-pylint: # https://towardsdatascience.com/keep-your-code-clean-using-black-pylint-git-hooks-pre-commit-baf6991f7376
+	cp utilities/pre_commit.sh .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
+	cat .git/hooks/pre-commit
+
+git-hook-commit-msg__add-branch-name-to-commit: # https://stackoverflow.com/a/11524807/7639845
+	cp utilities/commit-msg.sh .git/hooks/commit-msg
+	chmod +x .git/hooks/commit-msg
+	cat .git/hooks/commit-msg
+
+# ============================== nginx =================================
 
 create-ssl-certificate: 
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/key.pem -out nginx/certs/cert.pem
@@ -324,35 +349,39 @@ dev-down:
 
 dev-build:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --parallel
-# docker-compose build --build-arg  BUILD_ENV=dev my-backend
+# docker-compose build --build-arg  BUILD_ENV=dev backend
 
 ## ======================================== Deploy development environment with sonarqube ================================
-# NOTE: source env_file.sonarqube to pass variable SONARQUBE_POSTGRES_HOSTNAME
-# to docker-compose.sonarqube.yml file
-dev-sonarqube-up:
-	set -a && \
-	. sonarqube/env_file.sonarqube && \
-	docker-compose --env-file sonarqube/env_file.sonarqube \
-		-f docker-compose.yml \
-		-f sonarqube/docker-compose.sonarqube.yml up -d
+sn-test-variable-substitution-from-file:
+	cd sonarqube && docker-compose -f docker-compose.sonarqube.yml --env-file env_file.sonarqube  config | less
+
+sn-up:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+		-f docker-compose.sonarqube.yml up -d
 	
-dev-sonarqube-ps:
-	docker-compose -f docker-compose.yml \
-		-f docker-compose.dev.yml \
-		-f sonarqube/docker-compose.sonarqube.yml \
-		ps
+sn-ps:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+		-f docker-compose.sonarqube.yml ps
 
-dev-sonarqube-down:
-	docker-compose -f docker-compose.yml \
-		-f docker-compose.dev.yml \
-		-f sonarqube/docker-compose.sonarqube.yml \
-		down
+sn-down:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+		-f docker-compose.sonarqube.yml down
 
-dev-sonarqube-build:
-	docker-compose -f docker-compose.yml \
-		-f docker-compose.dev.yml \
-		-f sonarqube/docker-compose.sonarqube.yml \
-		build
+sn-build:
+	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+		-f docker-compose.sonarqube.yml build
+
+sn-prune:
+	sudo chmod -R 777 sonarqube/tmp/* 
+	rm -rf sonarqube/tmp/logs
+	rm -rf sonarqube/tmp/postgres
+	rm -rf sonarqube/tmp/data
+
+sn-fix:
+	sudo sysctl -w vm.max_map_count=262144
+
+sn-run:
+	~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner
 
 ## ======================================== local ================================
 local-up:

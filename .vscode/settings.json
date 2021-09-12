@@ -1,4 +1,7 @@
 {
+    "cSpell.words": [
+        "musican"
+    ]
     // NOTE: all these below config can be done by file .python_vscode.env
     // "python.autoComplete.extraPaths": [
     //     "${workspaceFolder}/source"

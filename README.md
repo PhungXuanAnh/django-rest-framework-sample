@@ -59,8 +59,10 @@ This is initial code for create sample codes in in django rest framework
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
   - [11.2. Config for https](#112-config-for-https)
+  - [11.3. nginx basic auth](#113-nginx-basic-auth)
 - [12. Add sonarqube](#12-add-sonarqube)
-  - [12.1. Run project with sonarqube on local](#121-run-project-with-sonarqube-on-local)
+  - [12.1. deploy](#121-deploy)
+  - [12.2. how to using sonarqube](#122-how-to-using-sonarqube)
 - [13. Debug django app](#13-debug-django-app)
   - [13.1. Live](#131-live)
   - [13.2. Docker](#132-docker)
@@ -709,17 +711,23 @@ Test command:
 make user-get-via-nginx-https
 ```
 
+## 11.3. nginx basic auth
+
+https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
+
 # 12. Add sonarqube
 
-## 12.1. Run project with sonarqube on local
+## 12.1. deploy
 
 ```shell
 cp sonarqube/env_file.sonarqube.example sonarqube/env_file.sonarqube
 # change above fife if need
-make dev-sonarqube-up
-make dev-sonarqube-ps
-make dev-sonarqube-down
+make sn-up
+make sn-ps
+make sn-down
 ```
+
+## 12.2. how to using sonarqube
 
 Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
 
