@@ -70,6 +70,7 @@ This is initial code for create sample codes in in django rest framework
   - [13.3. Remote](#133-remote)
 - [14. Linting code](#14-linting-code)
 - [15. Add celery](#15-add-celery)
+- [16. Add debug tool bar](#16-add-debug-tool-bar)
 
 # 1. setup environment
 
@@ -803,3 +804,12 @@ tailf source/logs/celery.task.log
 # uncomment test method: test_celery_sample_task, then run test file, then see log
 python source/scripts/live-test.py
 ```
+
+# 16. Add debug tool bar
+
+Test access link on browser: 
+
+http://localhost:81/api/v1/musican-generic-views/4
+
+With request that need more header field, using chrome extension 'ModHeader' to add more field to header
+
