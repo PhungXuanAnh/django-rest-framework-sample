@@ -353,6 +353,9 @@ sn-run:
 local-up:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
 
+local-restart:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml restart
+
 local-ps:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml ps
 

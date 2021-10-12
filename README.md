@@ -56,8 +56,9 @@ This is initial code for create sample codes in in django rest framework
   - [10.1. List api](#101-list-api)
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
-  - [11.2. Config for https](#112-config-for-https)
-  - [11.3. nginx basic auth](#113-nginx-basic-auth)
+  - [11.2. Config for https self-certificates](#112-config-for-https-self-certificates)
+  - [11.3. Config for https certbot certificates](#113-config-for-https-certbot-certificates)
+  - [11.4. nginx basic auth](#114-nginx-basic-auth)
 - [12. Add sonarqube](#12-add-sonarqube)
   - [12.1. deploy](#121-deploy)
   - [12.2. how to using sonarqube](#122-how-to-using-sonarqube)
@@ -657,7 +658,7 @@ make user-get
 make user-get-via-nginx-http
 ```
 
-## 11.2. Config for https
+## 11.2. Config for https self-certificates
 
 See this commit:
 
@@ -692,7 +693,130 @@ Test command:
 make user-get-via-nginx-https
 ```
 
-## 11.3. nginx basic auth
+## 11.3. Config for https certbot certificates
+
+**NOTE**: you must have a real and public domain 
+
+for ex: xuananh-drf-test.com
+
+**step 1: add well known path to nginx config and docker compose**
+
+```shell
+    location /.well-known {      
+        alias  /var/www/certbot/.well-known/;
+    }
+```
+
+test new path
+
+```shell
+cd django-rest-framework-sample/
+sudo chmod -R 777 certbot/well-known
+echo aaa > certbot/well-known/test
+wget -O- http://xuananh-drf-test.com/.well-known/test
+```
+
+**step 2: run docker compose and create ssl key manually:**
+
+```shell
+make local-up
+
+docker exec -it my-sample-certbot /usr/local/bin/certbot \
+	certonly \
+	--manual \
+	--email test@gmail.com \
+	--agree-tos \
+	--no-eff-email \
+	-d xuananh-drf-test.com
+
+# output
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for xuananh-drf-test.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Create a file containing just this data:
+
+OxcR2r7pzGNBbtIuryLt502Y9NHFkV3iF_X4YpVDMbY.GUZsjL4TURfJ9awlOHh6yf7TIO1xavKCICoJcew2yXI
+
+And make it available on your web server at this URL:
+
+http://xuananh-drf-test.com/.well-known/acme-challenge/OxcR2r7pzGNBbtIuryLt502Y9NHFkV3iF_X4YpVDMbY
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Press Enter to Continue
+
+
+```
+
+Do as instruction of above command, create that file in nginx, change CONTENT and FILE_NAME base on msg above
+
+```shell
+
+CONTENT=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE.GUZsjL4TURfJ9awlOHh6yf7TIO1xavKCICoJcew2yXI
+FILE_NAME=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+FILE_PATH=/var/www/certbot/.well-known//acme-challenge
+DOMAIN=http://xuananh-drf-test.com
+docker exec my-sample-nginx mkdir -p $FILE_PATH
+docker exec my-sample-nginx touch $FILE_PATH/$FILE_NAME
+docker exec my-sample-nginx bash -c "echo $CONTENT > $FILE_PATH/$FILE_NAME"
+docker exec my-sample-nginx cat $FILE_PATH/$FILE_NAME
+
+# test above url
+docker exec my-sample-certbot wget -O- http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+
+docker exec my-sample-certbot wget http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+
+
+```
+
+Then Press Enter to Continue
+
+Next do the same
+
+After that check generated certificates:
+
+```shell
+cd django-rest-framework-sample
+ls certbot/conf/live/xuananh-drf-test.com
+# or
+docker exec my-sample-certbot ls /etc/letsencrypt/live/xuananh-drf-test.com
+# it should show
+README
+cert.pem
+chain.pem
+fullchain.pem
+privkey.pem
+
+```
+
+**step 3: change ssl config of nginx**
+
+```shell
+    ssl_certificate /etc/nginx/ssl/live/xuananh-drf-test.com/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/xuananh-drf-test.com/privkey.pem;
+```
+
+Restart nginx and test
+
+**References**: 
+
+
+https://stackoverflow.com/a/68605598/7639845
+
+https://certbot.eff.org/docs/using.html#manual
+
+https://github.com/nginx-proxy/acme-companion
+
+https://certbot.eff.org/docs/install.html#running-with-docker
+
+https://certbot.eff.org/docs/using.html#manual
+
+https://certbot.eff.org/docs/using.html#plugins
+
+https://help.datica.com/hc/en-us/articles/360044373551-Creating-and-Deploying-a-LetsEncrypt-Certificate-Manually
+
+
+## 11.4. nginx basic auth
 
 https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
 

@@ -4,7 +4,6 @@ tmp.py
 db.sqlite3
 .DS_Store
 env_file
-nginx/*
 **/logs/*
 static_files
 
@@ -15,3 +14,5 @@ celerybeat*
 .sonar_lock
 report-task.txt
 .scannerwork/*
+
+certbot/*
