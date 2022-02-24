@@ -177,6 +177,9 @@ musican-viewset-sample-action:
 	curl "http://127.0.0.1:8027/api/v1/musican-viewset/2/sample-action" \
 		-u admin:admin | jq
 
+musican-viewset-sample-action-test-sentry:
+	curl "http://127.0.0.1:8027/api/v1/musican-viewset/2/sample-action-test-sentry"
+
 # ========================================= Generic view ===============================================
 musican-generic-views-create:
 	curl -X POST "http://127.0.0.1:8027/api/v1/musican-generic-views" \

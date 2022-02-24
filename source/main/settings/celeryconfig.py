@@ -22,12 +22,11 @@ LOW_ROUTE_KEY = "queue-low.priority"
 
 # broker_url = "amqp://rabbitmq:5672"
 # broker_url = 'amqp://guest:guest@localhost:5672//'
-broker_url = 'amqp://{user}:{password}@{host}:{port}//'.format(
-    user=env("RABBITMQ_USER", default="guest"),
-    password=env("RABBITMQ_PW", default="guest"),
-    host=env("RABBITMQ_HOST", default="rabbitmq"),
-    port=env("RABBITMQ_PORT", default="5672")
-)
+RABBITMQ_USER=env("RABBITMQ_USER", default="guest"),
+RABBITMQ_PW=env("RABBITMQ_PW", default="guest")
+RABBITMQ_HOST=env("RABBITMQ_HOST", default="rabbitmq")
+RABBITMQ_PORT=env("RABBITMQ_PORT", default="5672")
+broker_url = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PW}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
 
 result_backend = 'rpc://'
 result_persistent = False
@@ -82,26 +81,6 @@ beat_schedule = {
         "task": "music.tasks.sample_music_task",
         "schedule": crontab(minute='*'),
     },
-    # "apply-pending-update-preferred-area": {
-    #     "task": "cantec.apply_pending_update_preferred_area",
-    #     "schedule": crontab(minute=0, hour="*"),
-    # },
-    # "clean-user-current-geo-location": {
-    #     "task": "cantec.clean_user_current_geo_location",
-    #     "schedule": crontab(minute="*/30"),
-    # },
-    # "add-number-online-vehicle": {
-    #     "task": "cantec.add_number_online_vehicle",
-    #     "schedule": crontab(hour="*/12"),
-    # },
-    # "conclude-daily-payment": {
-    #     "task": "cantec.conclude_daily_payment",
-    #     "schedule": crontab(minute=0, hour="*"),
-    # },
-    # "apply-pending-commission-rate": {
-    #     "task": "cantec.apply_pending_commission_rate",
-    #     "schedule": crontab(minute=0, hour=12),
-    # },
 }
 
 
@@ -163,3 +142,13 @@ LOGGING = {
         }
     },
 }
+
+
+# ============================= disable sentry ================================================
+# pylint: disable=wrong-import-order
+# pylint: disable=wrong-import-position
+import sentry_sdk
+
+# NOTE: call sentry init again with empty arguments for disable sentry
+# reference: https://github.com/getsentry/sentry-python/issues/660#issuecomment-604077472
+sentry_sdk.init()

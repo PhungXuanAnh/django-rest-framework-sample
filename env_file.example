@@ -6,3 +6,5 @@ POSTGRES_DB=database_name
 
 REDIS_HOST=redis
 REDIS_PORT=6379
+
+SENTRY_DSN=https://1234c434dfgh4007bf2d045jk891234@123123123.ingest.sentry.io/12312312

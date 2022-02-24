@@ -74,6 +74,7 @@ This is initial code for create sample codes in in django rest framework
   - [15.1. logging and test](#151-logging-and-test)
   - [15.2. test celery from admin](#152-test-celery-from-admin)
 - [16. Add debug tool bar](#16-add-debug-tool-bar)
+- [Add sentry](#add-sentry)
 
 # 1. setup environment
 
@@ -178,7 +179,7 @@ access: http://127.0.0.1:8027/swagger/
 ## 4.2. Views
 ### 4.2.1. musican-api-views
 
-This set of apis describle how to using `APIView` to make api as basic and normal, code will be handle by yourself
+This set of apis describe how to using `APIView` to make api as basic and normal, code will be handle by yourself
 
 **Test:**
 
@@ -192,7 +193,7 @@ Using api views when you want to custom detail in your api
 
 ### 4.2.2. musican-generic-views
 
-This set of apis describle how to using `generics` view to make api code will be made shorter
+This set of apis describe how to using `generics` view to make api code will be made shorter
 
 **Test:**
 
@@ -206,7 +207,7 @@ Using generic view when you want to combine some methods in one view, but not al
 
 ### 4.2.3. musican-viewset
 
-This set of apis describle how to using `ModelViewSet` to make code shortest
+This set of apis describe how to using `ModelViewSet` to make code shortest
 
 **Test:**
 
@@ -228,7 +229,7 @@ To run this debug code see debug part in this file
 
 ### 4.3.1. Common serializer
 
-This type of serializer you don't need to specify your model, but you must declare all neccessary fields manually
+This type of serializer you don't need to specify your model, but you must declare all necessary fields manually
 
 Ex: **MusicianSerializer** [music/serializers.py](music/serializers.py)
 
@@ -255,7 +256,7 @@ make docker-test-command-get-musican-by-email
 ### 4.3.4. celery task using django_celery_beat
 
 ```shell
-# NOTE: create celery task by this lib will dont need to restart worker and beat 
+# NOTE: create celery task by this lib will don't need to restart worker and beat 
 # like create task in celeryconfig.py
 make docker-create-periodic-task
 
@@ -298,7 +299,7 @@ All example in this serializer: **MusicianModelSerializerReadEffective_Serialize
 
 ### 5.1.3. Using to_representation
 
-Using to_representation when you want to custom mutiple data fields
+Using to_representation when you want to custom multiple data fields
 
 All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [music/using_serializer_effective/serializers.py](music/using_serializer_effective/serializers.py)
 
@@ -908,7 +909,7 @@ Debug over ssh, more detail here: https://code.visualstudio.com/docs/python/debu
 
 # 14. Linting code
 
-Linting code is importance part of any IDE for check systax and error form IDE
+Linting code is importance part of any IDE for check syntax and error form IDE
 
 - See setting of pylint if settings.json of Vscode
 - To test gen config file for pylint run `make pylint-gen-rcfile`
@@ -950,3 +951,16 @@ http://localhost:81/api/v1/musican-generic-views/4
 
 With request that need more header field, using chrome extension 'ModHeader' to add more field to header
 
+# Add sentry
+
+See all settings file for how to using sentry through sentry-sdk
+
+Test sentry:
+
+```shell
+make musican-viewset-sample-action-test-sentry
+```
+
+access link to see log: https://sentry.io/organizations/xuananh/issues/?project=6229890&query=is%3Aunresolved&statsPeriod=24h
+
+![](readme_images/sentry.png)
