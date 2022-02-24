@@ -1,7 +1,7 @@
 import datetime
 from django.contrib import admin
 from music.models import Musician, Profile, Album, Instrument
-from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
+from rangefilter.filters import DateRangeFilter, DateTimeRangeFilter
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SingleNumericFilter, RangeNumericFilter, SliderNumericFilter
 
 

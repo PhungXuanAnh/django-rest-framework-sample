@@ -3,3 +3,11 @@ debugpy
 pylint_django
 pylint_celery
 django-debug-toolbar
+# for pytest
+pytest
+pytest-django
+pytest-mock
+pytest-cov
+pytest-env
+factory-boy
+requests-mock

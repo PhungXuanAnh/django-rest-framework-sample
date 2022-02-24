@@ -1,5 +1,1 @@
--r base.txt
-debugpy
-pylint_django
-pylint_celery
-django-debug-toolbar
+-r dev.txt

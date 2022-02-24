@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY ./requirements/* /app/requirements/
 ARG BUILD_ENV=BUILD_ENV_this_value_must_be_pass_during_build_time
-RUN pip install -r requirements/${BUILD_ENV}.txt
+RUN pip install -r requirements/${BUILD_ENV}.txt --upgrade
 # RUN echo ${BUILD_ENV}
 
 COPY ./source /app

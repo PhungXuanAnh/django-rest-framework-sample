@@ -8,10 +8,10 @@ script:
 	docker exec $(SCRIPT)
 
 local-pytest-create-db:	# only run when there are new migrations and it keep db after run test
-	docker exec my-sample-backend pytest --reuse-db --create-db -v -m unittest 2>&1 | grcat pytest.conf 
+	docker exec my-sample-backend pytest --reuse-db --create-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf 
 
 local-pytest-reuse-db:
-	docker exec my-sample-backend pytest --reuse-db -v -m unittest 2>&1 | grcat pytest.conf 
+	docker exec my-sample-backend pytest --reuse-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf
 
 # TEST_MODULE=blockchain/tests/transaction_executors/test_transaction_receipt_log_parser.py
 TEST_MODULE=blockchain/tests/tasks/test_task_parse_transaction_receipt_event_log.py
