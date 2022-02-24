@@ -1,4 +1,4 @@
--r base.pythonpip
+-r base.txt
 debugpy
 django-debug-toolbar
 
