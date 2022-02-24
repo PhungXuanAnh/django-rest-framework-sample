@@ -31,7 +31,7 @@ def sample_task(*arg, **kwargs):
 # pylint: disable=unused-argument
 # pylint: disable=import-outside-toplevel
 @setup_logging.connect
-def config_loggers(*args, **kwags):
+def config_loggers(*args, **kwargs):
     from logging.config import dictConfig
     from main.settings import celeryconfig
 

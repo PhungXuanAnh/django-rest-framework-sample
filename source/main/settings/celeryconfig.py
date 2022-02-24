@@ -16,10 +16,21 @@ HIGH_ROUTE_KEY = "queue-high.priority"
 MEDIUM_ROUTE_KEY = "queue-medium.priority"
 LOW_ROUTE_KEY = "queue-low.priority"
 
-broker_url = "redis://{}:{}/2".format(
-    env("REDIS_HOST", default="127.0.0.1"), env("REDIS_PORT", default="6379")
+# broker_url = "redis://{}:{}/2".format(
+#     env("REDIS_HOST", default="127.0.0.1"), env("REDIS_PORT", default="6379")
+# )
+
+# broker_url = "amqp://rabbitmq:5672"
+# broker_url = 'amqp://guest:guest@localhost:5672//'
+broker_url = 'amqp://{user}:{password}@{host}:{port}//'.format(
+    user=env("RABBITMQ_USER", default="guest"),
+    password=env("RABBITMQ_PW", default="guest"),
+    host=env("RABBITMQ_HOST", default="rabbitmq"),
+    port=env("RABBITMQ_PORT", default="5672")
 )
-result_backend = broker_url
+
+result_backend = 'rpc://'
+result_persistent = False
 
 # enable_utc = False              # default: True
 # timezone = "Asia/Ho_Chi_Minh"   # default: 'utc'

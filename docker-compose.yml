@@ -26,6 +26,8 @@ services:
       - 8027:8027
     depends_on:
       - postgres
+      - redis
+      - rabbitmq
 
   celery-worker:
     <<: *default
@@ -50,6 +52,8 @@ services:
     container_name: my-sample-celery-worker
     depends_on:
       - postgres
+      - redis
+      - rabbitmq
 
   celery-beat:
     <<: *default
@@ -64,7 +68,11 @@ services:
     command:
       celery --app=main.celery_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info -f /app/logs/celery-beat.log 
     depends_on:
+      - redis
+      - rabbitmq
       - postgres
+      - my-backend  # django-celery-beat package need to wait backend service run migrations before 
+                    # start for create tables of this package
 
   celery-flower:
     <<: *default
@@ -93,8 +101,17 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - redis_data/:/data/
+      - redis_data:/data/
     hostname: redis
+
+  rabbitmq:
+    <<: *default
+    image: rabbitmq:3.9.13-management
+    container_name: my-sample-rabbitmq
+    ports:
+      - "5672:5672"  # port for provider ans consumer
+      - "15672:15672" # port for accessing on web
+    hostname: rabbitmq
 
   postgres:
     <<: *default
