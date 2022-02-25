@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 from swagger.views import schema_view as swagger_view
 
 
@@ -31,6 +32,8 @@ urlpatterns = [
 ]
 
 urlpatterns += api_v1_urls
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 if settings.DEBUG:
     import debug_toolbar
