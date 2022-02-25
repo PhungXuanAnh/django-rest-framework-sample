@@ -26,7 +26,8 @@ RABBITMQ_USER=env("RABBITMQ_USER", default="guest"),
 RABBITMQ_PW=env("RABBITMQ_PW", default="guest")
 RABBITMQ_HOST=env("RABBITMQ_HOST", default="rabbitmq")
 RABBITMQ_PORT=env("RABBITMQ_PORT", default="5672")
-broker_url = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PW}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
+# broker_url = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PW}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
+broker_url = f'amqp://{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
 
 result_backend = 'rpc://'
 result_persistent = False
