@@ -117,7 +117,11 @@ make create-sample-data
 
 ## 3.1. Live
 
+```shell
+cp env_file.example env_file
+# update env_file content then:
 make run
+```
 
 ## 3.2. Using docker
 
@@ -125,6 +129,9 @@ For development environment (for other env just change prefix, ex: dev -> prod)
 
 
 ```shell
+cp env_file.example env_file
+# update env_file content then:
+
 make dev-build
 make dev-up
 make dev-ps
