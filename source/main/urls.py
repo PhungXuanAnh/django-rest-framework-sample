@@ -32,7 +32,8 @@ urlpatterns = [
 ]
 
 urlpatterns += api_v1_urls
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# pylint: disable=line-too-long
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Reference: https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-static-files-during-development
 
 
 if settings.DEBUG:
