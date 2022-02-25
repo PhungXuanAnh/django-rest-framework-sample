@@ -1,4 +1,4 @@
-FROM python:3.8.0
+FROM python:3.9.0
 
 # Reference: https://stackoverflow.com/a/59812588/7639845
 ENV PYTHONUNBUFFERED 1

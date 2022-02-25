@@ -79,8 +79,8 @@ This is initial code for create sample codes in in django rest framework
 # 1. setup environment
 
 ```shell
-pyenv install -v 3.8.0
-pyenv local 3.8.0
+pyenv install -v 3.9.0
+pyenv local 3.9.0
 python --version
 which python
 venv-create     # if it detect wrong version of python, it need to open another shell
