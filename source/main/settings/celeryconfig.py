@@ -22,7 +22,7 @@ LOW_ROUTE_KEY = "queue-low.priority"
 
 # broker_url = "amqp://rabbitmq:5672"
 # broker_url = 'amqp://guest:guest@localhost:5672//'
-RABBITMQ_USER=env("RABBITMQ_USER", default="guest"),
+RABBITMQ_USER=env("RABBITMQ_USER", default="guest")
 RABBITMQ_PW=env("RABBITMQ_PW", default="guest")
 RABBITMQ_HOST=env("RABBITMQ_HOST", default="rabbitmq")
 RABBITMQ_PORT=env("RABBITMQ_PORT", default="5672")
@@ -88,41 +88,23 @@ beat_schedule = {
 LOGGING_DIR = os.path.join(settings.BASE_DIR, "logs")
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
-LOGGING = {
+CELERY_LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            # pylint: disable=line-too-long
-            "format": "[%(asctime)s] [%(name)s] %(levelname)s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
-        },
-        "simple": {"format": "[%(asctime)s] %(levelname)s %(message)s"},
-    },
+    "formatters": settings.LOGGING_FORMATTER,
     "handlers": {
         "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
         "celery.beat.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
             "filename": LOGGING_DIR + "/celery.beat.log",
-            "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
         "celery.worker.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
             "filename": LOGGING_DIR + "/celery.worker.log",
-            "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
         "celery.task.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
             "filename": LOGGING_DIR + "/celery.task.log",
-            "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
     },
     "loggers": {

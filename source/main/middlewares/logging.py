@@ -1,3 +1,4 @@
+# pylint: disable=too-few-public-methods
 import json
 import logging
 from django.core.handlers.wsgi import WSGIRequest

@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from swagger.views import schema_view as swagger_view
+from swagger.views import SwaggerView
 
 
 api_v1_urls = [
@@ -28,7 +28,7 @@ api_v1_urls = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("swagger/", swagger_view.with_ui('swagger', cache_timeout=0)),
+    path("swagger/", SwaggerView.with_ui('swagger', cache_timeout=0)),
 ]
 
 urlpatterns += api_v1_urls

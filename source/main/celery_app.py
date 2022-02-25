@@ -15,7 +15,6 @@ app.autodiscover_tasks()
 @app.task
 def sample_task(*arg, **kwargs):
     # pylint: disable=import-outside-toplevel
-    import datetime
     import logging
 
     # NOTE: write logging messages as below for avoid error pylint
@@ -35,4 +34,4 @@ def config_loggers(*args, **kwargs):
     from logging.config import dictConfig
     from main.settings import celeryconfig
 
-    dictConfig(celeryconfig.LOGGING)
+    dictConfig(celeryconfig.CELERY_LOGGING)
