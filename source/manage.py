@@ -10,7 +10,7 @@ def initialize_debugger(sys_args):
     # optionally check to see what env you're running in, you probably only want this for
     # local development, for example: if os.getenv("MY_ENV") == "dev":
 
-    # RUN_MAIN envvar is set by the reloader to indicate that this is the
+    # RUN_MAIN env var is set by the reloader to indicate that this is the
     # actual thread running Django. This code is in the parent process and
     # initializes the debugger
     if not os.getenv("RUN_MAIN") and sys_args[1] == "runserver":
@@ -19,9 +19,9 @@ def initialize_debugger(sys_args):
 
             debugpy.listen(("0.0.0.0", 5678))
             sys.stdout.write("=======> Start the VS Code debugger now, waiting...\n")
-        # pylint: disable=bare-except
-        except Exception as e:
-            sys.stdout.write("=======> Start the VS Code debugger FAILED %s \n" % e)
+        # pylint: disable=broad-except
+        except Exception as ex:
+            sys.stdout.write(f"=======> Start the VS Code debugger FAILED: {ex} \n")
         # debugpy.wait_for_client()
         # sys.stdout.write("Debugger attached, starting server...\n")
 

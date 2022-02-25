@@ -1,6 +1,5 @@
 import debugpy
-from django.contrib.auth.backends import ModelBackend
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import BasicAuthentication
 
 class CustomAuthBackend(BasicAuthentication):
     def authenticate(self, request):

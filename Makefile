@@ -38,7 +38,10 @@ pylint-staged-files:	# refer: https://nerderati.com/speed-up-pylint-by-reducing-
 	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc `git diff --name-only --diff-filter=d --staged | grep -E '\.py$$' | tr '\n' ' '`
 
 pylint-check-all:
-	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint --rcfile=.pylintrc source
+	PYTHONPATH=$PYTHONPATH:./source/ .venv/bin/pylint \
+		--rcfile=.pylintrc \
+		--ignore=music,user,scripts \
+		source
 
 git-hook-pre-commit__check-pylint: # https://towardsdatascience.com/keep-your-code-clean-using-black-pylint-git-hooks-pre-commit-baf6991f7376
 	cp utilities/pre_commit.sh .git/hooks/pre-commit
