@@ -33,36 +33,31 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     # default see here: https://www.django-rest-framework.org/api-guide/settings/
-
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     "PAGE_SIZE": 10,
-
     # "DEFAULT_AUTHENTICATION_CLASSES": [
     #     "cantec_delivery.cd_base.utility.CustomJWTAuthentication",
     # ]
     # "DEFAULT_PERMISSION_CLASSES": [],
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
-
     # pylint: disable=line-too-long
     # "EXCEPTION_HANDLER": "cantec_delivery.cd_base.utility.drf_exception_handler.custom_exception_handler",
     # "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
-
     # "DEFAULT_THROTTLE_CLASSES": [
     #     "cantec_delivery.cd_base.utility.throttling_request.CustomUserRateThrottle",
     #     "cantec_delivery.cd_base.utility.throttling_request.AnonymousRateThrottle",
     # ],
     # "DEFAULT_THROTTLE_RATES": {"anonymous": "20/second", "custom_user": "20/second"},
-
     # "ORDERING_PARAM": "sort",
 }
 
 # Application definition
 
 INSTALLED_APPS = [
-    'system_app',   # this app for test overwrite runserver command
+    "system_app",  # this app for test overwrite runserver command
     "admin_numeric_filter",
     "django.contrib.admin",
     "rangefilter",  # for admin filter data/datetime range
@@ -71,7 +66,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django_celery_beat',
+    "django_celery_beat",
     "corsheaders",
     "rest_framework",
     "django_filters",
@@ -132,10 +127,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 
@@ -185,17 +188,32 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": LOGGING_FORMATTER,
     "handlers": {
-        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
-        "requests.FILE":
-            {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "requests.FILE": {
             "filename": LOGGING_DIR + "/requests.log",
             **LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
     },
     "loggers": {
-        "django": {"handlers": ["console"], "level": "INFO", "propagate": True,},
-        "apps": {"handlers": ["console"], "level": "INFO", "propagate": True,},
-        "requests": {"handlers": ["console", "requests.FILE"], "level": "INFO", "propagate": True,},
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "apps": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "requests": {
+            "handlers": ["console", "requests.FILE"],
+            "level": "INFO",
+            "propagate": True,
+        },
     },
 }
 
@@ -203,12 +221,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 if DEBUG:
     INSTALLED_APPS += [
-        'debug_toolbar',
+        "debug_toolbar",
     ]
 
-    MIDDLEWARE += [
-        'debug_toolbar.middleware.DebugToolbarMiddleware'
-    ]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
     DEBUG_TOOLBAR_CONFIG = {
         "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
@@ -219,18 +235,18 @@ if DEBUG:
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-SENTRY_DSN = env('SENTRY_DSN', default='')  # NOTE: if not set SENTRY_DSN sentry will be disabled
+SENTRY_DSN = env(
+    "SENTRY_DSN", default=""
+)  # NOTE: if not set SENTRY_DSN sentry will be disabled
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[DjangoIntegration()],
-
     # Set traces_sample_rate to 1.0 to capture 100%
     # of transactions for performance monitoring.
     # We recommend adjusting this value in production.
     traces_sample_rate=1.0,
-
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
+    send_default_pii=True,
 )

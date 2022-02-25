@@ -21,9 +21,7 @@ def sample_task(*arg, **kwargs):
     # Use lazy % formatting in logging functionspylint(logging-not-lazy)
     # reference: https://stackoverflow.com/a/29371584/7639845
     logger = logging.getLogger("celery.task")
-    logger.error(
-        "===> This is sample celery task: arg=%s, kwarg=%s", arg, kwargs
-    )
+    logger.error("===> This is sample celery task: arg=%s, kwarg=%s", arg, kwargs)
     return arg
 
 

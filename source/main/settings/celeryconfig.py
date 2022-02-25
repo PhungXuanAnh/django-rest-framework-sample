@@ -22,14 +22,14 @@ LOW_ROUTE_KEY = "queue-low.priority"
 
 # broker_url = "amqp://rabbitmq:5672"
 # broker_url = 'amqp://guest:guest@localhost:5672//'
-RABBITMQ_USER=env("RABBITMQ_USER", default="guest")
-RABBITMQ_PW=env("RABBITMQ_PW", default="guest")
-RABBITMQ_HOST=env("RABBITMQ_HOST", default="rabbitmq")
-RABBITMQ_PORT=env("RABBITMQ_PORT", default="5672")
+RABBITMQ_USER = env("RABBITMQ_USER", default="guest")
+RABBITMQ_PW = env("RABBITMQ_PW", default="guest")
+RABBITMQ_HOST = env("RABBITMQ_HOST", default="rabbitmq")
+RABBITMQ_PORT = env("RABBITMQ_PORT", default="5672")
 # broker_url = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PW}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
-broker_url = f'amqp://{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
+broker_url = f"amqp://{RABBITMQ_HOST}:{RABBITMQ_PORT}//"
 
-result_backend = 'rpc://'
+result_backend = "rpc://"
 result_persistent = False
 
 # enable_utc = False              # default: True
@@ -56,8 +56,14 @@ task_soft_time_limit = 60
 task_interval = 10  # seconds
 
 task_routes = {
-    "main.celery_app.sample_task": {"queue": LOW_QUEUE, "routing_key": LOW_ROUTE_KEY,},
-    "music.tasks.sample_music_task": {"queue": HIGH_QUEUE, "routing_key": HIGH_ROUTE_KEY,},
+    "main.celery_app.sample_task": {
+        "queue": LOW_QUEUE,
+        "routing_key": LOW_ROUTE_KEY,
+    },
+    "music.tasks.sample_music_task": {
+        "queue": HIGH_QUEUE,
+        "routing_key": HIGH_ROUTE_KEY,
+    },
 }
 
 interval_task_name = "INTERVAL-10s_______celeryconfig.py"
@@ -66,7 +72,7 @@ beat_schedule = {
     interval_task_name: {
         "task": "main.celery_app.sample_task",
         "schedule": task_interval,
-        'args': (interval_task_name,)
+        "args": (interval_task_name,),
     },
     # NOTE: min value of cron task is minute, if you want to specify second, do in your code
     # see example of cron configuration here:
@@ -80,7 +86,7 @@ beat_schedule = {
     # },
     cron_task_name: {
         "task": "music.tasks.sample_music_task",
-        "schedule": crontab(minute='*'),
+        "schedule": crontab(minute="*"),
     },
 }
 
@@ -93,7 +99,11 @@ CELERY_LOGGING = {
     "disable_existing_loggers": False,
     "formatters": settings.LOGGING_FORMATTER,
     "handlers": {
-        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
         "celery.beat.FILE": {
             "filename": LOGGING_DIR + "/celery.beat.log",
             **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
@@ -122,7 +132,7 @@ CELERY_LOGGING = {
             "handlers": ["console", "celery.task.FILE"],
             "level": "INFO",
             "propagate": True,
-        }
+        },
     },
 }
 

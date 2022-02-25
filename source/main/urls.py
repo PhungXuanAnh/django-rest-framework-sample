@@ -26,18 +26,21 @@ api_v1_urls = [
 ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("swagger/", SwaggerView.with_ui('swagger', cache_timeout=0)),
+    path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("swagger/", SwaggerView.with_ui("swagger", cache_timeout=0)),
 ]
 
 urlpatterns += api_v1_urls
 # pylint: disable=line-too-long
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Reference: https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-static-files-during-development
+urlpatterns += static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)  # Reference: https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-static-files-during-development
 
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
+        path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns

@@ -2,6 +2,7 @@ import datetime
 import logging
 
 from celery import shared_task
+
 """
 NOTE: 
 The tasks you write will probably live in reusable apps, and reusable apps cannot depend 
@@ -20,6 +21,8 @@ def sample_music_task(arg=None):
     # Use lazy % formatting in logging functionspylint(logging-not-lazy)
     # reference: https://stackoverflow.com/a/29371584/7639845
     logger.error(
-        "-------------------- > This is task from music app! %s at %s", arg, datetime.datetime.now()
+        "-------------------- > This is task from music app! %s at %s",
+        arg,
+        datetime.datetime.now(),
     )
     return arg
