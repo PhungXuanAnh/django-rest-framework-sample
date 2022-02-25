@@ -214,8 +214,7 @@ if DEBUG:
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-# SENTRY_DSN = os.getenv('SENTRY_DSN')
-SENTRY_DSN = os.environ['SENTRY_DSN']
+SENTRY_DSN = env('SENTRY_DSN', default='')  # NOTE: if not set SENTRY_DSN sentry will be disabled
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
