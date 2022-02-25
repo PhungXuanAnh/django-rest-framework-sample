@@ -1,4 +1,4 @@
-# include Makefile.local
+-include Makefile.local
 # ============================== pytest =================================
 temp:
 	docker exec my-sample-backend python temp.py
