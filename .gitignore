@@ -16,3 +16,10 @@ report-task.txt
 .scannerwork/*
 
 certbot/*
+
+# local development files
+# docker-compose.local.yml
+# local.txt
+# local.py
+# Makefile.local
+# .vscode
