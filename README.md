@@ -141,7 +141,9 @@ make dev-ps
 ### 3.3.1. Access swagger
 
 http://127.0.0.1:8027/swagger/
+
 http://127.0.0.1:80/swagger/
+
 https://127.0.0.1:443/swagger/
 
 
@@ -152,13 +154,17 @@ Account as above: admin/admin
 **Admin normal**
 
 http://127.0.0.1:8027/admin   ==> NOTE: when run server using gunicorn, static file will not found
+
 http://127.0.0.1:80/admin
+
 https://127.0.0.1:443/admin
 
 ### 3.3.3. Access users/groups apis
 
 http://127.0.0.1:8027/api/v1
+
 http://127.0.0.1:80/api/v1
+
 https://127.0.0.1:443/api/v1
 
 
