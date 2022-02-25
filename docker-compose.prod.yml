@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  my-backend:
-    image: my-backend:prod-latest
+  sample-backend:
+    image: sample-backend:prod-latest
     build: 
       args:
         BUILD_ENV: prod

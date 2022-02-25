@@ -12,7 +12,7 @@ x-default: &default
     - internal-network
 
 services:
-  my-backend:
+  sample-backend:
     <<: *default
     build: 
       context: .
@@ -21,7 +21,7 @@ services:
         IS_BUILDING_APP: "yes"
     volumes:
       - ./source/logs:/app/logs
-    container_name: my-sample-backend
+    container_name: sample-backend
     ports:
       - 8027:8027
     depends_on:
@@ -49,7 +49,7 @@ services:
     volumes:
       - ./source:/app
       - ./source/logs:/app/logs
-    container_name: my-sample-celery-worker
+    container_name: sample-celery-worker
     depends_on:
       - postgres
       - redis
@@ -64,14 +64,14 @@ services:
     volumes:
       - ./source:/app
       - ./source/logs:/app/logs
-    container_name: my-sample-celery-beat
+    container_name: sample-celery-beat
     command:
       celery --app=main.celery_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info -f /app/logs/celery-beat.log 
     depends_on:
       - redis
       - rabbitmq
       - postgres
-      - my-backend  # django-celery-beat package need to wait backend service run migrations before 
+      - sample-backend  # django-celery-beat package need to wait backend service run migrations before 
                     # start for create tables of this package
 
   celery-flower:
@@ -83,7 +83,7 @@ services:
     volumes:
       - ./source:/app
       - ./source/logs:/app/logs
-    container_name: my-sample-celery-flower
+    container_name: sample-celery-flower
     ports:
       - 5555:5555
     depends_on:
@@ -94,7 +94,7 @@ services:
   redis:
     <<: *default
     image: bitnami/redis:5.0
-    container_name: my-sample-redis
+    container_name: sample-redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     # - REDIS_PASSWORD=5Zu7fA8r5eaO
@@ -107,7 +107,7 @@ services:
   rabbitmq:
     <<: *default
     image: rabbitmq:3.9.13-management
-    container_name: my-sample-rabbitmq
+    container_name: sample-rabbitmq
     ports:
       - "5672:5672"  # port for provider ans consumer
       - "15672:15672" # port for accessing on web
@@ -116,7 +116,7 @@ services:
   postgres:
     <<: *default
     image: postgres:10
-    container_name: my-sample-postgres
+    container_name: sample-postgres
     ports:
       - 5432:5432
     volumes:
@@ -126,9 +126,9 @@ services:
   nginx:
     <<: *default
     image: nginx:1.13
-    container_name: my-sample-nginx
+    container_name: sample-nginx
     depends_on:
-        - my-backend
+        - sample-backend
     ports:
         - 80:80
         - 443:443
@@ -139,7 +139,7 @@ services:
     command: /bin/bash -c "nginx -g 'daemon off;'"
 
   certbot:
-    container_name: my-sample-certbot
+    container_name: sample-certbot
     image: certbot/certbot:latest
     volumes:
       - ./certbot/conf:/etc/letsencrypt

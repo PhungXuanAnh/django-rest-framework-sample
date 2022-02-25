@@ -1,24 +1,24 @@
 -include Makefile.local		# reference: https://stackoverflow.com/a/8346208/7639845
 # ============================== pytest =================================
 temp:
-	docker exec my-sample-backend python temp.py
+	docker exec sample-backend python temp.py
 
 SCRIPT=genetica_platform/gene_id/tests/api/gene_id/actions/test_list_withdrawal_request.py
 script:
 	docker exec $(SCRIPT)
 
 local-pytest-create-db:	# only run when there are new migrations and it keep db after run test
-	docker exec my-sample-backend pytest --reuse-db --create-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf 
+	docker exec sample-backend pytest --reuse-db --create-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf 
 
 local-pytest-reuse-db:
-	docker exec my-sample-backend pytest --reuse-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf
+	docker exec sample-backend pytest --reuse-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf
 
 # TEST_MODULE=blockchain/tests/transaction_executors/test_transaction_receipt_log_parser.py
 TEST_MODULE=blockchain/tests/tasks/test_task_parse_transaction_receipt_event_log.py
 local-test:
 # https://stackoverflow.com/a/61869181/7639845
 # https://stackoverflow.com/a/62804929/7639845
-	docker exec my-sample-backend pytest --reuse-db -v -s $(TEST_MODULE) 2>&1 | grcat pytest.conf 
+	docker exec sample-backend pytest --reuse-db -v -s $(TEST_MODULE) 2>&1 | grcat pytest.conf 
 
 
 # ============================== pylint =================================
@@ -91,26 +91,26 @@ docker-remove-volume:
 docker-rm-old-data: local-down docker-remove-volume local-up
 
 docker-migrate:
-	docker exec my-sample-backend python3 manage.py migrate
+	docker exec sample-backend python3 manage.py migrate
 
 docker-makemigrations:
-	docker exec my-sample-backend python3 manage.py makemigrations
+	docker exec sample-backend python3 manage.py makemigrations
 
 docker-create-supperuser:
-	docker exec my-sample-backend python3 manage.py shell -c "from django.contrib.auth.models import User; \
+	docker exec sample-backend python3 manage.py shell -c "from django.contrib.auth.models import User; \
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
 docker-create-sample-data: docker-rm-old-data docker-create-supperuser
-	docker exec my-sample-backend python3 scripts/create_sample_data.py
+	docker exec sample-backend python3 scripts/create_sample_data.py
 
 docker-create-periodic-task:
-	docker exec my-sample-backend python3 manage.py sample_create_celery_periodic_task
+	docker exec sample-backend python3 manage.py sample_create_celery_periodic_task
 
 docker-test-command-get-musican-by-email:
-	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com example_498@gmail.com
-	docker exec my-sample-backend python3 manage.py get_musican_by_email example_499@gmail.com --delete
-	docker exec my-sample-backend python3 manage.py get_musican_by_email unknow_email@gmail.com 
+	docker exec sample-backend python3 manage.py get_musican_by_email example_499@gmail.com example_498@gmail.com
+	docker exec sample-backend python3 manage.py get_musican_by_email example_499@gmail.com --delete
+	docker exec sample-backend python3 manage.py get_musican_by_email unknow_email@gmail.com 
 
 # ================================ test get user =========================================
 user-get:

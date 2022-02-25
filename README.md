@@ -277,8 +277,8 @@ make docker-create-periodic-task
 tailf source/logs/celery.task.log
 tailf source/logs/celery.beat.log
 # or
-docker logs -f my-sample-celery-beat
-docker logs -f my-sample-celery-worker
+docker logs -f sample-celery-beat
+docker logs -f sample-celery-worker
 ```
 
 # 5. Using serializer effectively
@@ -737,7 +737,7 @@ wget -O- http://xuananh-drf-test.com/.well-known/test
 ```shell
 make local-up
 
-docker exec -it my-sample-certbot /usr/local/bin/certbot \
+docker exec -it sample-certbot /usr/local/bin/certbot \
 	certonly \
 	--manual \
 	--email test@gmail.com \
@@ -772,15 +772,15 @@ CONTENT=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE.GUZsjL4TURfJ9awlOHh6yf7TIO1x
 FILE_NAME=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
 FILE_PATH=/var/www/certbot/.well-known//acme-challenge
 DOMAIN=http://xuananh-drf-test.com
-docker exec my-sample-nginx mkdir -p $FILE_PATH
-docker exec my-sample-nginx touch $FILE_PATH/$FILE_NAME
-docker exec my-sample-nginx bash -c "echo $CONTENT > $FILE_PATH/$FILE_NAME"
-docker exec my-sample-nginx cat $FILE_PATH/$FILE_NAME
+docker exec sample-nginx mkdir -p $FILE_PATH
+docker exec sample-nginx touch $FILE_PATH/$FILE_NAME
+docker exec sample-nginx bash -c "echo $CONTENT > $FILE_PATH/$FILE_NAME"
+docker exec sample-nginx cat $FILE_PATH/$FILE_NAME
 
 # test above url
-docker exec my-sample-certbot wget -O- http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+docker exec sample-certbot wget -O- http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
 
-docker exec my-sample-certbot wget http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+docker exec sample-certbot wget http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
 
 
 ```
@@ -795,7 +795,7 @@ After that check generated certificates:
 cd django-rest-framework-sample
 ls certbot/conf/live/xuananh-drf-test.com
 # or
-docker exec my-sample-certbot ls /etc/letsencrypt/live/xuananh-drf-test.com
+docker exec sample-certbot ls /etc/letsencrypt/live/xuananh-drf-test.com
 # it should show
 README
 cert.pem
@@ -856,11 +856,11 @@ Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
 
 ## 13.1. Live
 
-Start all other services and stop my-backend service:
+Start all other services and stop sample-backend service:
 
 ```shell
 make local-up
-docker stop my-sample-backend
+docker stop sample-backend
 ```
 
 Click to button **Run and Debug** in vscode, choose **Python:Django**
@@ -934,8 +934,8 @@ Linting code is importance part of any IDE for check syntax and error form IDE
 ## 15.1. logging and test
 
 ```shell
-docker log -f my-sample-celery-worker
-docker log -f my-sample-celery-beat
+docker log -f sample-celery-worker
+docker log -f sample-celery-beat
 # or
 tailf source/logs/celery.worker.log
 tailf source/logs/celery.beat.log
