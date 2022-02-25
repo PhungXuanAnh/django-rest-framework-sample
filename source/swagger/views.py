@@ -10,6 +10,7 @@ SwaggerView = get_schema_view(
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
+      # url='https://example.net/api/v1/', # Base URL, reference: https://stackoverflow.com/a/56090744/7639845
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
