@@ -21,12 +21,8 @@ class CustomSearchFilter(rest_filters.SearchFilter):
 
 
 class MusicanFilter(filterset.FilterSet):
-    min_num_stars = filters.NumberFilter(
-        field_name="profile__num_stars", lookup_expr="gte"
-    )
-    max_num_stars = filters.NumberFilter(
-        field_name="profile__num_stars", lookup_expr="lte"
-    )
+    min_num_stars = filters.NumberFilter(field_name="profile__num_stars", lookup_expr="gte")
+    max_num_stars = filters.NumberFilter(field_name="profile__num_stars", lookup_expr="lte")
 
     class Meta:
         model = Musician
@@ -49,7 +45,7 @@ class MusicanListRetriveViews_Search(mixins.ListModelMixin, viewsets.GenericView
     search_fields = ["=first_name", "=last_name", "=email", "=profile__city"]
 
 
-class MusicanListRetriveViews_Fitler(
+class MusicanListRetriveViews_Filter(
     mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
     queryset = Musician.objects.all()

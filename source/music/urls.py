@@ -39,7 +39,7 @@ router.register(
 )
 router.register(
     r"musican-sample-filter",
-    sample_search_filter_ordering_views.MusicanListRetriveViews_Fitler,
+    sample_search_filter_ordering_views.MusicanListRetriveViews_Filter,
     basename="musican-sample-filter",
 )
 router.register(
