@@ -9,12 +9,49 @@ from music.serializers.model_serializers import (
     InstrumentModelSerializer,
 )
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+customized_request_body_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        "username": openapi.Schema(type=openapi.TYPE_STRING, description="string"),
+        "password": openapi.Schema(type=openapi.TYPE_STRING, description="string"),
+    },
+    required=["username", "password"],
+)
+customized_responses_schema = {
+    status.HTTP_200_OK: openapi.Schema(
+        type=openapi.TYPE_OBJECT, properties={"students": openapi.Schema(type=openapi.TYPE_OBJECT)}
+    ),
+    status.HTTP_201_CREATED: openapi.Schema(
+        type=openapi.TYPE_OBJECT, properties={"students": openapi.Schema(type=openapi.TYPE_OBJECT)}
+    ),
+}
+
+query_param_1 = openapi.Parameter(
+    "query_param_1", openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_BOOLEAN
+)
+query_param_2 = openapi.Parameter(
+    "query_param_2", openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_INTEGER
+)
+user_response = openapi.Response("response description", MusicianModelSerializer)
+
 
 class CreateListMusicanView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     # permission_classes = [permissions.IsAdminUser]
     # NOTE: don't have paging yet, implement by your self
 
+    # NOTE: customized request and response schemas
+    # @swagger_auto_schema(request_body=customized_request_body_schema, responses=customized_responses_schema)
+    # NOTE: auto request and response schemas
+    @swagger_auto_schema(
+        manual_parameters=[query_param_1, query_param_2],
+        request_body=MusicianModelSerializer,
+        responses={200: user_response},
+        operation_description="this is description for this api"
+    )
     def post(self, request, format=None):
         # validated_data = self.validate(request.data)
         # musican = Musician.objects.create(**validated_data)
@@ -60,9 +97,7 @@ class CreateListMusicanView(APIView):
         required_fields = ["first_name", "last_name", "instrument"]
         for key in required_fields:
             if key not in data:
-                raise APIException(
-                    "Missing field: {}".format(key), status.HTTP_400_BAD_REQUEST
-                )
+                raise APIException("Missing field: {}".format(key), status.HTTP_400_BAD_REQUEST)
             validated_data[key] = data[key]
 
         return validated_data
@@ -84,8 +119,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
                 "first_name": musican.first_name,
                 "last_name": musican.last_name,
                 "instruments": [
-                    {"id": inst.id, "name": inst.name}
-                    for inst in musican.instruments.all()
+                    {"id": inst.id, "name": inst.name} for inst in musican.instruments.all()
                 ],
             }
         )
@@ -103,9 +137,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
         except Musician.DoesNotExist:
             raise APIException("Musican not found", status.HTTP_404_NOT_FOUND)
         except KeyError as e:
-            raise APIException(
-                "Missing field: {}".format(e.args), status.HTTP_400_BAD_REQUEST
-            )
+            raise APIException("Missing field: {}".format(e.args), status.HTTP_400_BAD_REQUEST)
 
         return Response(
             {
@@ -113,8 +145,7 @@ class MusicanRetriveUpdateDestroyView(APIView):
                 "first_name": musican.first_name,
                 "last_name": musican.last_name,
                 "instruments": [
-                    {"id": inst.id, "name": inst.name}
-                    for inst in musican.instruments.all()
+                    {"id": inst.id, "name": inst.name} for inst in musican.instruments.all()
                 ],
             }
         )

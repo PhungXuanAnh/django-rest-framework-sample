@@ -10,6 +10,7 @@ This is initial code for create sample codes in in django rest framework
   - [3.2. Using docker](#32-using-docker)
   - [3.3. Test](#33-test)
     - [3.3.1. Access swagger](#331-access-swagger)
+      - [3.3.1.1. customize swagger schema](#3311-customize-swagger-schema)
     - [3.3.2. Access admin site](#332-access-admin-site)
     - [3.3.3. Access users/groups apis](#333-access-usersgroups-apis)
 - [4. Music app](#4-music-app)
@@ -74,7 +75,7 @@ This is initial code for create sample codes in in django rest framework
   - [15.1. logging and test](#151-logging-and-test)
   - [15.2. test celery from admin](#152-test-celery-from-admin)
 - [16. Add debug tool bar](#16-add-debug-tool-bar)
-- [Add sentry](#add-sentry)
+- [17. Add sentry](#17-add-sentry)
 
 # 1. setup environment
 
@@ -146,6 +147,15 @@ http://127.0.0.1:80/swagger/
 
 https://127.0.0.1:443/swagger/
 
+#### 3.3.1.1. customize swagger schema
+
+Reference: https://drf-yasg.readthedocs.io/en/stable/custom_spec.html
+
+using 2 decorator : `@swagger_auto_schema` and `@swagger_serializer_method`
+
+Example using `@swagger_auto_schema` in file: [source/music/views/api_views.py#49](source/music/views/api_views.py#49)
+
+And example using `@swagger_serializer_method` here: https://drf-yasg.readthedocs.io/en/stable/custom_spec.html#support-for-serializermethodfield
 
 ### 3.3.2. Access admin site
 
@@ -964,7 +974,7 @@ http://localhost:81/api/v1/musican-generic-views/4
 
 With request that need more header field, using chrome extension 'ModHeader' to add more field to header
 
-# Add sentry
+# 17. Add sentry
 
 See all settings file for how to using sentry through sentry-sdk
 
