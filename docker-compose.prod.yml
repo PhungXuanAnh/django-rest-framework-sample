@@ -40,10 +40,10 @@ services:
       args:
         BUILD_ENV: prod
         
-  # celery-flower:
-  #   build: 
-  #     args:
-  #       BUILD_ENV: prod
+  celery-flower:
+    build: 
+      args:
+        BUILD_ENV: prod
 
 
 volumes:
