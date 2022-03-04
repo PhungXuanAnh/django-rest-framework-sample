@@ -1,7 +1,6 @@
 -r base.txt
 # debug tools
 debugpy
-django-debug-toolbar
 # pylint packages
 pylint_django
 pylint_celery
