@@ -13,7 +13,7 @@ x-default: &default
 
 
 services:
-  my-backend:
+  sample-backend:
     <<: *default
     build: 
       context: .
@@ -22,16 +22,13 @@ services:
         IS_BUILDING_APP: "yes"
     volumes:
       - ./source/logs:/app/logs
-    container_name: my-sample-backend
+    container_name: sample-backend
     ports:
       - 8027:8027
     depends_on:
       - postgres
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
+      - redis
+      - rabbitmq
 
   celery-worker:
     <<: *default
@@ -53,9 +50,11 @@ services:
     volumes:
       - ./source:/app
       - ./source/logs:/app/logs
-    container_name: my-sample-celery-worker
+    container_name: sample-celery-worker
     depends_on:
       - postgres
+      - redis
+      - rabbitmq
 
   celery-beat:
     <<: *default
@@ -66,33 +65,37 @@ services:
     volumes:
       - ./source:/app
       - ./source/logs:/app/logs
-    container_name: my-sample-celery-beat
+    container_name: sample-celery-beat
     command:
       celery --app=main.celery_app beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info -f /app/logs/celery-beat.log 
     depends_on:
+      - redis
+      - rabbitmq
       - postgres
+      - sample-backend  # django-celery-beat package need to wait backend service run migrations before 
+                    # start for create tables of this package
 
-  # celery-flower:
-  #   <<: *default
-  #   image: celery-flower:latest
-  #   build: 
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./source:/app
-  #     - ./source/logs:/app/logs
-  #   container_name: my-sample-celery-flower
-  #   ports:
-  #     - 5555:5555
-  #   depends_on:
-  #     - postgres
-  #   command:
-  #     celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
+  celery-flower:
+    <<: *default
+    image: celery-flower:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./source:/app
+      - ./source/logs:/app/logs
+    container_name: sample-celery-flower
+    ports:
+      - 5555:5555
+    depends_on:
+      - postgres
+    command:
+      celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
 
   redis:
     <<: *default
     image: bitnami/redis:5.0
-    container_name: my-sample-redis
+    container_name: sample-redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     # - REDIS_PASSWORD=5Zu7fA8r5eaO
@@ -102,10 +105,19 @@ services:
       - redis_data:/data/
     hostname: redis
 
+  rabbitmq:
+    <<: *default
+    image: rabbitmq:3.9.13-management
+    container_name: sample-rabbitmq
+    ports:
+      - "5672:5672"  # port for provider ans consumer
+      - "15672:15672" # port for accessing on web
+    hostname: rabbitmq
+
   postgres:
     <<: *default
     image: postgres:10
-    container_name: my-sample-postgres
+    container_name: sample-postgres
     ports:
       - 5432:5432
     volumes:
@@ -133,17 +145,41 @@ services:
   nginx:
     <<: *default
     image: nginx:1.13
-    container_name: my-sample-nginx
+    container_name: sample-nginx
     depends_on:
-        - my-backend
+        - sample-backend
     ports:
-        - 81:80
-        - 444:443
+        - 80:80
+        - 443:443
     volumes:
-        - ./nginx:/etc/nginx/conf.d:ro
+        - ./nginx/conf.d:/etc/nginx/conf.d:ro
+        - ./certbot/conf:/etc/nginx/ssl
+        - ./certbot/well-known:/var/www/certbot/.well-known
     command: /bin/bash -c "nginx -g 'daemon off;'"
 
-  
+  certbot:
+    container_name: sample-certbot
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/well-known:/var/www/certbot/.well-known
+    # command:
+    #   - certonly
+    #   - --webroot
+    #   - --webroot-path=/var/www/certbot/.well-known
+    #   - --email
+    #   - test@gmail.com
+    #   - --agree-tos
+    #   - --no-eff-email
+    #   - -d
+    #   -  xuananh-drf-test.com
+      # - -d
+      # - www.xuananh-drf-test.com
+    entrypoint: sh -c
+    command:
+      - while true; do echo "this is test command"; sleep 1; done
+
 networks:
   internal-network:
     driver: bridge

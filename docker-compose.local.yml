@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  my-backend:
-    image: my-backend:local-latest
+  sample-backend:
+    image: sample-backend:local-latest
     build: 
       args:
         BUILD_ENV: local
@@ -21,6 +21,8 @@ services:
         python3 manage.py migrate
         python3 manage.py collectstatic --noinput
         python3 manage.py runserver 0.0.0.0:8027
+    # python3 manage.py runserver_skip_check 0.0.0.0:8027
+    # python3 manage.py runserver 0.0.0.0:8027
     # NOTE: don't user gunicorn for serve static file, but using another proxy server like nginx
     # Refer: https://stackoverflow.com/a/12801140/7639845
     #        https://gunicorn.org/index.html#deployment
@@ -35,11 +37,36 @@ services:
     build: 
       args:
         BUILD_ENV: local
+    command: >  # NOTE: arguments must don't same line with main command
+      watchmedo
+        auto-restart 
+        --directory . 
+        --ignore-pattern='*/call_tasks.py' 
+        --pattern '*.py' --recursive 
+        -- /usr/local/bin/celery 
+          --app=main.celery_app worker 
+          -Q=queue-high,queue-medium,queue-low 
+          -Ofair --pool=eventlet --concurrency=10 
+          --loglevel=info -f /app/logs/celery-worker.log 
+          -n worker1@%h
+
 
   celery-beat:
     build: 
       args:
         BUILD_ENV: local
+    command: >
+      watchmedo 
+        auto-restart --directory /app
+        --ignore-pattern='*/call_tasks.py'
+        --pattern '*.py'
+        --recursive
+        -- celery 
+          --app=main.celery_app 
+          beat 
+          --scheduler django_celery_beat.schedulers:DatabaseScheduler 
+          --loglevel=info -f /app/logs/celery-beat.log 
+    
         
   # celery-flower:
   #   build: 

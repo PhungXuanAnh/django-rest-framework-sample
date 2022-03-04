@@ -22,7 +22,8 @@ class MusicianModelReadEffective_SourceKeyword_ViewSet(viewsets.ModelViewSet):
     def get_full_name(self, request, *args, **kwargs):
         instance = self.get_object()
         return Response(
-            data={"full_name": instance.first_name + " " + instance.last_name}, status=status.HTTP_200_OK
+            data={"full_name": instance.first_name + " " + instance.last_name},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -40,6 +41,6 @@ class MusicianModelReadEffective_SerializerMethod_ViewSet(viewsets.ModelViewSet)
     def get_full_name(self, request, *args, **kwargs):
         instance = self.get_object()
         return Response(
-            data={"full_name": instance.first_name + " " + instance.last_name}, status=status.HTTP_200_OK
+            data={"full_name": instance.first_name + " " + instance.last_name},
+            status=status.HTTP_200_OK,
         )
-

@@ -33,36 +33,31 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     # default see here: https://www.django-rest-framework.org/api-guide/settings/
-
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     "PAGE_SIZE": 10,
-
     # "DEFAULT_AUTHENTICATION_CLASSES": [
     #     "cantec_delivery.cd_base.utility.CustomJWTAuthentication",
     # ]
     # "DEFAULT_PERMISSION_CLASSES": [],
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
-
     # pylint: disable=line-too-long
     # "EXCEPTION_HANDLER": "cantec_delivery.cd_base.utility.drf_exception_handler.custom_exception_handler",
     # "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
-
     # "DEFAULT_THROTTLE_CLASSES": [
     #     "cantec_delivery.cd_base.utility.throttling_request.CustomUserRateThrottle",
     #     "cantec_delivery.cd_base.utility.throttling_request.AnonymousRateThrottle",
     # ],
     # "DEFAULT_THROTTLE_RATES": {"anonymous": "20/second", "custom_user": "20/second"},
-
     # "ORDERING_PARAM": "sort",
 }
 
 # Application definition
 
 INSTALLED_APPS = [
-    'system_app',   # this app for test overwrite runserver command
+    "system_app",  # this app for test overwrite runserver command
     "admin_numeric_filter",
     "django.contrib.admin",
     "rangefilter",  # for admin filter data/datetime range
@@ -71,7 +66,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django_celery_beat',
+    "django_celery_beat",
     "corsheaders",
     "rest_framework",
     "django_filters",
@@ -134,10 +129,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 
@@ -168,32 +171,86 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
 LOGGING_DIR = os.path.join(BASE_DIR, "logs")
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
+LOGGING_FORMATTER = {
+    "verbose": {
+        # pylint: disable=line-too-long
+        "format": "[%(asctime)s] [%(name)s] %(levelname)s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
+    },
+    "simple": {"format": "[%(asctime)s] %(levelname)s %(message)s"},
+}
+LOGGING_ROTATING_FILE_HANDLER_SETTINGS = {
+    "class": "logging.handlers.RotatingFileHandler",
+    "formatter": "verbose",
+    "mode": "a",
+    "maxBytes": 50 * 1024 * 1024,  # 50M
+    "backupCount": 3,
+}
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            # pylint: disable=line-too-long
-            "format": "[%(asctime)s] [%(name)s] %(levelname)s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
-        },
-        "simple": {"format": "[%(asctime)s] %(levelname)s %(message)s"},
-    },
+    "formatters": LOGGING_FORMATTER,
     "handlers": {
-        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
-        "requests.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOGGING_DIR + "/requests.log",
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
             "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+        },
+        "requests.FILE": {
+            "filename": LOGGING_DIR + "/requests.log",
+            **LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
     },
     "loggers": {
-        "django": {"handlers": ["console"], "level": "INFO", "propagate": True,},
-        "apps": {"handlers": ["console"], "level": "INFO", "propagate": True,},
-        "requests": {"handlers": ["console", "requests.FILE"], "level": "INFO", "propagate": True,},
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "apps": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "requests": {
+            "handlers": ["console", "requests.FILE"],
+            "level": "INFO",
+            "propagate": True,
+        },
     },
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+if DEBUG:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
+
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
+    }
+
+# ============================= init sentry ================================================
+# pylint: disable=wrong-import-position
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.celery import CeleryIntegration
+
+SENTRY_DSN = env(
+    "SENTRY_DSN", default=""
+)  # NOTE: if not set SENTRY_DSN sentry will be disabled
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration(), CeleryIntegration()],
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    # traces_sample_rate=1.0,     # 100%
+    traces_sample_rate=0.2,     # 20%
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+)

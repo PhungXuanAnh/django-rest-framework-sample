@@ -2,6 +2,7 @@ import debugpy
 from rest_framework import serializers
 from music.models import Musician
 
+
 class MusicianModelDebugSerializer(serializers.ModelSerializer):
     # NOTE: SerializerMethodField is read only field
     # so just using with get/list Serializer
@@ -9,7 +10,7 @@ class MusicianModelDebugSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Musician
-        fields = ['id', 'first_name', 'last_name', 'instruments']
+        fields = ["id", "first_name", "last_name", "instruments"]
 
     def to_internal_value(self, data):
         debugpy.breakpoint()
@@ -51,4 +52,4 @@ class MusicianModelDebugSerializer(serializers.ModelSerializer):
         if obj.first_name == "first_name 1":
             return "new first name 1"
         else:
-            return "new first name 2" 
+            return "new first name 2"

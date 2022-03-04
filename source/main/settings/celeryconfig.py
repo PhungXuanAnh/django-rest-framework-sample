@@ -16,10 +16,21 @@ HIGH_ROUTE_KEY = "queue-high.priority"
 MEDIUM_ROUTE_KEY = "queue-medium.priority"
 LOW_ROUTE_KEY = "queue-low.priority"
 
-broker_url = "redis://{}:{}/2".format(
-    env("REDIS_HOST", default="127.0.0.1"), env("REDIS_PORT", default="6379")
-)
-result_backend = broker_url
+# broker_url = "redis://{}:{}/2".format(
+#     env("REDIS_HOST", default="127.0.0.1"), env("REDIS_PORT", default="6379")
+# )
+
+# broker_url = "amqp://rabbitmq:5672"
+# broker_url = 'amqp://guest:guest@localhost:5672//'
+RABBITMQ_USER = env("RABBITMQ_USER", default="guest")
+RABBITMQ_PW = env("RABBITMQ_PW", default="guest")
+RABBITMQ_HOST = env("RABBITMQ_HOST", default="rabbitmq")
+RABBITMQ_PORT = env("RABBITMQ_PORT", default="5672")
+# broker_url = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PW}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//'
+broker_url = f"amqp://{RABBITMQ_HOST}:{RABBITMQ_PORT}//"
+
+result_backend = "rpc://"
+result_persistent = False
 
 # enable_utc = False              # default: True
 # timezone = "Asia/Ho_Chi_Minh"   # default: 'utc'
@@ -56,7 +67,7 @@ beat_schedule = {
     interval_task_name: {
         "task": "main.celery_app.sample_task",
         "schedule": task_interval,
-        'args': (interval_task_name,)
+        "args": (interval_task_name,),
     },
     # NOTE: min value of cron task is minute, if you want to specify second, do in your code
     # see example of cron configuration here:
@@ -70,77 +81,39 @@ beat_schedule = {
     # },
     cron_task_name: {
         "task": "music.tasks.sample_music_task",
-        "schedule": crontab(minute='*'),
+        "schedule": crontab(minute="*"),
     },
     "check-battery-and-missing-data": {
         "task": "coordinate.tasks.check_battery_level",
         "schedule": 900,
     },
-    # "task-run-every-6-hour": {
-    #     "task": "music.tasks.sample_music_task",
-    #     "schedule": crontab(minute=0, hour="*/6"),
-    # },
-    # "apply-pending-update-preferred-area": {
-    #     "task": "cantec.apply_pending_update_preferred_area",
-    #     "schedule": crontab(minute=0, hour="*"),
-    # },
-    # "clean-user-current-geo-location": {
-    #     "task": "cantec.clean_user_current_geo_location",
-    #     "schedule": crontab(minute="*/30"),
-    # },
-    # "add-number-online-vehicle": {
-    #     "task": "cantec.add_number_online_vehicle",
-    #     "schedule": crontab(hour="*/12"),
-    # },
-    # "conclude-daily-payment": {
-    #     "task": "cantec.conclude_daily_payment",
-    #     "schedule": crontab(minute=0, hour="*"),
-    # },
-    # "apply-pending-commission-rate": {
-    #     "task": "cantec.apply_pending_commission_rate",
-    #     "schedule": crontab(minute=0, hour=12),
-    # },
 }
 
 
 LOGGING_DIR = os.path.join(settings.BASE_DIR, "logs")
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
-LOGGING = {
+CELERY_LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            # pylint: disable=line-too-long
-            "format": "[%(asctime)s] [%(name)s] %(levelname)s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
-        },
-        "simple": {"format": "[%(asctime)s] %(levelname)s %(message)s"},
-    },
+    "formatters": settings.LOGGING_FORMATTER,
     "handlers": {
-        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "verbose",},
-        "celery.beat.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOGGING_DIR + "/celery.beat.log",
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
             "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+        },
+        "celery.beat.FILE": {
+            "filename": LOGGING_DIR + "/celery.beat.log",
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
         "celery.worker.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
             "filename": LOGGING_DIR + "/celery.worker.log",
-            "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
         "celery.task.FILE": {
-            "class": "logging.handlers.RotatingFileHandler",
             "filename": LOGGING_DIR + "/celery.task.log",
-            "formatter": "verbose",
-            "mode": "a",
-            "maxBytes": 50 * 1024 * 1024,  # 50M
-            "backupCount": 3,
+            **settings.LOGGING_ROTATING_FILE_HANDLER_SETTINGS,
         },
     },
     "loggers": {
@@ -158,6 +131,16 @@ LOGGING = {
             "handlers": ["console", "celery.task.FILE"],
             "level": "INFO",
             "propagate": True,
-        }
+        },
     },
 }
+
+
+# ============================= disable sentry ================================================
+# pylint: disable=wrong-import-order
+# pylint: disable=wrong-import-position
+import sentry_sdk
+
+# NOTE: call sentry init again with empty arguments for disable sentry
+# reference: https://github.com/getsentry/sentry-python/issues/660#issuecomment-604077472
+sentry_sdk.init()

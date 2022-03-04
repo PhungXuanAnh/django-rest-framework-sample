@@ -6,11 +6,12 @@ from music.models import Musician, Album
 from music.serializers.model_serializers import MusicianModelSerializer
 from music.serializers.serializers import MusicianSerializer
 
+
 class MusicListCreateView(generics.ListCreateAPIView):
     queryset = Musician.objects.all()
     serializer_class = MusicianModelSerializer
     # serializer_class = MusicianSerializer
-    # permission_classes = [permissions.IsAuthenticated]    
+    # permission_classes = [permissions.IsAuthenticated]
     pagination_class = PageNumberPagination
 
 

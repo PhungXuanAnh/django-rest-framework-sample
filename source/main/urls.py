@@ -13,11 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
 from django.conf.urls.static import static
-from swagger.views import schema_view as swagger_view
+from swagger.views import SwaggerView
 
 
 api_v1_urls = [
@@ -28,17 +28,21 @@ api_v1_urls = [
 ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("swagger/", swagger_view.with_ui('swagger', cache_timeout=0))
+    path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("swagger/", SwaggerView.with_ui("swagger", cache_timeout=0)),
 ]
 
 urlpatterns += api_v1_urls
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# pylint: disable=line-too-long
+urlpatterns += static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)  # Reference: https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-static-files-during-development
 
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
+        path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns

@@ -12,6 +12,7 @@ This is initial code for create sample codes in in django rest framework
   - [3.2. Using docker](#32-using-docker)
   - [3.3. Test](#33-test)
     - [3.3.1. Access swagger](#331-access-swagger)
+      - [3.3.1.1. customize swagger schema](#3311-customize-swagger-schema)
     - [3.3.2. Access admin site](#332-access-admin-site)
     - [3.3.3. Access users/groups apis](#333-access-usersgroups-apis)
 - [4. Music app](#4-music-app)
@@ -58,8 +59,9 @@ This is initial code for create sample codes in in django rest framework
   - [10.1. List api](#101-list-api)
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
-  - [11.2. Config for https](#112-config-for-https)
-  - [11.3. nginx basic auth](#113-nginx-basic-auth)
+  - [11.2. Config for https self-certificates](#112-config-for-https-self-certificates)
+  - [11.3. Config for https certbot certificates](#113-config-for-https-certbot-certificates)
+  - [11.4. nginx basic auth](#114-nginx-basic-auth)
 - [12. Add sonarqube](#12-add-sonarqube)
   - [12.1. deploy](#121-deploy)
   - [12.2. how to using sonarqube](#122-how-to-using-sonarqube)
@@ -71,13 +73,17 @@ This is initial code for create sample codes in in django rest framework
     - [13.2.3. Exit debug mode on vscode](#1323-exit-debug-mode-on-vscode)
   - [13.3. Remote](#133-remote)
 - [14. Linting code](#14-linting-code)
-- [15. Add celery](#15-add-celery)
+- [15. Celery](#15-celery)
+  - [15.1. logging and test](#151-logging-and-test)
+  - [15.2. test celery from admin](#152-test-celery-from-admin)
+- [16. Add debug tool bar](#16-add-debug-tool-bar)
+- [17. Add sentry](#17-add-sentry)
 
 # 1. setup environment
 
 ```shell
-pyenv install -v 3.8.0
-pyenv local 3.8.0
+pyenv install -v 3.9.0
+pyenv local 3.9.0
 python --version
 which python
 venv-create     # if it detect wrong version of python, it need to open another shell
@@ -132,7 +138,11 @@ make create-sample-data
 
 ## 3.1. Live
 
+```shell
+cp env_file.example env_file
+# update env_file content then:
 make run
+```
 
 ## 3.2. Using docker
 
@@ -140,6 +150,9 @@ For development environment (for other env just change prefix, ex: dev -> prod)
 
 
 ```shell
+cp env_file.example env_file
+# update env_file content then:
+
 make dev-build
 make dev-up
 make dev-ps
@@ -149,9 +162,20 @@ make dev-ps
 ### 3.3.1. Access swagger
 
 http://127.0.0.1:8027/swagger/
-http://127.0.0.1:81/swagger/
-https://127.0.0.1:444/swagger/
 
+http://127.0.0.1:80/swagger/
+
+https://127.0.0.1:443/swagger/
+
+#### 3.3.1.1. customize swagger schema
+
+Reference: https://drf-yasg.readthedocs.io/en/stable/custom_spec.html
+
+using 2 decorator : `@swagger_auto_schema` and `@swagger_serializer_method`
+
+Example using `@swagger_auto_schema` in file: [source/music/views/api_views.py#49](source/music/views/api_views.py#49)
+
+And example using `@swagger_serializer_method` here: https://drf-yasg.readthedocs.io/en/stable/custom_spec.html#support-for-serializermethodfield
 
 ### 3.3.2. Access admin site
 
@@ -160,14 +184,18 @@ Account as above: admin/admin
 **Admin normal**
 
 http://127.0.0.1:8027/admin   ==> NOTE: when run server using gunicorn, static file will not found
-http://127.0.0.1:81/admin
-https://127.0.0.1:444/admin
+
+http://127.0.0.1:80/admin
+
+https://127.0.0.1:443/admin
 
 ### 3.3.3. Access users/groups apis
 
 http://127.0.0.1:8027/api/v1
-http://127.0.0.1:81/api/v1
-https://127.0.0.1:444/api/v1
+
+http://127.0.0.1:80/api/v1
+
+https://127.0.0.1:443/api/v1
 
 
 login by above account: admin/admin
@@ -194,7 +222,7 @@ access: http://127.0.0.1:8027/swagger/
 ## 4.2. Views
 ### 4.2.1. musican-api-views
 
-This set of apis describle how to using `APIView` to make api as basic and normal, code will be handle by yourself
+This set of apis describe how to using `APIView` to make api as basic and normal, code will be handle by yourself
 
 **Test:**
 
@@ -208,7 +236,7 @@ Using api views when you want to custom detail in your api
 
 ### 4.2.2. musican-generic-views
 
-This set of apis describle how to using `generics` view to make api code will be made shorter
+This set of apis describe how to using `generics` view to make api code will be made shorter
 
 **Test:**
 
@@ -222,7 +250,7 @@ Using generic view when you want to combine some methods in one view, but not al
 
 ### 4.2.3. musican-viewset
 
-This set of apis describle how to using `ModelViewSet` to make code shortest
+This set of apis describe how to using `ModelViewSet` to make code shortest
 
 **Test:**
 
@@ -244,7 +272,7 @@ To run this debug code see debug part in this file
 
 ### 4.3.1. Common serializer
 
-This type of serializer you don't need to specify your model, but you must declare all neccessary fields manually
+This type of serializer you don't need to specify your model, but you must declare all necessary fields manually
 
 Ex: **MusicianSerializer** [music/serializers.py](music/serializers.py)
 
@@ -271,7 +299,7 @@ make docker-test-command-get-musican-by-email
 ### 4.3.4. celery task using django_celery_beat
 
 ```shell
-# NOTE: create celery task by this lib will dont need to restart worker and beat 
+# NOTE: create celery task by this lib will don't need to restart worker and beat 
 # like create task in celeryconfig.py
 make docker-create-periodic-task
 
@@ -279,8 +307,8 @@ make docker-create-periodic-task
 tailf source/logs/celery.task.log
 tailf source/logs/celery.beat.log
 # or
-docker logs -f my-sample-celery-beat
-docker logs -f my-sample-celery-worker
+docker logs -f sample-celery-beat
+docker logs -f sample-celery-worker
 ```
 
 # 5. Using serializer effectively
@@ -314,7 +342,7 @@ All example in this serializer: **MusicianModelSerializerReadEffective_Serialize
 
 ### 5.1.3. Using to_representation
 
-Using to_representation when you want to custom mutiple data fields
+Using to_representation when you want to custom multiple data fields
 
 All example in this serializer: **MusicianModelSerializerReadEffective_SerializerMethod** in file [source/music/sample_using_serializer_effective/serializers.py](source/music/sample_using_serializer_effective/serializers.py)
 
@@ -676,7 +704,7 @@ make user-get
 make user-get-via-nginx-http
 ```
 
-## 11.2. Config for https
+## 11.2. Config for https self-certificates
 
 See this commit:
 
@@ -711,7 +739,130 @@ Test command:
 make user-get-via-nginx-https
 ```
 
-## 11.3. nginx basic auth
+## 11.3. Config for https certbot certificates
+
+**NOTE**: you must have a real and public domain 
+
+for ex: xuananh-drf-test.com
+
+**step 1: add well known path to nginx config and docker compose**
+
+```shell
+    location /.well-known {      
+        alias  /var/www/certbot/.well-known/;
+    }
+```
+
+test new path
+
+```shell
+cd django-rest-framework-sample/
+sudo chmod -R 777 certbot/well-known
+echo aaa > certbot/well-known/test
+wget -O- http://xuananh-drf-test.com/.well-known/test
+```
+
+**step 2: run docker compose and create ssl key manually:**
+
+```shell
+make local-up
+
+docker exec -it sample-certbot /usr/local/bin/certbot \
+	certonly \
+	--manual \
+	--email test@gmail.com \
+	--agree-tos \
+	--no-eff-email \
+	-d xuananh-drf-test.com
+
+# output
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for xuananh-drf-test.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Create a file containing just this data:
+
+OxcR2r7pzGNBbtIuryLt502Y9NHFkV3iF_X4YpVDMbY.GUZsjL4TURfJ9awlOHh6yf7TIO1xavKCICoJcew2yXI
+
+And make it available on your web server at this URL:
+
+http://xuananh-drf-test.com/.well-known/acme-challenge/OxcR2r7pzGNBbtIuryLt502Y9NHFkV3iF_X4YpVDMbY
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Press Enter to Continue
+
+
+```
+
+Do as instruction of above command, create that file in nginx, change CONTENT and FILE_NAME base on msg above
+
+```shell
+
+CONTENT=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE.GUZsjL4TURfJ9awlOHh6yf7TIO1xavKCICoJcew2yXI
+FILE_NAME=-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+FILE_PATH=/var/www/certbot/.well-known//acme-challenge
+DOMAIN=http://xuananh-drf-test.com
+docker exec sample-nginx mkdir -p $FILE_PATH
+docker exec sample-nginx touch $FILE_PATH/$FILE_NAME
+docker exec sample-nginx bash -c "echo $CONTENT > $FILE_PATH/$FILE_NAME"
+docker exec sample-nginx cat $FILE_PATH/$FILE_NAME
+
+# test above url
+docker exec sample-certbot wget -O- http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+
+docker exec sample-certbot wget http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
+
+
+```
+
+Then Press Enter to Continue
+
+Next do the same
+
+After that check generated certificates:
+
+```shell
+cd django-rest-framework-sample
+ls certbot/conf/live/xuananh-drf-test.com
+# or
+docker exec sample-certbot ls /etc/letsencrypt/live/xuananh-drf-test.com
+# it should show
+README
+cert.pem
+chain.pem
+fullchain.pem
+privkey.pem
+
+```
+
+**step 3: change ssl config of nginx**
+
+```shell
+    ssl_certificate /etc/nginx/ssl/live/xuananh-drf-test.com/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/xuananh-drf-test.com/privkey.pem;
+```
+
+Restart nginx and test
+
+**References**: 
+
+
+https://stackoverflow.com/a/68605598/7639845
+
+https://certbot.eff.org/docs/using.html#manual
+
+https://github.com/nginx-proxy/acme-companion
+
+https://certbot.eff.org/docs/install.html#running-with-docker
+
+https://certbot.eff.org/docs/using.html#manual
+
+https://certbot.eff.org/docs/using.html#plugins
+
+https://help.datica.com/hc/en-us/articles/360044373551-Creating-and-Deploying-a-LetsEncrypt-Certificate-Manually
+
+
+## 11.4. nginx basic auth
 
 https://github.com/PhungXuanAnh/tech-note/blob/master/devops/nginx/nginx-configuration-snippets.md#enable-basic-authentication
 
@@ -735,11 +886,11 @@ Follow this file to using sonarqube : [Readme.md](sonarqube/Readme.md)
 
 ## 13.1. Live
 
-Start all other services and stop my-backend service:
+Start all other services and stop sample-backend service:
 
 ```shell
 make local-up
-docker stop my-sample-backend
+docker stop sample-backend
 ```
 
 Click to button **Run and Debug** in vscode, choose **Python:Django**
@@ -801,20 +952,20 @@ Debug over ssh, more detail here: https://code.visualstudio.com/docs/python/debu
 
 # 14. Linting code
 
-Linting code is importance part of any IDE for check systax and error form IDE
+Linting code is importance part of any IDE for check syntax and error form IDE
 
 - See setting of pylint if settings.json of Vscode
 - To test gen config file for pylint run `make pylint-gen-rcfile`
 - To check pylint and config file is work properly, run `make pylint-test-config-file-pylintrc`
 - Reload windown for apply new pylint config file settings
 
-# 15. Add celery
+# 15. Celery
 
-For testing
+## 15.1. logging and test
 
 ```shell
-docker log -f my-sample-celery-worker
-docker log -f my-sample-celery-beat
+docker log -f sample-celery-worker
+docker log -f sample-celery-beat
 # or
 tailf source/logs/celery.worker.log
 tailf source/logs/celery.beat.log
@@ -823,3 +974,36 @@ tailf source/logs/celery.task.log
 # uncomment test method: test_celery_sample_task, then run test file, then see log
 python source/scripts/live-test.py
 ```
+
+## 15.2. test celery from admin
+
+Setup up as below
+
+![](readme_images/celery-admin-setup-for-testing.png)
+
+Then click Save and continue, task will be trigger only once at right that time, 
+then it's also disable
+
+To test again, check to tickbox Enable as above image and click Save and continue again
+
+# 16. Add debug tool bar
+
+Test access link on browser: 
+
+http://localhost:81/api/v1/musican-generic-views/4
+
+With request that need more header field, using chrome extension 'ModHeader' to add more field to header
+
+# 17. Add sentry
+
+See all settings file for how to using sentry through sentry-sdk
+
+Test sentry:
+
+```shell
+make musican-viewset-sample-action-test-sentry
+```
+
+access link to see log: https://sentry.io/organizations/xuananh/issues/?project=6229890&query=is%3Aunresolved&statsPeriod=24h
+
+![](readme_images/sentry.png)

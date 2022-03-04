@@ -1,4 +1,4 @@
-FROM python:3.8.0
+FROM python:3.9.0
 
 # Reference: https://stackoverflow.com/a/59812588/7639845
 ENV PYTHONUNBUFFERED 1
@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY ./requirements/* /app/requirements/
 ARG BUILD_ENV=BUILD_ENV_this_value_must_be_pass_during_build_time
-RUN pip install -r requirements/${BUILD_ENV}.pythonpip
+RUN pip install -r requirements/${BUILD_ENV}.txt --upgrade
 # RUN echo ${BUILD_ENV}
 
 COPY ./source /app

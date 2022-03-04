@@ -83,7 +83,7 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         debugpy.breakpoint()
         return super().retrieve(request, *args, **kwargs)
-    
+
     def create(self, request, *args, **kwargs):
         debugpy.breakpoint()
         return super().create(request, *args, **kwargs)

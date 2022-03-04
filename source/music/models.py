@@ -20,10 +20,11 @@ class Musician(models.Model):
 
     def __str__(self):
         # This method for show name of this a row instead of Xxx object(500), ex: Musician object (500)
-        return self.first_name + ' ' + self.last_name
+        return self.first_name + " " + self.last_name
 
     def get_full_name(self):
         return self.first_name + " " + self.last_name
+
 
 class Album(models.Model):
     artist = models.ForeignKey(Musician, on_delete=models.CASCADE)
@@ -35,6 +36,7 @@ class Album(models.Model):
         # This method for show name of this a row instead of Xxx object(500), ex: Musician object (500)
         return self.name + ": " + str(self.release_date)
 
+
 class Profile(models.Model):
     user = models.OneToOneField(Musician, on_delete=models.CASCADE)
     age = models.IntegerField(default=0)
@@ -44,7 +46,7 @@ class Profile(models.Model):
 
     def __str__(self):
         # This method for show name of this a row instead of Xxx object(500), ex: Musician object (500)
-        return "Profile of " + self.user.first_name + ' ' + self.user.last_name
+        return "Profile of " + self.user.first_name + " " + self.user.last_name
 
     def get_full_address(self):
         return "%s, %s" % (self.street, self.city)

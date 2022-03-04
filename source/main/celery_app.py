@@ -15,24 +15,21 @@ app.autodiscover_tasks()
 @app.task
 def sample_task(*arg, **kwargs):
     # pylint: disable=import-outside-toplevel
-    import datetime
     import logging
 
     # NOTE: write logging messages as below for avoid error pylint
     # Use lazy % formatting in logging functionspylint(logging-not-lazy)
     # reference: https://stackoverflow.com/a/29371584/7639845
     logger = logging.getLogger("celery.task")
-    logger.error(
-        "===> This is sample celery task: arg=%s, kwarg=%s", arg, kwargs
-    )
+    logger.info("===> This is sample celery task: arg=%s, kwarg=%s", arg, kwargs)
     return arg
 
 
 # pylint: disable=unused-argument
 # pylint: disable=import-outside-toplevel
 @setup_logging.connect
-def config_loggers(*args, **kwags):
+def config_loggers(*args, **kwargs):
     from logging.config import dictConfig
     from main.settings import celeryconfig
 
-    dictConfig(celeryconfig.LOGGING)
+    dictConfig(celeryconfig.CELERY_LOGGING)
