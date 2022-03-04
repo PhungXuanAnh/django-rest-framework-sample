@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from swagger.views import SwaggerView
-
+import debug_toolbar
 
 api_v1_urls = [
     path("api/v1/", include("music.urls")),
@@ -38,9 +38,4 @@ urlpatterns += static(
 )  # Reference: https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-static-files-during-development
 
 
-if settings.DEBUG:
-    import debug_toolbar
-
-    urlpatterns = [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ] + urlpatterns
+urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]

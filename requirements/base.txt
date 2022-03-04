@@ -21,3 +21,6 @@ django-admin-numeric-filter
 
 # logging
 sentry-sdk
+
+# debug toolbar
+django-debug-toolbar
