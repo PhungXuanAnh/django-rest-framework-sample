@@ -20,7 +20,6 @@ services:
         gunicorn main.wsgi:application -w 1 -b :8027
     volumes:
       - static_files:/app/static_files
-      - ./source:/app
 
   postgres:
     restart: always
