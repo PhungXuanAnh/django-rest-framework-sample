@@ -73,22 +73,22 @@ services:
       - sample-backend  # django-celery-beat package need to wait backend service run migrations before 
                     # start for create tables of this package
 
-  celery-flower:
-    <<: *default
-    image: celery-flower:latest
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./source:/app
-      - ./source/logs:/app/logs
-    container_name: sample-celery-flower
-    ports:
-      - 5555:5555
-    depends_on:
-      - postgres
-    command:
-      celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
+  # celery-flower:
+  #   <<: *default
+  #   image: celery-flower:latest
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./source:/app
+  #     - ./source/logs:/app/logs
+  #   container_name: sample-celery-flower
+  #   ports:
+  #     - 5555:5555
+  #   depends_on:
+  #     - postgres
+  #   command:
+  #     celery --app=main.celery_app flower --basic_auth=admin:password123 --address=0.0.0.0 --port=5555
 
   redis:
     <<: *default
