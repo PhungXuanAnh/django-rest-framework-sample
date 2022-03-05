@@ -162,7 +162,7 @@ make dev-ps
 
 ### 3.3.1. Access swagger
 
-http://127.0.0.1:8027/swagger/
+http://127.0.0.1:8027/swagger/    ==> NOTE: when run server using gunicorn, static file will not found, because gunicorn don't serve static files, you should use nginx to serve static files. If you want to serve static file from your app, using whitenoise
 
 http://127.0.0.1:80/swagger/
 
@@ -184,7 +184,7 @@ Account as above: admin/admin
   
 **Admin normal**
 
-http://127.0.0.1:8027/admin   ==> NOTE: when run server using gunicorn, static file will not found
+http://127.0.0.1:8027/admin   ==> NOTE: when run server using gunicorn, static file will not found, because gunicorn don't serve static files, you should use nginx to serve static files. If you want to serve static file from your app, using whitenoise
 
 http://127.0.0.1:80/admin
 
@@ -192,7 +192,7 @@ https://127.0.0.1:443/admin
 
 ### 3.3.3. Access users/groups apis
 
-http://127.0.0.1:8027/api/v1
+http://127.0.0.1:8027/api/v1  ==> NOTE: when run server using gunicorn, static file will not found, because gunicorn don't serve static files, you should use nginx to serve static files. If you want to serve static file from your app, using whitenoise
 
 http://127.0.0.1:80/api/v1
 
