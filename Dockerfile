@@ -18,6 +18,4 @@ COPY ./source /app
 
 EXPOSE 8027
 
-RUN DJANGO_SETTINGS_MODULE=main.settings.${BUILD_ENV} python3 manage.py collectstatic --noinput && rm -rf /app/logs/* ;
-
 # CMD ["python3", "manage.py", "runserver", "0.0.0.0:8027"]

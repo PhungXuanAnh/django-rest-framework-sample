@@ -17,6 +17,7 @@ services:
       - -c
       - |
         python3 manage.py migrate
+        python3 manage.py collectstatic --noinput
         gunicorn main.wsgi:application -w 5 -b :8027
     volumes:
       - static_files:/app/static_files
