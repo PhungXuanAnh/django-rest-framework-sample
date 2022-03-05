@@ -353,5 +353,5 @@ local-celery-reset: local-down local-rm-redis-volume local-up local-ps
 git-pull-with-submodules:
 	git clone --recurse-submodules git@github.com:PhungXuanAnh/django-rest-framework-sample.git -b my-backend
 
-git-update-code-all-submodules:
-	git submodule update --recursive --remote
+git-pull-with-submodules:
+	git pull --recurse-submodules
