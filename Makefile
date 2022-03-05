@@ -63,6 +63,9 @@ prod-down:
 prod-build:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --parallel
 
+prod-restart:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml restart
+
 ## ======================================== int ================================
 int-up:
 	docker-compose -f docker-compose.yml -f docker-compose.int.yml up -d
