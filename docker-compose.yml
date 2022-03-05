@@ -18,8 +18,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-      args:
-        IS_BUILDING_APP: "yes"
     volumes:
       - ./source/logs:/app/logs
     container_name: sample-backend
