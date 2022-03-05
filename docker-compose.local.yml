@@ -73,6 +73,9 @@ services:
   #     args:
   #       BUILD_ENV: local
 
+  frontend:
+    volumes:
+        - ./react-googlemaps:/app
 
   nginx:
     volumes:
