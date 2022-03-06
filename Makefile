@@ -66,8 +66,16 @@ prod-build:
 prod-restart:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml restart
 
+prod-deploy: prod-build prod-up
+
 prod-up-frontend-only:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d frontend
+
+prod-deploy-front-end-only:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build frontend
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d frontend
+
+
 
 ## ======================================== int ================================
 int-up:
