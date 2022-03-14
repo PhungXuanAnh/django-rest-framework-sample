@@ -1,5 +1,7 @@
 # pylint: disable=line-too-long
 from rest_framework import permissions
+from rest_framework.authentication import SessionAuthentication
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
@@ -32,5 +34,6 @@ SwaggerView = get_schema_view(
     generator_class=BothHttpAndHttpsSchemaGenerator,
     # url='https://example.net/api/v1/', # Base URL, reference: https://stackoverflow.com/a/56090744/7639845
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    # permission_classes=(permissions.AllowAny,),
+    authentication_classes=(SessionAuthentication,),    # NOTE: allow authenticate user to call api after login from admin page
 )

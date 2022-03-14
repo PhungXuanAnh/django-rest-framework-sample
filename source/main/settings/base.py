@@ -38,9 +38,6 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     "PAGE_SIZE": 10,
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        # NOTE: enable SessionAuthentication allow call api in swagger through 
-        # login from admin page
-        "rest_framework.authentication.SessionAuthentication",  
         "rest_framework.authentication.TokenAuthentication",
         "main.custom_authentications.CustomAuthBackend",
     ),
