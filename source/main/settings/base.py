@@ -37,10 +37,14 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     "PAGE_SIZE": 10,
-    # "DEFAULT_AUTHENTICATION_CLASSES": [
-    #     "cantec_delivery.cd_base.utility.CustomJWTAuthentication",
-    # ]
-    # "DEFAULT_PERMISSION_CLASSES": [],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        # NOTE: enable SessionAuthentication allow call api in swagger through 
+        # login from admin page
+        "rest_framework.authentication.SessionAuthentication",  
+        "rest_framework.authentication.TokenAuthentication",
+        "main.custom_authentications.CustomAuthBackend",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     # pylint: disable=line-too-long
@@ -86,7 +90,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware"
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "main.urls"
@@ -231,9 +235,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.celery import CeleryIntegration
 
-SENTRY_DSN = env(
-    "SENTRY_DSN", default=""
-)  # NOTE: if not set SENTRY_DSN sentry will be disabled
+SENTRY_DSN = env("SENTRY_DSN", default="")  # NOTE: if not set SENTRY_DSN sentry will be disabled
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -242,7 +244,7 @@ sentry_sdk.init(
     # of transactions for performance monitoring.
     # We recommend adjusting this value in production.
     # traces_sample_rate=1.0,     # 100%
-    traces_sample_rate=0.2,     # 20%
+    traces_sample_rate=0.2,  # 20%
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
