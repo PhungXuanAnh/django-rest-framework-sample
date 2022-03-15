@@ -12,8 +12,7 @@ local-pytest-create-db:	# only run when there are new migrations and it keep db 
 local-pytest-reuse-db:
 	docker exec sample-backend pytest --reuse-db -v -m mark_test_for_run 2>&1 | grcat pytest.conf
 
-# TEST_MODULE=blockchain/tests/transaction_executors/test_transaction_receipt_log_parser.py
-TEST_MODULE=blockchain/tests/tasks/test_task_parse_transaction_receipt_event_log.py
+TEST_MODULE=music/tests/test_sample.py
 local-test:
 # https://stackoverflow.com/a/61869181/7639845
 # https://stackoverflow.com/a/62804929/7639845
