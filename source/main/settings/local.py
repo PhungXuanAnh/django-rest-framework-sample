@@ -2,7 +2,7 @@
 # pylint: disable=unused-wildcard-import
 # pylint: disable=wrong-import-order
 
-from .base import *
+from .dev import *
 
 # ============================= disable sentry ================================================
 import sentry_sdk

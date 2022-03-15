@@ -4,9 +4,14 @@
 
 from .base import *
 
-# ============================= disable sentry ================================================
-import sentry_sdk
+# ==================== debug tool bar =========================
 
-# NOTE: call sentry init again with empty arguments for disable sentry
-# reference: https://github.com/getsentry/sentry-python/issues/660#issuecomment-604077472
-sentry_sdk.init()
+INSTALLED_APPS += [
+    "debug_toolbar",
+]
+
+MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
+}
