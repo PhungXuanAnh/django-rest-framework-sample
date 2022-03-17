@@ -49,7 +49,9 @@ services:
           -Ofair --pool=eventlet --concurrency=10 
           --loglevel=info -f /app/logs/celery-worker.log 
           -n worker1@%h
-
+    # entrypoint: bash -c # sh -c
+    # command:
+    #   - while true; do echo "this is test command"; sleep 1; done
 
   celery-beat:
     build: 
@@ -65,13 +67,16 @@ services:
           --app=main.celery_app 
           beat 
           --scheduler django_celery_beat.schedulers:DatabaseScheduler 
-          --loglevel=info -f /app/logs/celery-beat.log 
+          --loglevel=info -f /app/logs/celery-beat.log
+    # entrypoint: bash -c # sh -c
+    # command:
+    #   - while true; do echo "this is test command"; sleep 1; done 
     
         
-  celery-flower:
-    build: 
-      args:
-        BUILD_ENV: local
+  # celery-flower:
+  #   build: 
+  #     args:
+  #       BUILD_ENV: local
 
 
   nginx:

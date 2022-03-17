@@ -136,28 +136,28 @@ services:
         - ./certbot/well-known:/var/www/certbot/.well-known
     command: /bin/bash -c "nginx -g 'daemon off;'"
 
-  certbot:
-    container_name: sample-certbot
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/logs:/var/log/letsencrypt
-      - ./certbot/well-known:/var/www/certbot/.well-known
-    # command:
-    #   - certonly
-    #   - --webroot
-    #   - --webroot-path=/var/www/certbot/.well-known
-    #   - --email
-    #   - test@gmail.com
-    #   - --agree-tos
-    #   - --no-eff-email
-    #   - -d
-    #   -  xuananh-drf-test.com
-      # - -d
-      # - www.xuananh-drf-test.com
-    entrypoint: sh -c
-    command:
-      - while true; do echo "this is test command"; sleep 1; done
+  # certbot:
+  #   container_name: sample-certbot
+  #   image: certbot/certbot:latest
+  #   volumes:
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/logs:/var/log/letsencrypt
+  #     - ./certbot/well-known:/var/www/certbot/.well-known
+  #   # command:
+  #   #   - certonly
+  #   #   - --webroot
+  #   #   - --webroot-path=/var/www/certbot/.well-known
+  #   #   - --email
+  #   #   - test@gmail.com
+  #   #   - --agree-tos
+  #   #   - --no-eff-email
+  #   #   - -d
+  #   #   -  xuananh-drf-test.com
+  #     # - -d
+  #     # - www.xuananh-drf-test.com
+  #   entrypoint: sh -c
+  #   command:
+  #     - while true; do echo "this is test command"; sleep 1; done
 
 networks:
   internal-network:
