@@ -43,12 +43,13 @@ services:
         --directory . 
         --ignore-pattern='*/call_tasks.py' 
         --pattern '*.py' --recursive 
-        -- /usr/local/bin/celery 
-          --app=main.celery_app worker 
-          -Q=queue-high,queue-medium,queue-low 
-          -Ofair --pool=eventlet --concurrency=10 
-          --loglevel=info -f /app/logs/celery-worker.log 
-          -n worker1@%h
+        -- python -m debugpy --listen 0.0.0.0:5679 -m 
+          celery 
+            --app=main.celery_app worker 
+            -Q=queue-high,queue-medium,queue-low 
+            -Ofair --pool=eventlet --concurrency=10 
+            --loglevel=info -f /app/logs/celery-worker.log 
+            -n worker1@%h
     # entrypoint: bash -c # sh -c
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done
@@ -63,11 +64,12 @@ services:
         --ignore-pattern='*/call_tasks.py'
         --pattern '*.py'
         --recursive
-        -- celery 
-          --app=main.celery_app 
-          beat 
-          --scheduler django_celery_beat.schedulers:DatabaseScheduler 
-          --loglevel=info -f /app/logs/celery-beat.log
+        -- python -m debugpy --listen 0.0.0.0:5679 -m 
+          celery 
+            --app=main.celery_app 
+            beat 
+            --scheduler django_celery_beat.schedulers:DatabaseScheduler 
+            --loglevel=info -f /app/logs/celery-beat.log
     # entrypoint: bash -c # sh -c
     # command:
     #   - while true; do echo "this is test command"; sleep 1; done 
