@@ -1,3 +1,6 @@
+# secret key for django server
+SECRET_KEY=8khss#nb@$*(blml2q@jwvaz!ehxq8qtq29=49!vhf3ck1r)9r
+
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 POSTGRES_USER=database_user
