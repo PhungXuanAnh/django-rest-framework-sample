@@ -34,11 +34,19 @@ services:
     build: 
       args:
         BUILD_ENV: prod
+    environment:
+      - DEBUG=False
+      - DJANGO_SETTINGS_MODULE=main.settings.prod
+      - WORKING_ENV=prod
 
   celery-beat:
     build: 
       args:
         BUILD_ENV: prod
+    environment:
+      - DEBUG=False
+      - DJANGO_SETTINGS_MODULE=main.settings.prod
+      - WORKING_ENV=prod
         
   # celery-flower:
   #   build: 
