@@ -28,7 +28,7 @@ SECRET_KEY = "8khss#nb@$*(blml2q@jwvaz!ehxq8qtq29=49!vhf3ck1r)9r"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG", default=True)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost"]   # re-define this variable for each environment
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {

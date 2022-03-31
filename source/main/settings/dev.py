@@ -6,6 +6,8 @@ from .base import *
 
 # ==================== debug tool bar =========================
 
+# ALLOWED_HOSTS = ["localhost"]   # re-define this variable for each environment
+
 INSTALLED_APPS += [
     "debug_toolbar",
 ]

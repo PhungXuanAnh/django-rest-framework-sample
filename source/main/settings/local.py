@@ -4,6 +4,8 @@
 
 from .dev import *
 
+# ALLOWED_HOSTS = ["localhost"]   # re-define this variable for each environment
+
 # ============================= disable sentry ================================================
 import sentry_sdk
 
