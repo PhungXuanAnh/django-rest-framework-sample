@@ -57,8 +57,8 @@ This is initial code for create sample codes in in django rest framework
   - [10.1. List api](#101-list-api)
 - [11. Add nginx configs](#11-add-nginx-configs)
   - [11.1. Config for http only](#111-config-for-http-only)
-  - [11.2. Config for https self-certificates](#112-config-for-https-self-certificates)
-  - [11.3. Config for https certbot certificates](#113-config-for-https-certbot-certificates)
+  - [11.2. Config https using self-certificates](#112-config-https-using-self-certificates)
+  - [11.3. Config https using certbot](#113-config-https-using-certbot)
   - [11.4. nginx basic auth](#114-nginx-basic-auth)
 - [12. Add sonarqube](#12-add-sonarqube)
   - [12.1. deploy](#121-deploy)
@@ -685,7 +685,7 @@ make user-get
 make user-get-via-nginx-http
 ```
 
-## 11.2. Config for https self-certificates
+## 11.2. Config https using self-certificates
 
 See this commit:
 
@@ -720,7 +720,9 @@ Test command:
 make user-get-via-nginx-https
 ```
 
-## 11.3. Config for https certbot certificates
+## 11.3. Config https using certbot
+
+https://mindsers.blog/post/https-using-nginx-certbot-docker/
 
 **NOTE**: you must have a real and public domain 
 
@@ -771,8 +773,6 @@ http://xuananh-drf-test.com/.well-known/acme-challenge/OxcR2r7pzGNBbtIuryLt502Y9
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Press Enter to Continue
-
-
 ```
 
 Do as instruction of above command, create that file in nginx, change CONTENT and FILE_NAME base on msg above
@@ -792,8 +792,6 @@ docker exec sample-nginx cat $FILE_PATH/$FILE_NAME
 docker exec sample-certbot wget -O- http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
 
 docker exec sample-certbot wget http://xuananh-drf-test.com/.well-known/acme-challenge/-zYNzvDOwQMMnsnhTB_g8Kiu9In0JF8i1KtW-vuIKsE
-
-
 ```
 
 Then Press Enter to Continue
@@ -813,7 +811,6 @@ cert.pem
 chain.pem
 fullchain.pem
 privkey.pem
-
 ```
 
 **step 3: change ssl config of nginx**
