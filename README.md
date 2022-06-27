@@ -722,6 +722,10 @@ make user-get-via-nginx-https
 
 ## 11.3. Config https using certbot
 
+https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose
+
+https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+
 https://mindsers.blog/post/https-using-nginx-certbot-docker/
 
 **NOTE**: you must have a real and public domain 
