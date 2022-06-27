@@ -22,4 +22,4 @@ certbot/*
 # local.txt
 # local.py
 # Makefile.local
-# .vscode
+.vscode

@@ -127,16 +127,6 @@ services:
             max-file: "3"
 
 
-  frontend:
-    <<: *default
-    image: web:1.1.1
-    build:
-      context: ./react-googlemaps
-      dockerfile: Dockerfile
-    container_name: sample-frontend
-    ports:
-        - 3000:3000
-
   nginx:
     <<: *default
     image: nginx:1.13
