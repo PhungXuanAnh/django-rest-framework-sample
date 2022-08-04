@@ -120,12 +120,6 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "100M"
-            max-file: "3"
-
 
   nginx:
     <<: *default
