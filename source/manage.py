@@ -13,7 +13,7 @@ def initialize_debugger(sys_args):
     # RUN_MAIN env var is set by the reloader to indicate that this is the
     # actual thread running Django. This code is in the parent process and
     # initializes the debugger
-    if not os.getenv("RUN_MAIN") and sys_args[1] == "runserver":
+    if os.getenv("RUN_MAIN") and sys_args[1] == "runserver":
         try:
             import debugpy
 

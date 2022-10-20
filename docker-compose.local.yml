@@ -31,7 +31,9 @@ services:
     ## NOTE: below code for test container running
     # entrypoint: bash -c # sh -c
     # command:
-    #   - while true; do echo "this is test command"; sleep 1; done
+    #   - -c
+    #   - |
+    #     while true; do echo "this is test command"; sleep 1; done
 
   celery-worker:
     build: 
