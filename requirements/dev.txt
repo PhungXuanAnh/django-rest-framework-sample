@@ -2,6 +2,7 @@
 # debug tools
 debugpy
 ipython
+sqlparse
 
 # pylint packages
 pylint_django
