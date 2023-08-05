@@ -1,9 +1,12 @@
 -r base.txt
 # debug tools
 debugpy
+ipython
+
 # pylint packages
 pylint_django
 pylint_celery
+
 # pytest packages
 pytest
 pytest-django
