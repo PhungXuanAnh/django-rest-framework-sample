@@ -899,7 +899,7 @@ def initialize_debugger(sys_args):
 
 Then add `initialize_debugger(sys.argv)` to `main()` method of this file
 
-3. Expose port 5678 in docker-compose in `dev` and `local` environment
+3. Expose port 5678 in docker compose in `dev` and `local` environment
 
 ```yaml
 ports:

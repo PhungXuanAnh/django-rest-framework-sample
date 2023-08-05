@@ -296,22 +296,22 @@ musican-sample-filter-list-FILTER-ORDERING:
 
 ## ======================================== Deploy development environment with sonarqube ================================
 sn-test-variable-substitution-from-file:
-	cd sonarqube && docker-compose -f docker-compose.sonarqube.yml --env-file env_file.sonarqube  config | less
+	cd sonarqube && docker compose -f docker-compose.sonarqube.yml --env-file env_file.sonarqube  config | less
 
 sn-up:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+	cd sonarqube && docker compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml up -d
 	
 sn-ps:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+	cd sonarqube && docker compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml ps
 
 sn-down:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+	cd sonarqube && docker compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml down
 
 sn-build:
-	cd sonarqube && docker-compose --env-file env_file.sonarqube \
+	cd sonarqube && docker compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml build
 
 sn-prune:
@@ -328,19 +328,20 @@ sn-run:
 
 ## ======================================== local ================================
 local-up:
-	docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
+
+	docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
 
 local-restart:
-	docker-compose -f docker-compose.yml -f docker-compose.local.yml restart
+	docker compose -f docker-compose.yml -f docker-compose.local.yml restart
 
 local-ps:
-	docker-compose -f docker-compose.yml -f docker-compose.local.yml ps
+	docker compose -f docker-compose.yml -f docker-compose.local.yml ps
 
 local-down:
-	docker-compose -f docker-compose.yml -f docker-compose.local.yml down
+	docker compose -f docker-compose.yml -f docker-compose.local.yml down
 
 local-build:
-	docker-compose -f docker-compose.yml -f docker-compose.local.yml build --parallel
+	docker compose -f docker-compose.yml -f docker-compose.local.yml build --parallel
 
 local-rm-redis-volume:
 	docker volume rm django-rest-framework-sample_redis_data
