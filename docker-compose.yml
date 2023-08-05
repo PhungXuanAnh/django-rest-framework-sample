@@ -113,7 +113,7 @@ services:
 
   postgres:
     <<: *default
-    image: postgres:10
+    image: postgres:15
     container_name: sample-postgres
     ports:
       - 5432:5432
