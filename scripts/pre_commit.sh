@@ -1,6 +1,6 @@
 #!/bin/sh
 
-list_staged_python_files=`git diff --name-only --diff-filter=d --staged | grep -E '\.py$' | tr '\n' ' '`
+list_staged_python_files=$(git diff --name-only --diff-filter=d --staged | grep -E '\.py$' | tr '\n' ' ')
 
 if [ -z "$list_staged_python_files" ]
 then
