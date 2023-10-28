@@ -24,16 +24,16 @@ This is initial code for create sample codes in in django rest framework
     - [4.3.1. Common serializer](#431-common-serializer)
     - [4.3.2. Model serializer](#432-model-serializer)
     - [4.3.3. Custom django command to add](#433-custom-django-command-to-add)
-    - [4.3.4. celery task using django_celery_beat](#434-celery-task-using-django_celery_beat)
+    - [4.3.4. celery task using django\_celery\_beat](#434-celery-task-using-django_celery_beat)
 - [5. Using serializer effectively](#5-using-serializer-effectively)
   - [5.1. In read data](#51-in-read-data)
     - [5.1.1. Using source keyword](#511-using-source-keyword)
     - [5.1.2. Using SerializerMethod](#512-using-serializermethod)
-    - [5.1.3. Using to_representation](#513-using-to_representation)
+    - [5.1.3. Using to\_representation](#513-using-to_representation)
   - [5.2. In write data](#52-in-write-data)
     - [5.2.1. Add custom field validator](#521-add-custom-field-validator)
     - [5.2.2. Cross field validation](#522-cross-field-validation)
-    - [5.2.3. When and how to override to_internal_value()](#523-when-and-how-to-override-to_internal_value)
+    - [5.2.3. When and how to override to\_internal\_value()](#523-when-and-how-to-override-to_internal_value)
     - [5.2.4. When and how to override create()](#524-when-and-how-to-override-create)
   - [5.3. Other things](#53-other-things)
     - [5.3.1. Passing a value directly to the save method](#531-passing-a-value-directly-to-the-save-method)
@@ -76,6 +76,7 @@ This is initial code for create sample codes in in django rest framework
   - [15.2. test celery from admin](#152-test-celery-from-admin)
 - [16. Add debug tool bar](#16-add-debug-tool-bar)
 - [17. Add sentry](#17-add-sentry)
+- [18. Step to setup new python project](#18-step-to-setup-new-python-project)
 
 # 1. setup environment
 
@@ -89,7 +90,7 @@ venv-create     # if it detect wrong version of python, it need to open another 
 which python
 pip install -r requirements.txt
 
-# mac 
+# mac
 brew install jq
 # ubuntu
 sudo apt-get install jq -y
@@ -161,7 +162,7 @@ And example using `@swagger_serializer_method` here: https://drf-yasg.readthedoc
 ### 3.3.2. Access admin site
 
 Account as above: admin/admin
-  
+
 **Admin normal**
 
 http://127.0.0.1:8027/admin   ==> NOTE: when run server using gunicorn, static file will not found
@@ -181,7 +182,7 @@ https://127.0.0.1:443/api/v1
 
 login by above account: admin/admin
 
-or by command: 
+or by command:
 
 ```shell
 make user-get
@@ -267,7 +268,7 @@ You don't need to specify model field
 
 Ex: [music/model_serializers.py](music/model_serializers.py)
 
-### 4.3.3. Custom django command to add 
+### 4.3.3. Custom django command to add
 
 See custom command in this file [source/music/management/commands/get_musican_by_email.py](source/music/management/commands/get_musican_by_email.py)
 
@@ -280,7 +281,7 @@ make docker-test-command-get-musican-by-email
 ### 4.3.4. celery task using django_celery_beat
 
 ```shell
-# NOTE: create celery task by this lib will don't need to restart worker and beat 
+# NOTE: create celery task by this lib will don't need to restart worker and beat
 # like create task in celeryconfig.py
 make docker-create-periodic-task
 
@@ -417,7 +418,7 @@ There are two paths you can follow in this case:
 
 - use the quite popular, third party library DRF Writable Nested
 - do it on your own
-  
+
 I would recommend choosing the second option at least once, so you will know what’s going underneath.
 
 After analyzing incoming data, in most scenarios, we are able to make the following assumptions:
@@ -425,7 +426,7 @@ After analyzing incoming data, in most scenarios, we are able to make the follow
 - all items that should be updated have id,
 - all items that should be created don’t have id,
 - all items that should be deleted are present in data storage (eg. database), but are missing in the incoming request.data
-  
+
 Based on this, we know what to do with particular items on the list. Below is a snippet that shows this process in detail:
 
 ```python
@@ -529,7 +530,7 @@ Refer: https://www.django-rest-framework.org/api-guide/filtering/#filtering-agai
 
 ```python
     # re_path('^purchases/(?P<username>.+)/$', PurchaseList.as_view()),
-    
+
     def get_queryset(self):
         """
         This view should return a list of all the purchases
@@ -605,7 +606,7 @@ ordering_fields = ['last_name', 'first_name', 'email']
 ordering = ['email']    # default field for ordering
 ```
 
-Test with command: 
+Test with command:
 
 ```shell
 make musican-sample-ordering-list-ORDERING-email
@@ -620,7 +621,7 @@ Sample code in file: [viewsets.py](music/sample_search_filter_ordering/viewsets.
 class MusicianListRetriveViews_Filter_Search_Order(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
 ```
 
-Test commands: 
+Test commands:
 
 ```shell
 make musican-sample-search-list-SEARCH-ORDERING-city
@@ -728,14 +729,14 @@ https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-m
 
 https://mindsers.blog/post/https-using-nginx-certbot-docker/
 
-**NOTE**: you must have a real and public domain 
+**NOTE**: you must have a real and public domain
 
 for ex: xuananh-drf-test.com
 
 **step 1: add well known path to nginx config and docker compose**
 
 ```shell
-    location /.well-known {      
+    location /.well-known {
         alias  /var/www/certbot/.well-known/;
     }
 ```
@@ -826,7 +827,7 @@ privkey.pem
 
 Restart nginx and test
 
-**References**: 
+**References**:
 
 
 https://stackoverflow.com/a/68605598/7639845
@@ -915,8 +916,8 @@ ports:
 2. Go to debug screen of Vscode, choose `Python: Remote Attach`, then click Run button
 
 3. Add breakpoint to file you want to debug
-    
-4. Call api you want to debug from postman or curl. There is already created file for debug music app in this project. Let's run below command for debug it 
+
+4. Call api you want to debug from postman or curl. There is already created file for debug music app in this project. Let's run below command for debug it
 
 ```shell
 make debug-get
@@ -963,14 +964,14 @@ Setup up as below
 
 ![](readme_images/celery-admin-setup-for-testing.png)
 
-Then click Save and continue, task will be trigger only once at right that time, 
+Then click Save and continue, task will be trigger only once at right that time,
 then it's also disable
 
 To test again, check to tickbox Enable as above image and click Save and continue again
 
 # 16. Add debug tool bar
 
-Test access link on browser: 
+Test access link on browser:
 
 http://localhost:81/api/v1/musican-generic-views/4
 
@@ -989,3 +990,12 @@ make musican-viewset-sample-action-test-sentry
 access link to see log: https://sentry.io/organizations/xuananh/issues/?project=6229890&query=is%3Aunresolved&statsPeriod=24h
 
 ![](readme_images/sentry.png)
+
+
+# 18. Step to setup new python project
+
+1. Check linting in vscode: pylint/flake8
+2. Check formatter in vscode: black/isort
+3. Setup pre-commit
+   1. create .pre-commit-config.yaml
+   2. pre-commit install to install pre-commit hook
