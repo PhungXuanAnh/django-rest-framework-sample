@@ -19,8 +19,8 @@ from music.models import Album, Musician, Profile
 from music.tasks import sample_music_task
 
 
-# NOTE: this dictionary for testing black formatter, if remove , at last key: value, the black will format
-# this dict to 
+# NOTE: this dictionary for testing black formatter, if remove , at "K2": "V2",
+# he black will format this dict to {"K1": "V1", "K2": "V2"}
 TEST_BLACK_FORMATTER = {
     "K1": "V1",
     "K2": "V2",
