@@ -1,0 +1,78 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+    - id: trailing-whitespace
+      exclude: '(^.*__snapshots__.*$|apps\/ctos\/enqws_parser\/.*|apps\/ctos\/data\/.*|apps\/experian\/data\/.*)'
+    - id: check-merge-conflict
+    - id: debug-statements
+
+- repo: https://github.com/pycqa/flake8
+  rev: 4.0.1
+  hooks:
+    - id: flake8
+      exclude: '(^.*migrations.*$|apps\/pretty_bad_protocol\/.*|apps\/ctos\/enqws_parser\/.*)'
+      additional_dependencies: [
+        'flake8-blind-except',
+        'flake8-comprehensions',
+        'flake8-pep3101',
+        'flake8-tidy-imports',
+        'flake8-docstrings',
+      ]
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.12.0
+  hooks:
+    - id: isort
+      exclude: '(^.*migrations.*$|apps\/ctos\/enqws_parser\/.*)'
+
+- repo: https://github.com/psf/black
+  rev: 23.1.0
+  hooks:
+    - id: black
+      args: [--line-length=100, --safe]
+      language_version: python3
+      exclude: '(^.*migrations.*$|apps\/pretty_bad_protocol\/.*|apps\/ctos\/enqws_parser\/.*)'
+
+- repo: https://github.com/econchick/interrogate
+  rev: 1.5.0
+  hooks:
+  - id: interrogate
+    args: [
+      -vv, -i, --fail-under=5,
+      --ignore-nested-functions,
+      --ignore-nested-classes,
+      --ignore-semiprivate,
+      --ignore-private,
+      --ignore-magic,
+      --ignore-module,
+      --ignore-init-method,
+      --ignore-property-decorators,
+      --ignore-regex=.*test_.*,
+      --ignore-regex=.*Test.*,
+    ]
+    exclude: admin\.py$|test_.*\.py$|^ablr/settings/.*\.py$|api_.*\.py$|migrations/.*\.py$|enum.py$
+
+- repo: https://github.com/pre-commit/mirrors-prettier
+  rev: v3.0.0-alpha.4 # Use the sha or tag you want to point at
+  hooks:
+    - id: prettier
+      files: '^.*\.(s?css|jsx?)$'
+      exclude: 'apps\/experian\/data\/.*'
+
+- repo: local
+  hooks:
+  - id: eslint
+    name: eslint
+    files: '^.*\.jsx?$'
+    language: system
+    pass_filenames: true
+    entry: ./node_modules/.bin/eslint --color
+    exclude: '^.*__snapshots__.*$'
+
+- repo: https://github.com/koalaman/shellcheck-precommit
+  rev: v0.7.2
+  hooks:
+  -   id: shellcheck
+#       args: ["--severity=warning"]  # Optionally only show errors and warnings
+
