@@ -1,4 +1,4 @@
-version: "3.8"
+# https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/installing-sonarqube-from-docker/
 
 x-default: &default_sonarqube
   # restart: always
@@ -15,14 +15,16 @@ x-default: &default_sonarqube
 services:
   sonarqube:
     <<: *default_sonarqube
-    image: sonarqube:9.0.0-community
+    # image: sonarqube:9.0.0-community
+    image: sonarqube:10.6.0-community
     container_name: sonarqube
     ports:
       - 9000:9000
     volumes:
-      - ./tmp/data:/opt/sonarqube/data
-      - ./tmp/logs:/opt/sonarqube/logs
-      - ./plugins:/opt/sonarqube/extensions/plugins
+      # - ./plugins:/opt/sonarqube/extensions/plugins
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
     depends_on:
       - postgres-sonarqube
     # --------------- for debug container ------------------------
@@ -40,8 +42,8 @@ services:
     ports:
       - 5433:5432
     volumes:
-      # - sonarqube_postgres:/var/lib/postgresql/data
-      - ./tmp/postgres:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
 
 networks:
   sonarqube-network:
@@ -49,4 +51,7 @@ networks:
 
 volumes:
   sonarqube_data:
-  sonarqube_postgres:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:

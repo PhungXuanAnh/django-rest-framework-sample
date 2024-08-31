@@ -22,6 +22,7 @@
     //     "${workspaceFolder}/source"
     // ]
     "files.associations": {
-        "env_file.sonarqube.example": "ruby"
+        "env_file.sonarqube.example": "ruby",
+        "env_file.sonarqube": "ruby"
     }
 }

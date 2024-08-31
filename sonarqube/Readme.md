@@ -56,13 +56,11 @@ On client where you want to run sonarqube client :
 ```shell
 # --------- for linux
 cd ~/Downloads
-wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
-unzip sonar-scanner-cli-4.6.0.2311-linux.zip
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip
+unzip sonar-scanner-cli-6.1.0.4477-linux-x64.zip
 
-# ----------- for mac os
-cd ~/Downloads
-wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-macosx.zip
-unzip sonar-scanner-cli-4.6.0.2311-macosx.zip
+~/Downloads/sonar-scanner-6.1.0.4477-linux-x64/bin/sonar-scanner
+
 ```
 
 ## 3.2. Run with config
@@ -72,9 +70,9 @@ Add config as file [sonar-project.properties](../sonar-project.properties) to yo
 then run :
 
 ```shell
-~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner
+~/Downloads/sonar-scanner-6.1.0.4477-linux-x64/bin/sonar-scanner
 # or for debug
-~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -X
+~/Downloads/sonar-scanner-6.1.0.4477-linux-x64/bin/sonar-scanner -X
 ```
 
 ## 3.3. Run directly 
@@ -83,7 +81,7 @@ NOTE: This command temporary error, fix it
 
 ```shell
 cd django-rest-framework-sample
-~/Downloads/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner \
+~/Downloads/sonar-scanner-6.1.0.4477-linux-x64/bin/sonar-scanner \
   -Dsonar.projectKey=django_project \
   -Dsonar.sources=. \   
   -Dsonar.host.url=http://localhost:9000 \
