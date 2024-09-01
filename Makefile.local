@@ -298,7 +298,7 @@ musican-sample-filter-list-FILTER-ORDERING:
 sn-test-variable-substitution-from-file:
 	cd sonarqube && docker compose -f docker-compose.sonarqube.yml --env-file env_file.sonarqube  config | less
 
-sn-up:
+sn-up: sn-fix
 	cd sonarqube && docker compose --env-file env_file.sonarqube \
 		-f docker-compose.sonarqube.yml up -d
 	
