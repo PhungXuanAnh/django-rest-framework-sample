@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: Remote Attach",
-            "type": "python",
+            "type": "debugpy",
             "request": "attach",
             "justMyCode": false,
             "connect": {
@@ -22,7 +22,7 @@
         },
         {
             "name": "Python: Django",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "justMyCode": false,
             "program": "${workspaceFolder}/source/manage.py",
