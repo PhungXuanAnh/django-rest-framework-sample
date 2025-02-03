@@ -89,7 +89,9 @@ docker-create-supperuser:
 								User.objects.filter(username='admin').exists() or \
 								User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
-docker-create-sample-data: docker-rm-old-data docker-create-supperuser
+docker-create-sample-data: docker-rm-old-data 
+	make local-up
+	make docker-create-supperuser
 	docker exec sample-backend python3 scripts/create_sample_data.py
 
 docker-create-periodic-task:
@@ -112,16 +114,29 @@ user-get-via-nginx-https:
 
 # ========================================= debug view ===============================================
 debug-get:
-	curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug/11 | jq
+	curl -H 'Accept: application/json; indent=4' \
+		-u admin:admin \
+		http://127.0.0.1:8027/api/v1/musican-debug/11 \
+		| jq
 
 debug-list:
-	reset && curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug?page_size=3 | jq
+	reset && curl -H 'Accept: application/json; indent=4' \
+		-u admin:admin \
+		http://127.0.0.1:8027/api/v1/musican-debug?page_size=3 \
+		| jq
 
 debug-create:
-	curl -X POST -u admin:admin http://127.0.0.1:8027/api/v1/musican-debug \
+	curl -X POST -u admin:admin \
+		http://127.0.0.1:8027/api/v1/musican-debug \
 		-u admin:admin \
 		-H "Content-Type: application/json" \
 		-d "{ \"first_name\": \"first_name 1\", \"last_name\": \"first_name 1\", \"instrument\": \"piano\"}" \
+		| jq
+
+debug-get-dummy-view:
+	curl -H 'Accept: application/json; indent=4' \
+		-u admin:admin \
+		http://127.0.0.1:8027/api/v1/musican-debug?dummy=true \
 		| jq
 # ========================================= viewset ===============================================
 

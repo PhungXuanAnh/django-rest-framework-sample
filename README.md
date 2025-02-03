@@ -248,7 +248,7 @@ Using viewset when you want to add all methods(actions) of a object in one view,
 
 This apis help to debug all django rest framework flow, how a request is handled through all layers of this framework
 
-To run this debug code see debug part in this file
+To run this debug code see [13.2.2. Run debug on vscode](#1322-run-debug-on-vscode)
 
 ## 4.3. Serializers
 

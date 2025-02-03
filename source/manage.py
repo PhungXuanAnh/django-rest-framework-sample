@@ -38,12 +38,12 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    allow_run_debug_env = ["dev", "int", "local"]
-    if (
-        os.getenv("BUILD_ENV") in allow_run_debug_env
-        and os.getenv("WORKING_ENV") in allow_run_debug_env
-    ):
-        initialize_debugger(sys.argv)
+    # allow_run_debug_env = ["dev", "int", "local"]
+    # if (
+    #     os.getenv("BUILD_ENV") in allow_run_debug_env
+    #     and os.getenv("WORKING_ENV") in allow_run_debug_env
+    # ):
+    #     initialize_debugger(sys.argv)
     execute_from_command_line(sys.argv)
 
 

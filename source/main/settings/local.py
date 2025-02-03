@@ -4,6 +4,8 @@
 
 from .dev import *
 
+ALLOWED_HOSTS = ["127.0.0.1"]
+
 # # re-define this variable for each environment
 # ALLOWED_HOSTS = ["localhost"]   
 # # allow host using https, re-define this variable for each environment

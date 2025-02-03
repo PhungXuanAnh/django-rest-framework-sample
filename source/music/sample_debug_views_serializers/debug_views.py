@@ -1,17 +1,13 @@
 import debugpy
 import django_filters
-from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import status
-
-from music.models import Musician, Album
-from .debug_model_serializers import MusicianModelDebugSerializer
-
 from main.custom_authentications import CustomAuthBackend
 from main.custom_permissions import CustomPermission
 from main.paginations.custom_paginations import CustomPagination
+from music.models import Musician
+from rest_framework import status, views, viewsets
+from rest_framework.response import Response
+
+from .debug_model_serializers import MusicianModelDebugSerializer
 
 
 def my_queryset():
@@ -19,7 +15,19 @@ def my_queryset():
     return Musician.objects.all()
 
 
-class MusicianModelDebugViewSet(viewsets.ModelViewSet):
+class MusicianDummyView(views.APIView):
+    def get(self, request):
+        debugpy.breakpoint()
+        return Response(
+            {
+                "This is dummy view": "Used to test dispatch function",
+                "dispatch": "This function will call appropriate view based on request",
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class MusicianRealView(viewsets.ModelViewSet):
     # http_method_names = ["post"]
     queryset = Musician.objects.all()
     serializer_class = MusicianModelDebugSerializer
@@ -29,6 +37,10 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
     # --------------- APIView method ---------------------
+    def dispatch(self, request, *args, **kwargs):
+        debugpy.breakpoint()
+        return super().dispatch(request, *args, **kwargs)
+
     def get_parsers(self):
         debugpy.breakpoint()
         return super().get_parsers()
@@ -49,13 +61,13 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
         debugpy.breakpoint()
         return super().get_paginated_response(data)
 
-    # def check_permissions(self, request):
-    #     debugpy.breakpoint()
-    #     return super().check_permissions(request)
+    def check_permissions(self, request):
+        debugpy.breakpoint()
+        return super().check_permissions(request)
 
-    # def check_throttles(self, request):
-    #     debugpy.breakpoint()
-    #     return super().check_throttles(request)
+    def check_throttles(self, request):
+        debugpy.breakpoint()
+        return super().check_throttles(request)
 
     # --------------- GenericView method ---------------------
     def get_object(self):
@@ -69,8 +81,6 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     def filter_queryset(self, queryset):
         debugpy.breakpoint()
         return super().filter_queryset(queryset)
-
-    # def get_permissions(self)
 
     def get_serializer_class(self):
         debugpy.breakpoint()
@@ -95,3 +105,16 @@ class MusicianModelDebugViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         debugpy.breakpoint()
         return super().list(request, *args, **kwargs)
+
+
+class MusicianModelDebugViewSet(viewsets.ModelViewSet):
+    authentication_classes = [CustomAuthBackend]
+    permission_classes = [CustomPermission]
+
+    # --------------- APIView method ---------------------
+    def dispatch(self, request, *args, **kwargs):
+        debugpy.breakpoint()
+        if request.method == "GET" and request.GET.get("dummy") == "true":
+            return MusicianDummyView.as_view()(request, *args, **kwargs)
+        return MusicianRealView.as_view({"get": "list"})(request, *args, **kwargs)
+        # return super().dispatch(request, *args, **kwargs)

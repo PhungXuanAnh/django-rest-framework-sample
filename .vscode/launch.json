@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Remote Attach",
+            "name": "Debugpy",
             "type": "debugpy",
             "request": "attach",
             "justMyCode": false,
@@ -15,14 +15,13 @@
             },
             "pathMappings": [
                 {
-                    "localRoot": "${workspaceFolder}",
+                    "localRoot": "${workspaceFolder}/source",
                     "remoteRoot": "/app",
                 }
             ]
         },
         {
-            "name": "Python: Django",
-            "type": "debugpy",
+            "name": "Run directly",
             "request": "launch",
             "justMyCode": false,
             "program": "${workspaceFolder}/source/manage.py",
